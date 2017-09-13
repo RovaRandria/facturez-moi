@@ -11,6 +11,7 @@
 
     <modules>
         <module>crm</module>
+        <module>billing</module>
     </modules>
 
     <properties>
