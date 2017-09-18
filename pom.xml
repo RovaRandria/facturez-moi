@@ -10,8 +10,8 @@
     <modules>
         <module>crm</module>
         <module>billing</module>
-    <module>application</module>
-  </modules>
+        <module>application</module>
+    </modules>
 
     <properties>
         <junit.version>4.12</junit.version>
