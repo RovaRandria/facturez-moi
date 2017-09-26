@@ -16,7 +16,7 @@ import ca.ulaval.glo4002.billing.dto.BillDto;;
 public class BillResources {
 	private BillService billService;
 
-	public BillResources() {
+	public BillResources() throws IOException {
 		this.billService = new BillService();
 	}
 
