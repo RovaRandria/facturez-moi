@@ -1,7 +1,10 @@
-package ca.ulaval.glo4002.billing.resources;
+package ca.ulaval.glo4002.billing.interfaces.rest;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Properties;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,6 +22,9 @@ import ca.ulaval.glo4002.billing.dto.BillDto.DueTerm;
 
 @Path("/bills")
 public class BillResources {
+	Properties prop = new Properties();
+	InputStream input = null;
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -47,9 +53,11 @@ public class BillResources {
 		return mapper.writeValueAsString(root.path("dueTerm"));
 	}
 
-	private String getClientFromID(int id) {
+	private String getClientFromID(int id) throws IOException {
 		Client client = Client.create();
-		WebResource webResource = client.resource("http://localhost:8080/clients/" + id);
+		input = new FileInputStream("config.properties");
+		prop.load(input);
+		WebResource webResource = client.resource(prop.getProperty("crmClientsUrl") + id);
 		String clientJSON = webResource.get(String.class);
 		return clientJSON;
 	}
