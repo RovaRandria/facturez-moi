@@ -32,38 +32,22 @@ public class BillDto {
 	}
 
 	public BillDto(long id, BigDecimal total, DueTerm dueTerm, String url) {
-		setId(id);
-		setTotal(total);
-		setDueTerm(dueTerm);
-		setUrl(url);
-	}
-
-	public void setId(long id) {
 		this.id = id;
+		this.total = total;
+		this.dueTerm = dueTerm;
+		this.url = url;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
-
 	public BigDecimal getTotal() {
 		return total;
 	}
 
-	public void setDueTerm(DueTerm dueTerm) {
-		this.dueTerm = dueTerm;
-	}
-
 	public DueTerm getDueTerm() {
 		return dueTerm;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public String getUrl() {
