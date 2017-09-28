@@ -40,9 +40,9 @@ public class BillService {
 	// return webResource.get(String.class);
 	// }
 
-	public void setParameterBillFactory(String response) throws IOException {
+	public void setParameterBillFactory(String response, BillFactoryRepository billFactoryRepository)
+			throws IOException {
 		node = mapper.readTree(response);
-		BillFactoryRepository billFactoryRepository = new BillFactoryRepository();
 		billFactoryRepository.setidClient(Long.parseLong(mapper.writeValueAsString(node.path("clientId"))));
 		billFactoryRepository.setTotal(new BigDecimal(12)); // A modifier pour calculer le cout
 		billFactoryRepository.setDueTerm(DueTerm.getDueTermFromString(mapper.writeValueAsString(node.path("dueTerm"))));

@@ -28,7 +28,7 @@ public class BillResources {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public BillDto GetBill(String response) throws IOException {
 
-		billService.setParameterBillFactory(response);
+		billService.setParameterBillFactory(response, billFactoryRepository);
 
 		return billFactoryRepository.createBill();
 	}
