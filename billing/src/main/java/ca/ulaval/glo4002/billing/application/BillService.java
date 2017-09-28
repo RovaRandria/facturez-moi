@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.billing.application;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -23,8 +22,7 @@ public class BillService {
 
 	public BillService() throws IOException { // FileInputStream throws FileNotFoundException (part of IOException)
 		prop = new Properties();
-		input = new FileInputStream("src/main/resources/application.properties");
-		prop.load(input);
+		prop.load(BillService.class.getClassLoader().getResourceAsStream("application.properties"));
 		mapper = new ObjectMapper();
 	}
 
