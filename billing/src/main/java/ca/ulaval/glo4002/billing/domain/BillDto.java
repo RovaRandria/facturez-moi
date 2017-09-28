@@ -1,23 +1,12 @@
-package ca.ulaval.glo4002.billing.dto;
+package ca.ulaval.glo4002.billing.domain;
 
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ca.ulaval.glo4002.billing.dto.DueTerm;
+
 public class BillDto {
-	public enum DueTerm {
-		IMMEDIATE("IMMEDIATE"), DAYS30("DAYS30"), DAYS90("DAYS90");
-
-		private final String name;
-
-		private DueTerm(String _name) {
-			this.name = _name;
-		}
-
-		public String toString() {
-			return this.name;
-		}
-	}
 
 	@JsonSerialize
 	private long id;
@@ -28,29 +17,27 @@ public class BillDto {
 	@JsonSerialize
 	private String url;
 
-	public BillDto() {
-	}
-
-	public BillDto(long id, BigDecimal total, DueTerm dueTerm, String url) {
+	public BillDto(long id, BigDecimal total, DueTerm dueTerm) {
 		this.id = id;
 		this.total = total;
 		this.dueTerm = dueTerm;
+		this.url = "/bills/" + id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
+	public void setDueTerm(DueTerm dueTerm) {
+		this.dueTerm = dueTerm;
+	}
+
+	public void setUrl(String url) {
 		this.url = url;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public BigDecimal getTotal() {
-		return total;
-	}
-
-	public DueTerm getDueTerm() {
-		return dueTerm;
-	}
-
-	public String getUrl() {
-		return url;
-	}
 }

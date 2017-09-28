@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="barre">
+    <input onclick="afficher()" oninput="afficher()" type="search" id="cherche" placeholder="En attente...">
+    <button onclick="nettoyer()">X</button>
+</p>
+
+<h4>Si on &eacute;crit simplement dans la barre de recherche, on a une liste des r&eacute;sultats potentiels. Si on
+    appuie sur le bouton rechercher, on affiche seulement un r&eacute;sultat identique s'il y en a un (ind&eacute;pendant
+    de la casse avec les limitations classiques de le faire sans framework, notamment accents)</h4>
+
+<button onclick="recherche()">Rechercher</button>
+
+
+<p id="liste"></p>
+
+<script>
+
+    vide = document.getElementById("cherche").value;
+
+    var objets = ["Mange", "Mangeur", "Chien", "Chat", "Loutre", "Pierre", "Loutre", "Renard", "Maison", "Reptile", "Manger", "Dormir"]; //Mange et Mangeur sont là pour donner de l'utilité à la fonction recherche
+    taille = objets.length;
+
+    function afficher() {
+        x = document.getElementById("cherche").value;
+        taille2 = x.length;
+        document.getElementById("liste").innerHTML = "<ul>";
+        for (i = 0; i < taille; i++) {
+            if (x.toUpperCase() === objets[i].toUpperCase().substring(0, taille2) || x === vide) {
+                document.getElementById("liste").innerHTML += "<li>" + objets[i] + "</li>";
+            }
+        }
+        document.getElementById("liste").innerHTML += "</ul>";
+
+
+    }
+
+    function recherche() {
+        x = document.getElementById("cherche").value;
+        document.getElementById("liste").innerHTML = "<ul>";
+        for (i = 0; i < taille; i++) {
+            if (x.toUpperCase() === objets[i].toUpperCase()) {
+                document.getElementById("liste").innerHTML += "<li>" + objets[i] + "</li>";
+            }
+        }
+        document.getElementById("liste").innerHTML += "</ul>";
+        if (document.getElementById("liste").innerHTML === '<ul></ul>') {
+            document.getElementById("liste").innerHTML = '<iframe width="560" height="315" src="https://www.youtube.com/embed/qc7jblpaPdM?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+        }
+
+
+    }
+
+    function nettoyer() {
+        document.getElementById("barre").innerHTML = '<input oninput="afficher()" type="search" id="cherche" placeholder="En attente..."><button onclick="nettoyer()">X</button>';
+        afficher();
+    }
+</script>
+
+</body>
+</html>
