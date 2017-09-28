@@ -23,7 +23,7 @@ public class BillService {
 
 	public BillService() throws IOException { // FileInputStream throws FileNotFoundException (part of IOException)
 		prop = new Properties();
-		input = new FileInputStream("config.properties");
+		input = new FileInputStream("src/main/resources/application.properties");
 		prop.load(input);
 		mapper = new ObjectMapper();
 	}
@@ -40,7 +40,7 @@ public class BillService {
 
 	public String getClientFromID(int id) {
 		Client client = Client.create();
-		WebResource webResource = client.resource(prop.getProperty("crmClientsUrl") + id);
+		WebResource webResource = client.resource(prop.getProperty("crmClientsUrl").toString() + id);
 		return webResource.get(String.class);
 	}
 
