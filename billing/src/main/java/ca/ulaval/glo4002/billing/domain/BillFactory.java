@@ -16,7 +16,7 @@ import memory.MemoryClients;
 
 public class BillFactory {
 
-	private static long indice = 1;
+	private IdClient indice = new IdClient();
 
 	private long idClient = 0;
 	private Date date = new Date();
@@ -71,12 +71,12 @@ public class BillFactory {
 	}
 
 	public BillDto createBill() {
-		indice++;
+		long id = indice.next();
 		if (total == null || dueTerm == null) {
 			System.out.println("fdsfd");
 		}
-		memBill.saveBill(new Bill(indice, idClient, date, itemRepository, dueTerm));
-		return new BillDto(indice, total, dueTerm);
+		memBill.saveBill(new Bill(id, idClient, date, itemRepository, dueTerm));
+		return new BillDto(id, total, dueTerm);
 	}
 
 }
