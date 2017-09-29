@@ -1,19 +1,21 @@
 package billing;
 
+import org.junit.Test;
+
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import memory.MemUtils;
 
-public class TestMemUtils extends TestCase {
+public class TestMemUtils {
 
-	public void testMemUtilsSaveAndReturn() {
-
+	@Test
+	public void whenSavingData_thenReturnDataReturnsTheRightData() {
 		MemUtils memUtils = new MemUtils();
 
-		byte[] test = memUtils.saveData("rekt");
+		final String RANDOM_DATA = "random data";
 
-		Assert.assertEquals("rekt", memUtils.returnData(test));
+		byte[] test = memUtils.saveData(RANDOM_DATA);
 
+		Assert.assertEquals(RANDOM_DATA, memUtils.returnData(test));
 	}
 
 }

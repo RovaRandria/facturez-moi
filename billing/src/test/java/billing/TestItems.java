@@ -1,30 +1,45 @@
 package billing;
 
-import java.math.BigDecimal;
+import java.util.Random;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import itemsManager.Cart;
 import itemsManager.ItemForBill;
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class TestItems extends TestCase {
+public class TestItems {
 
-	public void testoneCart_WhenAdd_MatchArgsAndTotal() {
+	public Cart cart;
+	public ItemForBill itemForBill;
 
-		float magicFloat = (float) 5.00;
-		String magicString = "rekt";
-		int magicId = 3;
-		int magicQuantity = 3;
-
-		Cart cart = new Cart();
-
-		ItemForBill itemForBill = new ItemForBill(magicFloat, magicString, magicId, magicQuantity);
-		cart.addItem(itemForBill);
-		ItemForBill itemForBillBack = cart.getItem(0);
-
-		Assert.assertEquals(true, itemForBill.equals(itemForBillBack));
-		Assert.assertEquals(new BigDecimal(magicFloat * magicQuantity).doubleValue(), cart.total.doubleValue());
-
+	@Before
+	public void init() {
+		cart = new Cart();
+		itemForBill = createItem();
 	}
 
+	@Test
+	public void whenAddingAnItem_thenCartHasItem() {
+		cart.addItem(itemForBill);
+		Assert.assertEquals(cart.getItem(0), itemForBill);
+	}
+
+	@Test
+	public void whenCarthHasAnItem_thenCartHasRightTotal() {
+		cart.addItem(itemForBill);
+		Assert.assertEquals(cart.getItem(0).total().doubleValue(), cart.total.doubleValue());
+	}
+
+	private ItemForBill createItem() {
+		Random rand = new Random();
+
+		float magicFloat = rand.nextFloat();
+		String magicString = "magic";
+		int magicId = rand.nextInt();
+		int magicQuantity = rand.nextInt();
+
+		return new ItemForBill(magicFloat, magicString, magicId, magicQuantity);
+	}
 }
