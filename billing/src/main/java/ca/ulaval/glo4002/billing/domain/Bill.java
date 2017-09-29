@@ -1,10 +1,11 @@
 package ca.ulaval.glo4002.billing.domain;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ca.ulaval.glo4002.billing.dto.DueTerm;
+import itemsManager.Cart;
 
 public class Bill {
 
@@ -13,16 +14,19 @@ public class Bill {
 	@JsonSerialize
 	private long idClient;
 	@JsonSerialize
-	private BigDecimal total;
+	private Date date;
+	@JsonSerialize
+	private Cart cart;
 	@JsonSerialize
 	private DueTerm dueTerm;
 	@JsonSerialize
 	private String url;
 
-	public Bill(long id, long idClient, BigDecimal total, DueTerm dueTerm) {
+	public Bill(long id, long idClient, Date date, Cart itemRepository, DueTerm dueTerm) {
 		this.id = id;
 		this.idClient = idClient;
-		this.total = total;
+		this.date = date;
+		this.cart = itemRepository;
 		this.dueTerm = dueTerm;
 		this.url = "/bills/" + id;
 	}
@@ -35,8 +39,12 @@ public class Bill {
 		this.idClient = idClient;
 	}
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setItemRepository(Cart cart) {
+		this.cart = cart;
 	}
 
 	public void setDueTerm(DueTerm dueTerm) {

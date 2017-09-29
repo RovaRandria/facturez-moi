@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.dto;
+package hearth;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

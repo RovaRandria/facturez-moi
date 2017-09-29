@@ -1,8 +1,8 @@
 package billing;
 
-import ca.ulaval.glo4002.billing.domain.MemUtils;
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import memory.MemUtils;
 
 public class TestMemUtils extends TestCase {
 

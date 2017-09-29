@@ -10,17 +10,21 @@ import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.billing.application.BillService;
 import ca.ulaval.glo4002.billing.domain.BillDto;
-import ca.ulaval.glo4002.billing.domain.BillFactoryRepository;;
+import ca.ulaval.glo4002.billing.domain.BillFactory;
+import memory.MemoryClients;;
 
 @Path("/bills")
 public class BillResources {
 
 	private BillService billService;
-	private BillFactoryRepository billFactoryRepository;
+	private BillFactory billFactoryRepository;
+	private MemoryClients memoryClients;
 
 	public BillResources() throws IOException {
 		this.billService = new BillService();
-		this.billFactoryRepository = new BillFactoryRepository();
+		this.billFactoryRepository = new BillFactory();
+		this.memoryClients = new MemoryClients(); // en fait à ce moment il faudrait récuperer la fameuse liste des
+													// clients
 	}
 
 	@POST
@@ -28,7 +32,7 @@ public class BillResources {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public BillDto GetBill(String response) throws IOException {
 
-		billService.setParameterBillFactory(response, billFactoryRepository);
+		billService.setParameterBillFactory(response, billFactoryRepository, memoryClients);
 
 		return billFactoryRepository.createBill();
 	}

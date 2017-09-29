@@ -1,14 +1,13 @@
 package ca.ulaval.glo4002.billing.application;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Properties;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.ulaval.glo4002.billing.domain.BillFactoryRepository;
-import ca.ulaval.glo4002.billing.dto.DueTerm;
+import ca.ulaval.glo4002.billing.domain.BillFactory;
+import memory.MemoryClients;
 
 public class BillService {
 
@@ -22,30 +21,15 @@ public class BillService {
 		mapper = new ObjectMapper();
 	}
 
-	// public long retrieveClientIDFromJSON(String response) throws IOException {
-	// node = mapper.readTree(response);
-	// return Long.parseLong(mapper.writeValueAsString(node.path("clientId")));
-	// }
-	//
-	// public String retrieveClientDueTermFromJSON(String response) throws
-	// IOException {
-	// node = mapper.readTree(response);
-	// return mapper.writeValueAsString(node.path("dueTerm"));
-	// }
-	//
-	// public String getClientFromID(long id) {
-	// Client client = Client.create();
-	// WebResource webResource =
-	// client.resource(prop.getProperty("crmClientsUrl").toString() + id);
-	// return webResource.get(String.class);
-	// }
-
-	public void setParameterBillFactory(String response, BillFactoryRepository billFactoryRepository)
-			throws IOException {
+	public void setParameterBillFactory(String response, BillFactory billFactory, MemoryClients memoryClients)
+			throws IOException { // faudra déplacer ce pan de code dans BillFactory car ce code est lié au
+									// contexte de BillFactory
 		node = mapper.readTree(response);
-		billFactoryRepository.setidClient(Long.parseLong(mapper.writeValueAsString(node.path("clientId"))));
-		billFactoryRepository.setTotal(new BigDecimal(12)); // A modifier pour calculer le cout
-		billFactoryRepository.setDueTerm(DueTerm.getDueTermFromString(mapper.writeValueAsString(node.path("dueTerm"))));
+		long idClient = node.path("clientId").asLong();
+		memoryClients.checkClient(idClient); // Completer memoryClient pour US1 VC2 et demander comment on connait les
+												// clients initialement
+		billFactory.configure(node, memoryClients);
+
 	}
 
 }

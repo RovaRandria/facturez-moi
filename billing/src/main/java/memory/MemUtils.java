@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.domain;
+package memory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
