@@ -16,7 +16,7 @@ import memory.MemoryClients;
 
 public class BillFactory {
 
-	private IdClient indice = new IdClient();
+	private IdBill indice = new IdBill();
 
 	private long idClient = 0;
 	private Date date = new Date();
