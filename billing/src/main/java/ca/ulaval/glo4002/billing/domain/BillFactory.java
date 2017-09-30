@@ -48,7 +48,6 @@ public class BillFactory {
 		try {
 			this.date = dateFormat.parse(__date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // courtesy to
 			// stackoverflow.com/questions/35952809/java-convert-string-in-iso-instant-format-to-date
