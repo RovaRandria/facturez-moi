@@ -1,10 +1,16 @@
 package memory;
 
+import java.util.ArrayList;
+
 public class MemoryClients {
 
-	public void checkClient(long idClient) {
-		// demander au prof comment throw un string vide en cas d'échec
+	private ArrayList<String> listClients = new ArrayList<String>();
 
+	public void saveClient(String clientJson) {
+		listClients.add(clientJson);
 	}
 
+	public ArrayList<String> getClients() {
+		return listClients;
+	}
 }

@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import ca.ulaval.glo4002.billing.dto.DueTerm;
 import itemsManager.Cart;
 import memory.MemoryBill;
-import memory.MemoryClients;
 
 public class BillFactory {
 
@@ -54,10 +53,10 @@ public class BillFactory {
 			// mais il doit exister de meilleures méthodes
 	}
 
-	public void configure(JsonNode node, MemoryClients memoryClients) throws IOException {
+	public void configure(JsonNode node, String dueTerm) throws IOException {
 		setidClient(idClient);
 		setDate(node.path("creationDate").asText());
-		setDueTerm(DueTerm.getDueTermFromString(node.path("dueTerm").asText()));
+		setDueTerm(DueTerm.getDueTermFromString(dueTerm));
 		Cart cart = new Cart();
 		JsonNode itemNode = node.path("items");
 		if (!itemNode.isArray()) {
