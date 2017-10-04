@@ -12,8 +12,8 @@ import ca.ulaval.glo4002.billing.domain.IdBill;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import ca.ulaval.glo4002.billing.dto.DueTerm;
-import itemsManager.Cart;
-import memory.MemoryBill;
+import ca.ulaval.glo4002.billing.itemsManager.Cart;
+import ca.ulaval.glo4002.billing.memory.MemoryBill;
 
 public class BillFactory {
 

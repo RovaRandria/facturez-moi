@@ -5,7 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ca.ulaval.glo4002.billing.dto.DueTerm;
-import itemsManager.Cart;
+import ca.ulaval.glo4002.billing.itemsManager.Cart;
 
 public class Bill {
 

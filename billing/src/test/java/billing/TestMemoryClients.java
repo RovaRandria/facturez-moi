@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.Assert;
-import memory.MemoryClients;
+import ca.ulaval.glo4002.billing.memory.MemoryClients;
 
 public class TestMemoryClients {
 

@@ -1,4 +1,4 @@
-package itemsManager;
+package ca.ulaval.glo4002.billing.itemsManager;
 
 import java.math.BigDecimal;
 

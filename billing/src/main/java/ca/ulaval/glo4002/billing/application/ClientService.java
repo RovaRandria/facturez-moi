@@ -11,7 +11,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-import memory.MemoryClients;
+import ca.ulaval.glo4002.billing.memory.MemoryClients;
 
 public class ClientService {
 	private Properties prop;

@@ -1,4 +1,4 @@
-package memory;
+package ca.ulaval.glo4002.billing.memory;
 
 import java.util.ArrayList;
 

@@ -3,7 +3,7 @@ package billing;
 import org.junit.Test;
 
 import junit.framework.Assert;
-import memory.MemUtils;
+import ca.ulaval.glo4002.billing.memory.MemUtils;
 
 public class TestMemUtils {
 
