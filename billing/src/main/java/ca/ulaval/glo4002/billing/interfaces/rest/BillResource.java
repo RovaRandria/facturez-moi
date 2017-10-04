@@ -9,16 +9,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.billing.application.BillService;
-import ca.ulaval.glo4002.billing.domain.BillDto;
+import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.domain.bill.BillFactory;;
 
 @Path("/bills")
-public class BillResources {
+public class BillResource {
 
 	private BillService billService;
 	private BillFactory billFactoryRepository;
 
-	public BillResources() throws IOException {
+	public BillResource() throws IOException {
 		this.billService = new BillService();
 		this.billFactoryRepository = new BillFactory();
 	}

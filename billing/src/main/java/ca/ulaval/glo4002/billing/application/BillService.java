@@ -6,7 +6,7 @@ import java.util.Properties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.ulaval.glo4002.billing.domain.BillFactory;
+import ca.ulaval.glo4002.billing.domain.bill.BillFactory;
 
 public class BillService {
 

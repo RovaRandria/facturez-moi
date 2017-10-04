@@ -2,7 +2,7 @@ package memory;
 
 import java.util.ArrayList;
 
-import ca.ulaval.glo4002.billing.domain.Bill;
+import ca.ulaval.glo4002.billing.domain.bill.Bill;
 
 public class MemoryBill {
 

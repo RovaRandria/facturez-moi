@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.domain;
+package ca.ulaval.glo4002.billing.domain.bill;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import ca.ulaval.glo4002.billing.dto.BillDto;
+import ca.ulaval.glo4002.billing.domain.IdBill;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import ca.ulaval.glo4002.billing.dto.DueTerm;

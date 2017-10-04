@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.domain;
+package ca.ulaval.glo4002.billing.domain.bill;
 
 import java.util.Date;
 
