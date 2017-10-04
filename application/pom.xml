@@ -1,45 +1,50 @@
 <?xml version="1.0"?>
 <project
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>ca.ulaval.glo4002</groupId>
     <artifactId>projet2017</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>ca.ulaval.glo4002</groupId>
   <artifactId>application</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>application</name>
   <url>http://maven.apache.org</url>
+
   <properties>
+    <version.projet2017>1.0-SNAPSHOT</version.projet2017>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.junit>4.12</version.junit>
+    <version.maven.plugin>1.6.0</version.maven.plugin>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>${version.junit}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>ca.ulaval.glo4002</groupId>
       <artifactId>crm</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${version.projet2017}</version>
     </dependency>
     <dependency>
       <groupId>ca.ulaval.glo4002</groupId>
       <artifactId>billing</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${version.projet2017}</version>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
+        <version>${version.maven.plugin}</version>
         <executions>
           <execution>
             <goals>
@@ -53,4 +58,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
