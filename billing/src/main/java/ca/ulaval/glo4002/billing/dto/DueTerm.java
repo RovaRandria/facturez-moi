@@ -16,7 +16,7 @@ public enum DueTerm {
 	public static DueTerm getDueTermFromString(String _dueTerm) {
 		DueTerm dueTerm;
 		switch (_dueTerm) {
-		case "IMMENDIATE":
+		case "IMMEDIATE":
 			dueTerm = DueTerm.IMMEDIATE;
 			break;
 		case "DAYS30":
