@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.billing.application.BillService;
 import ca.ulaval.glo4002.billing.domain.BillDto;
-import ca.ulaval.glo4002.billing.domain.BillFactory;;
+import ca.ulaval.glo4002.billing.domain.bill.BillFactory;;
 
 @Path("/bills")
 public class BillResources {
