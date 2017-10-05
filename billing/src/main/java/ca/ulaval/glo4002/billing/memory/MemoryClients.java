@@ -2,15 +2,17 @@ package ca.ulaval.glo4002.billing.memory;
 
 import java.util.ArrayList;
 
+import ca.ulaval.glo4002.billing.domain.client.Client;
+
 public class MemoryClients {
 
-	private ArrayList<String> listClients = new ArrayList<String>();
+	private ArrayList<Client> listClients = new ArrayList<Client>();
 
-	public void saveClient(String clientJson) {
-		listClients.add(clientJson);
+	public void saveClient(Client client) {
+		listClients.add(client);
 	}
 
-	public ArrayList<String> getClients() {
+	public ArrayList<Client> getClients() {
 		return listClients;
 	}
 }

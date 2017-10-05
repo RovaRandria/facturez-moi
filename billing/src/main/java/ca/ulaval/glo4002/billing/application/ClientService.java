@@ -1,10 +1,15 @@
 package ca.ulaval.glo4002.billing.application;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
+import javax.ws.rs.core.MediaType;
+
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import ca.ulaval.glo4002.billing.interfaces.Properties;
@@ -29,30 +34,46 @@ public class ClientService {
 	}
 
 	public boolean clientExists(long id) {
-		String client = "";
+		boolean clientExist = false;
 		try {
-			client = getClientByID(id);
-		} catch (ArrayIndexOutOfBoundsException | IOException ex) {
-			return false;
+			getClientByID(id);
+			clientExist = true;
+		} catch (Exception ex) {
+			clientExist = false;
 		}
-		return client != "";
+		return clientExist;
 	}
 
 	private void saveClients() {
+		ObjectMapper mapper = new ObjectMapper();
 		Client client = Client.create();
 		WebResource resource = client.resource(Properties.getInstance().getProperty("crmClientsUrl"));
-		List<ca.ulaval.glo4002.billing.domain.client.Client> myClient = resource.type("application/json")
-				.get(List.class);
-		System.out.println(myClient.get(0).getFullName());
+		ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		if (response.getStatus() == 200) {
+			String output = response.getEntity(String.class);
+			output = output.substring(38, output.length() - 1);
+			System.out.println(output);
+			try {
+				JavaType type = mapper.getTypeFactory().constructCollectionType(ArrayList.class,
+						ca.ulaval.glo4002.billing.domain.client.Client.class);
+				ArrayList<ca.ulaval.glo4002.billing.domain.client.Client> clients = mapper.readValue(output, type);
+				for (int i = 0; i < clients.size(); i++) {
+					memoryClients.saveClient(clients.get(i));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	private String getClientByID(long id) throws IOException {
-		/*
-		 * ArrayList<ca.ulaval.glo4002.billing.domain.client.Client> clients =
-		 * memoryClients.getClients(); for (String client : clients) { node =
-		 * mapper.readTree(client); if (node.path("id").asLong() == id) { return client;
-		 * } }
-		 */
-		return "";
+	private ca.ulaval.glo4002.billing.domain.client.Client getClientByID(long id) throws Exception {
+		ArrayList<ca.ulaval.glo4002.billing.domain.client.Client> clients = memoryClients.getClients();
+
+		for (ca.ulaval.glo4002.billing.domain.client.Client client : clients) {
+			if (client.getId() == id) {
+				return client;
+			}
+		}
+		throw new Exception("Client not found");
 	}
 }

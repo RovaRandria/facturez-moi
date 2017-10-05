@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForBill;
 
 public class Submission {
@@ -17,11 +18,11 @@ public class Submission {
 	@JsonSerialize
 	private List<ItemForBill> items;
 	@JsonSerialize
-	private String dueTerm;
+	private DueTerm dueTerm;
 
 	@JsonCreator
 	public Submission(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
-			@JsonProperty("dueTerm") String dueTerm, @JsonProperty("items") List<ItemForBill> items) {
+			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForBill> items) {
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.items = items;
@@ -40,23 +41,7 @@ public class Submission {
 		return items;
 	}
 
-	public String getDueTerm() {
+	public DueTerm getDueTerm() {
 		return dueTerm;
-	}
-
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
-	}
-
-	public void setCreationDate(String creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public void setDueTerm(String dueTerm) {
-		this.dueTerm = dueTerm;
-	}
-
-	public void setItems(List<ItemForBill> items) {
-		this.items = items;
 	}
 }

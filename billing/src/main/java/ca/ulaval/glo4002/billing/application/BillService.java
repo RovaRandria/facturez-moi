@@ -22,7 +22,7 @@ public class BillService {
 		Submission submission = mapper.readValue(jsonRequest, Submission.class);
 		long idClient = submission.getClientId();
 		if (clientService.clientExists(idClient)) {
-			billFactory.configure(submission);
+			billFactory.configureBill(submission);
 		}
 	}
 
