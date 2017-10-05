@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import javax.ws.rs.core.MediaType;
 
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -17,6 +16,8 @@ import ca.ulaval.glo4002.billing.memory.MemoryProduct;
 
 public class ProductService {
 	private MemoryProduct memoryProducts;
+
+	private int nbProducts = 10;
 
 	public ProductService() {
 		memoryProducts = new MemoryProduct();
@@ -37,20 +38,17 @@ public class ProductService {
 	private void saveProducts() {
 		ObjectMapper mapper = new ObjectMapper();
 		Client client = Client.create();
-		WebResource resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl"));
-		ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-		if (response.getStatus() == 200) {
-			String output = response.getEntity(String.class);
-			String[] outputSplit = output.split("\"products\" : ");
-			output = outputSplit[1].substring(0, outputSplit[1].length() - 1);
-			try {
-				JavaType type = mapper.getTypeFactory().constructCollectionType(ArrayList.class, Product.class);
-				ArrayList<Product> products = mapper.readValue(output, type);
-				for (int i = 0; i < products.size(); i++) {
-					memoryProducts.saveProduct(products.get(i));
+		for (int i = 1; i <= nbProducts; i++) {
+			WebResource resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl") + "/" + i);
+			ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+			if (response.getStatus() == 200) {
+				String output = response.getEntity(String.class);
+				try {
+					Product product = mapper.readValue(output, Product.class);
+					memoryProducts.saveProduct(product);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
@@ -63,6 +61,6 @@ public class ProductService {
 				return product;
 			}
 		}
-		throw new Exception("Product not found");
+		throw new Exception("Product " + id + " not found");
 	}
 }

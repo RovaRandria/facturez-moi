@@ -16,12 +16,16 @@ public class Product {
 	@JsonSerialize
 	private BigDecimal unitPrice;
 
+	@JsonSerialize
+	private Object _links;
+
 	@JsonCreator
 	public Product(@JsonProperty("id") Integer id, @JsonProperty("name") String name,
-			@JsonProperty("unitPrice") BigDecimal unitPrice) {
+			@JsonProperty("unitPrice") BigDecimal unitPrice, @JsonProperty("_links") Object _links) {
 		this.id = id;
 		this.name = name;
 		this.unitPrice = unitPrice;
+		this._links = _links;
 	}
 
 	public Integer getId() {

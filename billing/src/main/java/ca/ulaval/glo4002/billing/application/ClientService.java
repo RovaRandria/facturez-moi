@@ -63,6 +63,6 @@ public class ClientService {
 				return client;
 			}
 		}
-		throw new Exception("Client not found");
+		throw new Exception("Client " + id + " not found");
 	}
 }

@@ -31,4 +31,8 @@ public class ItemForBill {
 		return new BigDecimal(price * quantity);
 	}
 
+	public int getProductId() {
+		return productId;
+	}
+
 }
