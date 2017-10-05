@@ -2,6 +2,9 @@ package ca.ulaval.glo4002.billing.itemsManager;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ItemForBill {
 
 	private float price;
@@ -9,12 +12,14 @@ public class ItemForBill {
 	private int productId;
 	private int quantity;
 
-	public ItemForBill(float __price, String __note, int __productId, int __quantity) {
+	@JsonCreator
+	public ItemForBill(@JsonProperty("price") float price, @JsonProperty("note") String note,
+			@JsonProperty("productId") int productId, @JsonProperty("quantity") int quantity) {
 		super();
-		this.price = __price;
-		this.note = __note;
-		this.productId = __productId;
-		this.quantity = __quantity;
+		this.price = price;
+		this.note = note;
+		this.productId = productId;
+		this.quantity = quantity;
 	}
 
 	public boolean equals(ItemForBill itemForBill) {

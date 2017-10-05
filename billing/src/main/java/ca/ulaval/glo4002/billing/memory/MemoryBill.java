@@ -2,13 +2,13 @@ package ca.ulaval.glo4002.billing.memory;
 
 import java.util.ArrayList;
 
-import ca.ulaval.glo4002.billing.domain.bill.Bill;
+import ca.ulaval.glo4002.billing.domain.bill.Submission;
 
 public class MemoryBill {
 
-	private ArrayList<Bill> listBill = new ArrayList<Bill>();
+	private ArrayList<Submission> listBill = new ArrayList<Submission>();
 
-	public void saveBill(Bill bill) {
+	public void saveBill(Submission bill) {
 		listBill.add(bill);
 	}
 

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import ca.ulaval.glo4002.billing.dto.DueTerm;
+import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 
 public class BillDto {
 
