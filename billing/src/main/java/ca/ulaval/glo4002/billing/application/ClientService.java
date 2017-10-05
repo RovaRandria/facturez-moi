@@ -40,7 +40,8 @@ public class ClientService {
 		ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		if (response.getStatus() == 200) {
 			String output = response.getEntity(String.class);
-			output = output.substring(38, output.length() - 1); // Help me god
+			String[] outputSplit = output.split("\"clients\" : ");
+			output = outputSplit[1].substring(0, outputSplit[1].length() - 1);
 			try {
 				JavaType type = mapper.getTypeFactory().constructCollectionType(ArrayList.class,
 						ca.ulaval.glo4002.billing.domain.client.Client.class);
