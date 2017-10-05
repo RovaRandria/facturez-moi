@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.billing.memory;
 
 import java.util.ArrayList;
 
-import ca.ulaval.glo4002.billing.domain.bill.Submission;
+import ca.ulaval.glo4002.billing.domain.submission.Submission;
 
 public class MemoryBill {
 

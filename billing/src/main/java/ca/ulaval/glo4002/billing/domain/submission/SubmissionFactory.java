@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.domain.bill;
+package ca.ulaval.glo4002.billing.domain.submission;
 
 import java.math.BigDecimal;
 
@@ -7,12 +7,13 @@ import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForBill;
 import ca.ulaval.glo4002.billing.memory.MemoryBill;
 
-public class BillFactory {
+public class SubmissionFactory {
 
 	private IdBill indice = new IdBill();
 
 	private Submission submission;
 	private BigDecimal total;
+	private Object error;
 
 	private MemoryBill memBill = new MemoryBill();
 
@@ -21,19 +22,27 @@ public class BillFactory {
 		setTotal();
 	}
 
+	public void addErrorsObject(ca.ulaval.glo4002.billing.application.Error error) {
+		this.error = error;
+	}
+
 	private void setTotal() {
 		for (ItemForBill item : submission.getItems()) {
 			total = item.total();
 		}
 	}
 
-	public BillDto createBill() {
-		long id = indice.next();
-		if (total == null || submission.getDueTerm() == null) {
-			System.out.println("Wrong data");
+	public Object createBill() {
+		if (error == null) {
+			long id = indice.next();
+			if (total == null || submission.getDueTerm() == null) {
+				System.out.println("Wrong data");
+			}
+			memBill.saveBill(submission);
+			return new BillDto(id, total, submission.getDueTerm());
+		} else {
+			return error;
 		}
-		memBill.saveBill(submission);
-		return new BillDto(id, total, submission.getDueTerm());
 	}
 
 }

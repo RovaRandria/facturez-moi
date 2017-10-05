@@ -9,24 +9,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.billing.application.BillService;
-import ca.ulaval.glo4002.billing.domain.bill.BillFactory;
-import ca.ulaval.glo4002.billing.dto.BillDto;;
+import ca.ulaval.glo4002.billing.domain.submission.SubmissionFactory;;
 
 @Path("/bills")
 public class BillResource {
 
 	private BillService billService;
-	private BillFactory billFactoryRepository;
+	private SubmissionFactory billFactoryRepository;
 
 	public BillResource() throws IOException {
 		this.billService = new BillService();
-		this.billFactoryRepository = new BillFactory();
+		this.billFactoryRepository = new SubmissionFactory();
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public BillDto GetBill(String jsonRequest) throws IOException {
+	public Object GetBill(String jsonRequest) throws IOException {
 		billService.setParameterBillFactory(jsonRequest, billFactoryRepository);
 
 		return billFactoryRepository.createBill();
