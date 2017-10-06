@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.dto.BillDto;
-import ca.ulaval.glo4002.billing.itemsManager.ItemForBill;
 import ca.ulaval.glo4002.billing.memory.MemoryBill;
 
 public class SubmissionFactory {
@@ -19,17 +18,11 @@ public class SubmissionFactory {
 
 	public void configureBill(Submission submission) {
 		this.submission = submission;
-		setTotal();
+		this.total = submission.total();
 	}
 
 	public void addErrorsObject(ca.ulaval.glo4002.billing.application.Error error) {
 		this.error = error;
-	}
-
-	private void setTotal() {
-		for (ItemForBill item : submission.getItems()) {
-			total = item.total();
-		}
 	}
 
 	public Object createBill() {

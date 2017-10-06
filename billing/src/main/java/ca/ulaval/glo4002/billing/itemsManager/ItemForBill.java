@@ -5,6 +5,10 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import ca.ulaval.glo4002.billing.application.Error;
+import ca.ulaval.glo4002.billing.application.ProductService;
+import ca.ulaval.glo4002.billing.domain.submission.SubmissionFactory;
+
 public class ItemForBill {
 
 	private float price;
@@ -33,6 +37,12 @@ public class ItemForBill {
 
 	public int getProductId() {
 		return productId;
+	}
+
+	public void check(ProductService productService, SubmissionFactory billFactory) {
+		if (!productService.productExists(this.productId)) {
+			billFactory.addErrorsObject(new Error("not found", "product " + this.productId + " not found", "product"));
+		}
 	}
 
 }

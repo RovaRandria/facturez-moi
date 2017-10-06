@@ -11,6 +11,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+import ca.ulaval.glo4002.billing.domain.submission.SubmissionFactory;
 import ca.ulaval.glo4002.billing.interfaces.Properties;
 import ca.ulaval.glo4002.billing.memory.MemoryClients;
 
@@ -38,7 +39,7 @@ public class ClientService {
 		Client client = Client.create();
 		WebResource resource = client.resource(Properties.getInstance().getProperty("crmClientsUrl"));
 		ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-		if (response.getStatus() == 200) {
+		if (response.getStatus() == 200) { // magic number
 			String output = response.getEntity(String.class);
 			String[] outputSplit = output.split("\"clients\" : ");
 			output = outputSplit[1].substring(0, outputSplit[1].length() - 1);
@@ -64,5 +65,14 @@ public class ClientService {
 			}
 		}
 		throw new Exception("Client " + id + " not found");
+	}
+
+	public void checkClientExists(long clientId, SubmissionFactory billFactory) {
+		try {
+			getClientByID(clientId);
+		} catch (Exception ex) {
+			billFactory.addErrorsObject(new Error("not found", "client " + clientId + " not found", "client"));
+		}
+
 	}
 }
