@@ -1,16 +1,12 @@
 package ca.ulaval.glo4002.billing.domain.submission;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import ca.ulaval.glo4002.billing.application.ClientService;
-import ca.ulaval.glo4002.billing.application.ProductService;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
-import ca.ulaval.glo4002.billing.itemsManager.Cart;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForBill;
 
 public class Submission {
@@ -20,7 +16,7 @@ public class Submission {
 	@JsonSerialize
 	private String creationDate;
 	@JsonSerialize
-	private Cart items;
+	private List<ItemForBill> items;
 	@JsonSerialize
 	private DueTerm dueTerm;
 
@@ -29,8 +25,7 @@ public class Submission {
 			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForBill> items) {
 		this.clientId = clientId;
 		this.creationDate = creationDate;
-		for (ItemForBill item : items)
-			this.items.addItem(item);
+		this.items = items;
 		this.dueTerm = dueTerm;
 	}
 
@@ -42,18 +37,11 @@ public class Submission {
 		return creationDate;
 	}
 
+	public List<ItemForBill> getItems() {
+		return items;
+	}
+
 	public DueTerm getDueTerm() {
 		return dueTerm;
-	}
-
-	public void action(ClientService clientService, ProductService productService, SubmissionFactory billFactory) {
-		clientService.clientExists(this.clientId, billFactory);
-		this.items.check(productService, billFactory);
-		billFactory.configureBill(this);
-
-	}
-
-	public BigDecimal getTotal() {
-		return this.items.getTotal();
 	}
 }

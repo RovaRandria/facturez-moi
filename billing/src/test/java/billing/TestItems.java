@@ -36,7 +36,7 @@ public class TestItems {
 	@Test
 	public void whenCarthHasAnItem_thenCartHasRightTotal() {
 		cart.addItem(itemForBill);
-		assertEquals(cart.getItem(0).total(), cart.getTotal());
+		assertEquals(cart.getItem(0).total(), cart.total);
 	}
 
 	private ItemForBill createItem() {
