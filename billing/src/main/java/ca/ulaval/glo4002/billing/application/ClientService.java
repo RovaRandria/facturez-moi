@@ -11,9 +11,10 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-import ca.ulaval.glo4002.billing.domain.submission.SubmissionFactory;
+import ca.ulaval.glo4002.billing.domain.submission.billFactory;
 import ca.ulaval.glo4002.billing.interfaces.Properties;
 import ca.ulaval.glo4002.billing.memory.MemoryClients;
+import errorManager.ErrorClientNotFound;
 
 public class ClientService {
 	private MemoryClients memoryClients;
@@ -67,11 +68,11 @@ public class ClientService {
 		throw new Exception("Client " + id + " not found");
 	}
 
-	public void checkClientExists(long clientId, SubmissionFactory billFactory) {
+	public void checkClientExists(long clientId, billFactory billFactory) {
 		try {
 			getClientByID(clientId);
 		} catch (Exception ex) {
-			billFactory.addErrorsObject(new Error("not found", "client " + clientId + " not found", "client"));
+			billFactory.addErrorsObject(new ErrorClientNotFound(clientId));
 		}
 
 	}

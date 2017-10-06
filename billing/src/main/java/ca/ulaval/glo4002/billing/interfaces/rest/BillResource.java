@@ -9,17 +9,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ca.ulaval.glo4002.billing.application.BillService;
-import ca.ulaval.glo4002.billing.domain.submission.SubmissionFactory;;
+import ca.ulaval.glo4002.billing.domain.submission.billFactory;;
 
 @Path("/bills")
 public class BillResource {
 
 	private BillService billService;
-	private SubmissionFactory billFactoryRepository;
+	private billFactory billFactoryRepository;
 
 	public BillResource() throws IOException {
 		this.billService = new BillService();
-		this.billFactoryRepository = new SubmissionFactory();
+		this.billFactoryRepository = new billFactory();
 	}
 
 	@POST

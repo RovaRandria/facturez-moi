@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.application;
+package errorManager;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.ulaval.glo4002.billing.domain.submission.Submission;
-import ca.ulaval.glo4002.billing.domain.submission.SubmissionFactory;
+import ca.ulaval.glo4002.billing.domain.submission.billFactory;
 
 public class BillService {
 	private ClientService clientService;
@@ -18,7 +18,7 @@ public class BillService {
 		productService = new ProductService();
 	}
 
-	public void setParameterBillFactory(String jsonRequest, SubmissionFactory billFactory)
+	public void setParameterBillFactory(String jsonRequest, billFactory billFactory)
 			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Submission submission = mapper.readValue(jsonRequest, Submission.class);

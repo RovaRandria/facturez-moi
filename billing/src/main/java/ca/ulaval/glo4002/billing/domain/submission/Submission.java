@@ -44,14 +44,14 @@ public class Submission {
 		return dueTerm;
 	}
 
-	public void action(ClientService clientService, ProductService productService, SubmissionFactory billFactory) {
+	public void action(ClientService clientService, ProductService productService, billFactory billFactory) {
 		clientService.checkClientExists(this.clientId, billFactory);
 		this.checkAllItems(productService, billFactory);
 		billFactory.configureBill(this);
 
 	}
 
-	private void checkAllItems(ProductService productService, SubmissionFactory billFactory) {
+	private void checkAllItems(ProductService productService, billFactory billFactory) {
 		for (ItemForBill item : this.items) {
 			item.check(productService, billFactory);
 		}

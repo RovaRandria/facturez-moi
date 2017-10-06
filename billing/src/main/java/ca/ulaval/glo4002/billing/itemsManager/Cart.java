@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import ca.ulaval.glo4002.billing.application.ProductService;
-import ca.ulaval.glo4002.billing.domain.submission.SubmissionFactory;
+import ca.ulaval.glo4002.billing.domain.submission.billFactory;
 
 public class Cart {
 
@@ -20,7 +20,7 @@ public class Cart {
 		return listItems.get(indice);
 	}
 
-	public void checkAllItems(ProductService productService, SubmissionFactory billFactory) {
+	public void checkAllItems(ProductService productService, billFactory billFactory) {
 		for (ItemForBill item : this.listItems) {
 			item.check(productService, billFactory);
 		}
