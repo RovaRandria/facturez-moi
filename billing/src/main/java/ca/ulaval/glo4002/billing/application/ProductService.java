@@ -17,7 +17,7 @@ import ca.ulaval.glo4002.billing.memory.MemoryProduct;
 public class ProductService {
 	private MemoryProduct memoryProducts;
 
-	private int nbProducts = 10;
+	private int nbProducts = 10; // magic number ?
 
 	public ProductService() {
 		memoryProducts = new MemoryProduct();
@@ -41,7 +41,7 @@ public class ProductService {
 		for (int i = 1; i <= nbProducts; i++) {
 			WebResource resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl") + "/" + i);
 			ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-			if (response.getStatus() == 200) {
+			if (response.getStatus() == 200) { // magic number
 				String output = response.getEntity(String.class);
 				try {
 					Product product = mapper.readValue(output, Product.class);
