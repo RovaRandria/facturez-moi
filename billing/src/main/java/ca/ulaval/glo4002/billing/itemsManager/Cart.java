@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ca.ulaval.glo4002.billing.application.ProductService;
-import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeItemPrice;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeTotal;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
@@ -23,10 +22,10 @@ public class Cart {
 		super();
 	}
 
-	public void addItem(ItemForBill itemForBill, BillFactory billFactory) {
+	public void addItem(ItemForBill itemForBill, ErrorStack errorList) {
 		listItems.add(itemForBill);
 		if (itemForBill.price().doubleValue() < 0)
-			billFactory.sendError(new ErrorNegativeItemPrice(itemForBill.price().doubleValue()));
+			errorList.addError(new ErrorNegativeItemPrice(itemForBill.price().doubleValue()));
 
 		total = new BigDecimal(total.doubleValue() + itemForBill.total().doubleValue());
 	}

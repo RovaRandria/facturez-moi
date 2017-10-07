@@ -36,11 +36,12 @@ public class BillFactory {
 	@JsonCreator
 	public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
 			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForBill> items) {
+		this.errorList = new ErrorStack();
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.items = new Cart();
 		for (ItemForBill item : items)
-			this.items.addItem(item, this);
+			this.items.addItem(item, this.errorList);
 		this.dueTerm = dueTerm;
 
 		factoryInspector();
@@ -59,7 +60,7 @@ public class BillFactory {
 	}
 
 	public Object wayOutFactory() {
-		if (errorList == null) {
+		if (errorList.empty()) {
 			memBill.saveBill(new Submission(this.clientId, this.creationDate, this.dueTerm, this.items));
 			return new BillDto(this.indice, total, this.dueTerm);
 		} else {

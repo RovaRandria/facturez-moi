@@ -15,6 +15,7 @@ import ca.ulaval.glo4002.billing.interfaces.Properties;
 import ca.ulaval.glo4002.billing.memory.MemoryProduct;
 
 public class ProductService {
+	private long BEGIN = 1;
 	private MemoryProduct memoryProducts;
 
 	public ProductService() {
@@ -36,23 +37,20 @@ public class ProductService {
 	private void saveProducts() {
 		ObjectMapper mapper = new ObjectMapper();
 		Client client = Client.create();
-		boolean limite = true;
-		int i = 1;
-		while (limite) {
-			WebResource resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl") + "/" + i);
-			i++;
-			ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-			if (response.getStatus() == 200) {
-				String output = response.getEntity(String.class);
-				try {
-					Product product = mapper.readValue(output, Product.class);
-					memoryProducts.saveProduct(product);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} else {
-				limite = false;
+		long i = this.BEGIN;
+		WebResource resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl") + "/" + i);
+		ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		while (response.getStatus() == 200) {
+			String output = response.getEntity(String.class);
+			try {
+				Product product = mapper.readValue(output, Product.class);
+				memoryProducts.saveProduct(product);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			i++;
+			resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl") + "/" + i);
+			response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		}
 	}
 
