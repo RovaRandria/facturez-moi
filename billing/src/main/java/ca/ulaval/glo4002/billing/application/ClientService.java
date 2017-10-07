@@ -24,17 +24,6 @@ public class ClientService {
 		saveClients();
 	}
 
-	public boolean clientExists(long id) {
-		boolean clientExist = false;
-		try {
-			getClientByID(id);
-			clientExist = true;
-		} catch (Exception ex) {
-			clientExist = false;
-		}
-		return clientExist;
-	}
-
 	private void saveClients() {
 		ObjectMapper mapper = new ObjectMapper();
 		Client client = Client.create();
@@ -74,6 +63,5 @@ public class ClientService {
 		} catch (Exception ex) {
 			billFactory.addErrorsObject(new ErrorClientNotFound(clientId));
 		}
-
 	}
 }

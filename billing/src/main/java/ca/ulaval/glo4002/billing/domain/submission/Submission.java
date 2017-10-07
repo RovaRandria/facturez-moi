@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ca.ulaval.glo4002.billing.application.ClientService;
-import ca.ulaval.glo4002.billing.application.ProductService;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
+import ca.ulaval.glo4002.billing.itemsManager.Cart;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForBill;
 
 public class Submission {
@@ -19,7 +19,7 @@ public class Submission {
 	@JsonSerialize
 	private String creationDate;
 	@JsonSerialize
-	private List<ItemForBill> items;
+	private Cart items;
 	@JsonSerialize
 	private DueTerm dueTerm;
 
@@ -28,7 +28,9 @@ public class Submission {
 			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForBill> items) {
 		this.clientId = clientId;
 		this.creationDate = creationDate;
-		this.items = items;
+		this.items = new Cart();
+		for (ItemForBill item : items)
+			this.items.addItem(item);
 		this.dueTerm = dueTerm;
 	}
 
@@ -44,24 +46,13 @@ public class Submission {
 		return dueTerm;
 	}
 
-	public void action(ClientService clientService, ProductService productService, billFactory billFactory) {
-		clientService.checkClientExists(this.clientId, billFactory);
-		this.checkAllItems(productService, billFactory);
+	public void action(billFactory billFactory) {
+		(new ClientService()).checkClientExists(this.clientId, billFactory);
+		this.items.checkAllItems(billFactory);
 		billFactory.configureBill(this);
-
-	}
-
-	private void checkAllItems(ProductService productService, billFactory billFactory) {
-		for (ItemForBill item : this.items) {
-			item.check(productService, billFactory);
-		}
 	}
 
 	public BigDecimal total() {
-		BigDecimal sum = new BigDecimal(0);
-		for (ItemForBill item : this.items) {
-			sum = sum.add(item.total());
-		}
-		return sum;
+		return this.items.total;
 	}
 }

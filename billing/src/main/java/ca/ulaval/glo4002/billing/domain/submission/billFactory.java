@@ -22,7 +22,7 @@ public class billFactory {
 		this.total = submission.total();
 	}
 
-	public void addErrorsObject(errorManager.Error error) {
+	public void addErrorsObject(errorManager.ErrorService error) {
 		if (errorList == null)
 			this.errorList = new ErrorStack();
 		this.errorList.addError(error);

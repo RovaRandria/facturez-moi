@@ -9,14 +9,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class ErrorStack {
 
 	@JsonSerialize
-	private List<Error> errors;
+	private List<ErrorService> errors;
 
 	@JsonCreator
 	public ErrorStack() {
-		this.errors = new ArrayList<Error>();
+		this.errors = new ArrayList<ErrorService>();
 	}
 
-	public void addError(Error error) {
+	public void addError(ErrorService error) {
 		this.errors.add(error);
 	}
 
