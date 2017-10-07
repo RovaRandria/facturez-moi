@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 
 public class BillDto {
@@ -17,27 +18,10 @@ public class BillDto {
 	@JsonSerialize
 	private String url;
 
-	public BillDto(long id, BigDecimal total, DueTerm dueTerm) {
-		this.id = id;
+	public BillDto(IdBill indice, BigDecimal total, DueTerm dueTerm) {
+		this.id = indice.next();
 		this.total = total;
 		this.dueTerm = dueTerm;
-		this.url = "/bills/" + id;
+		this.url = "/bills/" + this.id;
 	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
-
-	public void setDueTerm(DueTerm dueTerm) {
-		this.dueTerm = dueTerm;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 }

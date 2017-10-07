@@ -1,4 +1,4 @@
-package errorManager;
+package ca.ulaval.glo4002.errorManager;
 
 public class ErrorProductNotFound extends ErrorService {
 

@@ -1,4 +1,4 @@
-package errorManager;
+package ca.ulaval.glo4002.errorManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class ErrorStack {
 		this.errors.add(error);
 	}
 
-	public boolean isEmpty() {
+	public boolean empty() {
 		return errors.isEmpty();
 	}
 

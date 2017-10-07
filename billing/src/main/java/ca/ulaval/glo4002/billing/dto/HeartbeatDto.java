@@ -17,16 +17,8 @@ public class HeartbeatDto {
 		SetDate(timestamp);
 	}
 
-	public String GetToken() {
-		return token;
-	}
-
 	public void SetToken(String token) {
 		this.token = token;
-	}
-
-	public long GetDate() {
-		return date;
 	}
 
 	public void SetDate(long date) {

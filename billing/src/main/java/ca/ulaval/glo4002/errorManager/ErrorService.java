@@ -1,4 +1,4 @@
-package errorManager;
+package ca.ulaval.glo4002.errorManager;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

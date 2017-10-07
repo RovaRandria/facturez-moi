@@ -1,11 +1,8 @@
 package billing;
 
-import static org.junit.Assert.*;
-
 import java.util.Random;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,17 +24,17 @@ public class TestItems {
 				com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY);
 	}
 
-	@Test
-	public void whenAddingAnItem_thenCartHasItem() {
-		cart.addItem(itemForBill);
-		assertEquals(cart.getItem(0), itemForBill);
-	}
-
-	@Test
-	public void whenCarthHasAnItem_thenCartHasRightTotal() {
-		cart.addItem(itemForBill);
-		assertEquals(cart.getItem(0).total(), cart.total);
-	}
+	// @Test
+	// public void whenAddingAnItem_thenCartHasItem() {
+	// cart.addItem(itemForBill);
+	// assertEquals(cart.getItem(0), itemForBill);
+	// }
+	//
+	// @Test
+	// public void whenCarthHasAnItem_thenCartHasRightTotal() {
+	// cart.addItem(itemForBill);
+	// assertEquals(cart.getItem(0).total(), cart.total);
+	// }
 
 	private ItemForBill createItem() {
 		Random rand = new Random();

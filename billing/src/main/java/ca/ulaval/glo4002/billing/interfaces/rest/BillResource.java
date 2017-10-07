@@ -12,16 +12,12 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.ulaval.glo4002.billing.domain.submission.Submission;
-import ca.ulaval.glo4002.billing.domain.submission.billFactory;;
+import ca.ulaval.glo4002.billing.domain.submission.BillFactory;;
 
 @Path("/bills")
 public class BillResource {
 
-	private billFactory billFactory;
-
 	public BillResource() throws IOException {
-		this.billFactory = new billFactory();
 	}
 
 	@POST
@@ -29,8 +25,7 @@ public class BillResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Object GetBill(String jsonRequest) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		Submission submission = mapper.readValue(jsonRequest, Submission.class);
-		submission.action(billFactory);
-		return billFactory.createBill();
+		BillFactory billFactory = mapper.readValue(jsonRequest, BillFactory.class);
+		return billFactory.wayOutFactory();
 	}
 }
