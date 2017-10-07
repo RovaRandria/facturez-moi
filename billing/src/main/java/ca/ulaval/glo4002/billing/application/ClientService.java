@@ -29,7 +29,7 @@ public class ClientService {
 		Client client = Client.create();
 		WebResource resource = client.resource(Properties.getInstance().getProperty("crmClientsUrl"));
 		ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-		if (response.getStatus() == 200) { // magic number
+		if (response.getStatus() == 200) {
 			String output = response.getEntity(String.class);
 			String[] outputSplit = output.split("\"clients\" : ");
 			output = outputSplit[1].substring(0, outputSplit[1].length() - 1);

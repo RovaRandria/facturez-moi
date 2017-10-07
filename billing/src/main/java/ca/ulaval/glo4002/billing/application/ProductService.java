@@ -17,8 +17,6 @@ import ca.ulaval.glo4002.billing.memory.MemoryProduct;
 public class ProductService {
 	private MemoryProduct memoryProducts;
 
-	private int nbProducts = 10;
-
 	public ProductService() {
 		memoryProducts = new MemoryProduct();
 		saveProducts();
@@ -38,8 +36,11 @@ public class ProductService {
 	private void saveProducts() {
 		ObjectMapper mapper = new ObjectMapper();
 		Client client = Client.create();
-		for (int i = 1; i <= nbProducts; i++) {
+		boolean limite = true;
+		int i = 1;
+		while (limite) {
 			WebResource resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl") + "/" + i);
+			i++;
 			ClientResponse response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 			if (response.getStatus() == 200) {
 				String output = response.getEntity(String.class);
@@ -49,6 +50,8 @@ public class ProductService {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			} else {
+				limite = false;
 			}
 		}
 	}
