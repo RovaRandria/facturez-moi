@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.ulaval.glo4002.billing.application.ProductService;
-import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
 import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
+import ca.ulaval.glo4002.errorManager.ErrorStack;
 
 public class ItemForBill {
 
@@ -39,9 +39,9 @@ public class ItemForBill {
 		return new BigDecimal(price);
 	}
 
-	public void check(ProductService productService, BillFactory billFactory) {
+	public void check(ProductService productService, ErrorStack errorList) {
 		if (!productService.productExists(this.productId)) {
-			billFactory.sendError(new ErrorProductNotFound(this.productId));
+			errorList.addError(new ErrorProductNotFound(this.productId));
 		}
 	}
 

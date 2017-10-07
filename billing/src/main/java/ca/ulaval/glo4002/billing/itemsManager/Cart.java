@@ -10,6 +10,7 @@ import ca.ulaval.glo4002.billing.application.ProductService;
 import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeItemPrice;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeTotal;
+import ca.ulaval.glo4002.errorManager.ErrorStack;
 
 public class Cart {
 
@@ -30,16 +31,16 @@ public class Cart {
 		total = new BigDecimal(total.doubleValue() + itemForBill.total().doubleValue());
 	}
 
-	public void checkAllItems(BillFactory billFactory) {
+	public void checkAllItems(ErrorStack errorList) {
 		ProductService productService = new ProductService();
 		for (ItemForBill item : this.listItems) {
-			item.check(productService, billFactory);
+			item.check(productService, errorList);
 		}
 	}
 
-	public BigDecimal total(BillFactory billFactory) {
+	public BigDecimal total(ErrorStack errorList) {
 		if (this.total.doubleValue() < 0)
-			billFactory.sendError(new ErrorNegativeTotal(this.total.doubleValue()));
+			errorList.addError(new ErrorNegativeTotal(this.total.doubleValue()));
 		return this.total;
 	}
 

@@ -47,9 +47,9 @@ public class BillFactory {
 	}
 
 	private void factoryInspector() {
-		this.total = this.items.total(this);
-		(new ClientService()).checkClientExists(this.clientId, this);
-		this.items.checkAllItems(this);
+		this.total = this.items.total(this.errorList);
+		(new ClientService()).checkClientExists(this.clientId, this.errorList);
+		this.items.checkAllItems(this.errorList);
 	}
 
 	public void sendError(ca.ulaval.glo4002.errorManager.ErrorService error) {
