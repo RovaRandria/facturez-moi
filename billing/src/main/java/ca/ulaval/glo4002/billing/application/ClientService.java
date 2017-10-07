@@ -46,20 +46,9 @@ public class ClientService {
 		}
 	}
 
-	private ca.ulaval.glo4002.billing.domain.client.Client getClientByID(long id) throws Exception {
-		ArrayList<ca.ulaval.glo4002.billing.domain.client.Client> clients = memoryClients.getClients();
-
-		for (ca.ulaval.glo4002.billing.domain.client.Client client : clients) {
-			if (client.getId() == id) {
-				return client;
-			}
-		}
-		throw new Exception("Client " + id + " not found");
-	}
-
 	public void checkClientExists(long clientId, ErrorStack errorList) {
 		try {
-			getClientByID(clientId);
+			memoryClients.getClientbyID(clientId);
 		} catch (Exception ex) {
 			errorList.addError(new ErrorClientNotFound(clientId));
 		}
