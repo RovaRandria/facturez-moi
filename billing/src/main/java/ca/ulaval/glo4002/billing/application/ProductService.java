@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.billing.application;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.ws.rs.core.MediaType;
 
@@ -26,7 +25,7 @@ public class ProductService {
 	public boolean productExists(long id) {
 		boolean productExist = false;
 		try {
-			getProductById(id);
+			memoryProducts.getProductByID(id);
 			productExist = true;
 		} catch (Exception ex) {
 			productExist = false;
@@ -52,16 +51,5 @@ public class ProductService {
 			resource = client.resource(Properties.getInstance().getProperty("crmProductsUrl") + "/" + i);
 			response = resource.type(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		}
-	}
-
-	private Product getProductById(long id) throws Exception {
-		ArrayList<Product> products = memoryProducts.getProducts();
-
-		for (Product product : products) {
-			if (product.getId() == id) {
-				return product;
-			}
-		}
-		throw new Exception("Product " + id + " not found");
 	}
 }
