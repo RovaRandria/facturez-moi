@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import ca.ulaval.glo4002.billing.domain.submission.Submission;
 
-public class MemoryBill {
+public class MemorySubmission {
 
 	private ArrayList<Submission> listBill = new ArrayList<Submission>();
 
-	public void saveBill(Submission bill) {
-		listBill.add(bill);
+	public void saveSubmissions(Submission submission) {
+		listBill.add(submission);
 	}
 
 }
