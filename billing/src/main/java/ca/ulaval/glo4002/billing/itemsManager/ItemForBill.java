@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.ulaval.glo4002.billing.application.ProductService;
+import ca.ulaval.glo4002.billing.memory.MemoryProduct;
 import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
 
@@ -39,8 +39,8 @@ public class ItemForBill {
 		return new BigDecimal(price);
 	}
 
-	public void check(ProductService productService, ErrorStack errorList) {
-		if (!productService.productExists(this.productId)) {
+	public void check(ErrorStack errorList) {
+		if (!MemoryProduct.productExists(this.productId)) {
 			errorList.addError(new ErrorProductNotFound(this.productId));
 		}
 	}

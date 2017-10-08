@@ -5,31 +5,25 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import ca.ulaval.glo4002.billing.application.ClientService;
 import ca.ulaval.glo4002.billing.domain.DateManager;
 import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.itemsManager.Cart;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForBill;
+import ca.ulaval.glo4002.billing.memory.MemoryClients;
 import ca.ulaval.glo4002.billing.memory.MemorySubmission;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
 
 public class BillFactory {
 
-	@JsonSerialize
 	private long clientId;
-	@JsonSerialize
 	private String creationDate;
-	@JsonSerialize
 	private Cart items;
-	@JsonSerialize
 	private DueTerm dueTerm;
-
 	private BigDecimal total;
-	private ErrorStack errorList;
+	private ErrorStack errorStack;
 
 	private IdBill indice = new IdBill();
 	private MemorySubmission memBill = new MemorySubmission();
@@ -37,17 +31,17 @@ public class BillFactory {
 	@JsonCreator
 	public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
 			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForBill> items) {
-		this.errorList = new ErrorStack();
+		this.errorStack = new ErrorStack();
 		setClientId(clientId);
 		setDate(creationDate);
 		setItems(items);
 		setDueTerm(dueTerm);
-		this.total = this.items.total(this.errorList);
+		this.total = this.items.total(this.errorStack);
 	}
 
 	private void setClientId(long clientId) {
 		this.clientId = clientId;
-		(new ClientService()).checkClientExists(this.clientId, this.errorList);
+		MemoryClients.checkClientExists(this.clientId, this.errorStack);
 	}
 
 	private void setDate(String creationDate) {
@@ -60,8 +54,8 @@ public class BillFactory {
 	private void setItems(List<ItemForBill> items) {
 		this.items = new Cart();
 		for (ItemForBill item : items)
-			this.items.addItem(item, this.errorList);
-		this.items.checkAllItems(this.errorList);
+			this.items.addItem(item, this.errorStack);
+		this.items.checkAllItems(this.errorStack);
 	}
 
 	private void setDueTerm(DueTerm dueTerm) {
@@ -71,12 +65,24 @@ public class BillFactory {
 			this.dueTerm = dueTerm;
 	}
 
-	public Object wayOutFactory() {
-		if (errorList.empty()) {
+	public BillDto proccessing() throws Exception {
+		if (errorStack.empty()) {
 			memBill.saveSubmissions(new Submission(this.clientId, this.creationDate, this.dueTerm, this.items));
-			return new BillDto(this.indice, total, this.dueTerm);
+			return new BillDto(this.indice.next(), total, this.dueTerm);
 		} else {
-			return this.errorList;
+			throw new Exception("Error(s) found");
+		}
+	}
+
+	public ErrorStack errorReport() {
+		return this.errorStack;
+	}
+
+	public Object wayOutFactory() {
+		try {
+			return this.proccessing();
+		} catch (Exception ex) {
+			return this.errorReport();
 		}
 	}
 

@@ -13,8 +13,6 @@ import com.sun.jersey.api.client.WebResource;
 
 import ca.ulaval.glo4002.billing.interfaces.Properties;
 import ca.ulaval.glo4002.billing.memory.MemoryClients;
-import ca.ulaval.glo4002.errorManager.ErrorClientNotFound;
-import ca.ulaval.glo4002.errorManager.ErrorStack;
 
 public class ClientService {
 	private MemoryClients memoryClients;
@@ -46,11 +44,4 @@ public class ClientService {
 		}
 	}
 
-	public void checkClientExists(long clientId, ErrorStack errorList) {
-		try {
-			memoryClients.getClientbyID(clientId);
-		} catch (Exception ex) {
-			errorList.addError(new ErrorClientNotFound(clientId));
-		}
-	}
 }

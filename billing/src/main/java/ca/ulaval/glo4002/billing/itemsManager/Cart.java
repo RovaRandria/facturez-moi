@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import ca.ulaval.glo4002.billing.application.ProductService;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeItemPrice;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeTotal;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
@@ -31,9 +30,8 @@ public class Cart {
 	}
 
 	public void checkAllItems(ErrorStack errorList) {
-		ProductService productService = new ProductService();
 		for (ItemForBill item : this.listItems) {
-			item.check(productService, errorList);
+			item.check(errorList);
 		}
 	}
 

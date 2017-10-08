@@ -12,12 +12,19 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ca.ulaval.glo4002.billing.application.ClientService;
+import ca.ulaval.glo4002.billing.application.ProductService;
 import ca.ulaval.glo4002.billing.domain.submission.BillFactory;;
 
 @Path("/bills")
 public class BillResource {
 
+	ClientService clientService;
+	ProductService productService;
+
 	public BillResource() throws IOException {
+		clientService = new ClientService();
+		productService = new ProductService();
 	}
 
 	@POST

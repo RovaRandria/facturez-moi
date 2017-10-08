@@ -13,4 +13,8 @@ public class IdBill {
 		return index;
 	}
 
+	public long current() {
+		return index;
+	}
+
 }

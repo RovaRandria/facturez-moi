@@ -22,17 +22,6 @@ public class ProductService {
 		saveProducts();
 	}
 
-	public boolean productExists(long id) {
-		boolean productExist = false;
-		try {
-			memoryProducts.getProductByID(id);
-			productExist = true;
-		} catch (Exception ex) {
-			productExist = false;
-		}
-		return productExist;
-	}
-
 	private void saveProducts() {
 		ObjectMapper mapper = new ObjectMapper();
 		Client client = Client.create();
