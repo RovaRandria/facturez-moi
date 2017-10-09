@@ -17,8 +17,8 @@ public class ProductService {
 	private long BEGIN = 1;
 	private MemoryProduct memoryProducts;
 
-	public ProductService() {
-		memoryProducts = new MemoryProduct();
+	public ProductService(MemoryProduct memoryProducts) {
+		this.memoryProducts = memoryProducts;
 		saveProducts();
 	}
 

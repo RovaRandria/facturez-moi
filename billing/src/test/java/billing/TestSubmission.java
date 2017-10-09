@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.Client;
@@ -13,6 +18,7 @@ import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 import ca.ulaval.glo4002.billing.domain.product.Product;
 import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
 import ca.ulaval.glo4002.billing.dto.BillDto;
+import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForSubmission;
 import ca.ulaval.glo4002.billing.memory.MemoryClients;
 import ca.ulaval.glo4002.billing.memory.MemoryProduct;
@@ -30,11 +36,30 @@ public class TestSubmission {
 	private List<ItemForSubmission> NNA_ITEMS = new ArrayList<ItemForSubmission>();
 	private List<ItemForSubmission> RIGHT_ITEMS = new ArrayList<ItemForSubmission>();
 
+	private Client RIGHT_CLIENT;
+	private Product RIGHT_PRODUCT;
+
+	@Mock
+	MemoryClients memoryClients;
+
+	@Mock
+	MemoryProduct memoryProduct;
+
+	@Rule
+	public MockitoRule mockitoRule = MockitoJUnit.rule();
+
 	@Before
 	public void init() {
+		BillResource.memoryClients = memoryClients;
+		BillResource.memoryProduct = memoryProduct;
 
-		MemoryClients.saveClient(new Client(TestV.RIGHT_CLIENTID, null, null, null, null, null, null, null));
-		MemoryProduct.saveProduct(new Product(TestV.RIGHT_ITEMID, null, null, null));
+		Mockito.anyInt();
+
+		Mockito.when(memoryClients.checkClientID(TestV.RIGHT_CLIENTID)).thenReturn(true);
+		Mockito.when(memoryProduct.productExists(TestV.RIGHT_ITEMID)).thenReturn(true);
+
+		Mockito.when(memoryClients.checkClientID(TestV.WRONG_CLIENTID)).thenReturn(false);
+		Mockito.when(memoryProduct.productExists(TestV.WRONG_ITEMID)).thenReturn(false);
 
 		ItemForSubmission item1 = new ItemForSubmission(TestV.RIGHT_PRICE, "note1", TestV.RIGHT_ITEMID, TestV.QUANTITY);
 		ItemForSubmission item2 = new ItemForSubmission(TestV.WRONG_PRICE, "note2", TestV.RIGHT_ITEMID, TestV.QUANTITY);
