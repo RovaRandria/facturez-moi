@@ -10,7 +10,7 @@ public class TestV {
 
 	public static int QUANTITY = 10;
 
-	public static float WRONG_PRICE = -10;
+	public static float NEGATIVE_PRICE = -10;
 	public static float RIGHT_PRICE = 10;
 
 	public static String MODEL_DATE = "2017-08-21T16:59:20.142Z";

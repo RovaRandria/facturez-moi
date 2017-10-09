@@ -53,8 +53,6 @@ public class TestSubmission {
 		BillResource.memoryClients = memoryClients;
 		BillResource.memoryProduct = memoryProduct;
 
-		Mockito.anyInt();
-
 		Mockito.when(memoryClients.checkClientID(TestV.RIGHT_CLIENTID)).thenReturn(true);
 		Mockito.when(memoryProduct.productExists(TestV.RIGHT_ITEMID)).thenReturn(true);
 
@@ -62,9 +60,9 @@ public class TestSubmission {
 		Mockito.when(memoryProduct.productExists(TestV.WRONG_ITEMID)).thenReturn(false);
 
 		ItemForSubmission item1 = new ItemForSubmission(TestV.RIGHT_PRICE, "note1", TestV.RIGHT_ITEMID, TestV.QUANTITY);
-		ItemForSubmission item2 = new ItemForSubmission(TestV.WRONG_PRICE, "note2", TestV.RIGHT_ITEMID, TestV.QUANTITY);
+		ItemForSubmission item2 = new ItemForSubmission(TestV.NEGATIVE_PRICE, "note2", TestV.RIGHT_ITEMID, TestV.QUANTITY);
 		ItemForSubmission item3 = new ItemForSubmission(TestV.RIGHT_PRICE, "note3", TestV.WRONG_ITEMID, TestV.QUANTITY);
-		ItemForSubmission item4 = new ItemForSubmission(TestV.WRONG_PRICE, "note4", TestV.WRONG_ITEMID, TestV.QUANTITY);
+		ItemForSubmission item4 = new ItemForSubmission(TestV.NEGATIVE_PRICE, "note4", TestV.WRONG_ITEMID, TestV.QUANTITY);
 
 		RIGHT_ITEMS.add(item1);
 		NOT_AVAILABLE_ITEMS.add(item3);
@@ -115,8 +113,8 @@ public class TestSubmission {
 		BillFactory billFactory = new BillFactory(TestV.RIGHT_CLIENTID, TestV.MODEL_DATE, DueTerm.IMMEDIATE,
 				NEGATIVE_PRICE_ITEMS);
 
-		ErrorNegativeItemPrice errorNegativeItemPrice = new ErrorNegativeItemPrice(TestV.WRONG_PRICE);
-		ErrorNegativeTotal errorNegativeTotal = new ErrorNegativeTotal(TestV.WRONG_PRICE * TestV.QUANTITY);
+		ErrorNegativeItemPrice errorNegativeItemPrice = new ErrorNegativeItemPrice(TestV.NEGATIVE_PRICE);
+		ErrorNegativeTotal errorNegativeTotal = new ErrorNegativeTotal(TestV.NEGATIVE_PRICE * TestV.QUANTITY);
 
 		Assert.assertEquals(true, billFactory.errorReport().containsError(errorNegativeItemPrice));
 		Assert.assertEquals(true, billFactory.errorReport().containsError(errorNegativeTotal));
@@ -154,8 +152,8 @@ public class TestSubmission {
 		BillFactory billFactory = new BillFactory(TestV.RIGHT_CLIENTID, TestV.MODEL_DATE, DueTerm.IMMEDIATE, NNA_ITEMS);
 
 		ErrorProductNotFound errorProductNotFound = new ErrorProductNotFound(TestV.WRONG_ITEMID);
-		ErrorNegativeItemPrice errorNegativeItemPrice = new ErrorNegativeItemPrice(TestV.WRONG_PRICE);
-		ErrorNegativeTotal errorNegativeTotal = new ErrorNegativeTotal(TestV.WRONG_PRICE * TestV.QUANTITY);
+		ErrorNegativeItemPrice errorNegativeItemPrice = new ErrorNegativeItemPrice(TestV.NEGATIVE_PRICE);
+		ErrorNegativeTotal errorNegativeTotal = new ErrorNegativeTotal(TestV.NEGATIVE_PRICE * TestV.QUANTITY);
 
 		Assert.assertEquals(true, billFactory.errorReport().containsError(errorProductNotFound));
 		Assert.assertEquals(true, billFactory.errorReport().containsError(errorNegativeItemPrice));

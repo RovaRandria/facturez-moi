@@ -25,7 +25,6 @@ public class Cart {
 		listItems.add(itemForSubmission);
 		if (itemForSubmission.price().doubleValue() < 0)
 			errorList.addError(new ErrorNegativeItemPrice(itemForSubmission.price().doubleValue()));
-
 		total = new BigDecimal(total.doubleValue() + itemForSubmission.total().doubleValue());
 	}
 
