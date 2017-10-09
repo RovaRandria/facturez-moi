@@ -2,7 +2,7 @@ package ca.ulaval.glo4002.errorManager;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-public class ErrorService {
+public class ErrorBilling {
 	@JsonSerialize
 	private String error;
 	@JsonSerialize
@@ -10,9 +10,14 @@ public class ErrorService {
 	@JsonSerialize
 	private String entity;
 
-	public ErrorService(String error, String description, String entity) {
+	public ErrorBilling(String error, String description, String entity) {
 		this.error = error;
 		this.description = description;
 		this.entity = entity;
+	}
+
+	public boolean equals(ErrorBilling errorBilling) {
+		return (errorBilling.error.equals(this.error) && errorBilling.description.equals(this.description)
+				&& errorBilling.entity.equals(this.entity));
 	}
 }

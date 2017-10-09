@@ -14,23 +14,23 @@ public class Cart {
 
 	public BigDecimal total = new BigDecimal(0);
 	@JsonSerialize
-	private ArrayList<ItemForBill> listItems = new ArrayList<ItemForBill>();
+	private ArrayList<ItemForSubmission> listItems = new ArrayList<ItemForSubmission>();
 
 	@JsonCreator
 	public Cart() {
 		super();
 	}
 
-	public void addItem(ItemForBill itemForBill, ErrorStack errorList) {
-		listItems.add(itemForBill);
-		if (itemForBill.price().doubleValue() < 0)
-			errorList.addError(new ErrorNegativeItemPrice(itemForBill.price().doubleValue()));
+	public void addItem(ItemForSubmission itemForSubmission, ErrorStack errorList) {
+		listItems.add(itemForSubmission);
+		if (itemForSubmission.price().doubleValue() < 0)
+			errorList.addError(new ErrorNegativeItemPrice(itemForSubmission.price().doubleValue()));
 
-		total = new BigDecimal(total.doubleValue() + itemForBill.total().doubleValue());
+		total = new BigDecimal(total.doubleValue() + itemForSubmission.total().doubleValue());
 	}
 
 	public void checkAllItems(ErrorStack errorList) {
-		for (ItemForBill item : this.listItems) {
+		for (ItemForSubmission item : this.listItems) {
 			item.check(errorList);
 		}
 	}

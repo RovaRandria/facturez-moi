@@ -9,13 +9,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class Product {
 	@JsonSerialize
 	private Integer id;
-
 	@JsonSerialize
 	private String name;
-
 	@JsonSerialize
 	private BigDecimal unitPrice;
-
 	@JsonSerialize
 	private Object _links;
 

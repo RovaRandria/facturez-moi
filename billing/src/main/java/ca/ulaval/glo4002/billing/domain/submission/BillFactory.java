@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.itemsManager.Cart;
-import ca.ulaval.glo4002.billing.itemsManager.ItemForBill;
+import ca.ulaval.glo4002.billing.itemsManager.ItemForSubmission;
 import ca.ulaval.glo4002.billing.memory.MemoryClients;
 import ca.ulaval.glo4002.billing.memory.MemorySubmission;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
@@ -30,7 +30,7 @@ public class BillFactory {
 
 	@JsonCreator
 	public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
-			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForBill> items) {
+			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForSubmission> items) {
 		this.errorStack = new ErrorStack();
 		setClientId(clientId);
 		setDate(creationDate);
@@ -51,9 +51,9 @@ public class BillFactory {
 			this.creationDate = creationDate;
 	}
 
-	private void setItems(List<ItemForBill> items) {
+	private void setItems(List<ItemForSubmission> items) {
 		this.items = new Cart();
-		for (ItemForBill item : items)
+		for (ItemForSubmission item : items)
 			this.items.addItem(item, this.errorStack);
 		this.items.checkAllItems(this.errorStack);
 	}

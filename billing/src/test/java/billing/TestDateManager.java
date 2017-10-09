@@ -10,7 +10,7 @@ public class TestDateManager {
 
 	@Test
 	public void givenStringDate_whenConvertingAndReverting_thenRemainTheSame() {
-		String string = "2017-08-21T16:59:20.142Z";
+		String string = TestV.MODEL_DATE;
 
 		DateManager.stringToDate(string);
 		assertEquals(string, DateManager.dateToString(DateManager.stringToDate(string)));

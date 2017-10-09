@@ -9,7 +9,7 @@ import ca.ulaval.glo4002.billing.memory.MemoryProduct;
 import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
 
-public class ItemForBill {
+public class ItemForSubmission {
 
 	private float price;
 	private String note;
@@ -17,7 +17,7 @@ public class ItemForBill {
 	private int quantity;
 
 	@JsonCreator
-	public ItemForBill(@JsonProperty("price") float price, @JsonProperty("note") String note,
+	public ItemForSubmission(@JsonProperty("price") float price, @JsonProperty("note") String note,
 			@JsonProperty("productId") int productId, @JsonProperty("quantity") int quantity) {
 		super();
 		this.price = price;
@@ -26,9 +26,9 @@ public class ItemForBill {
 		this.quantity = quantity;
 	}
 
-	public boolean equals(ItemForBill itemForBill) {
-		return (this.note == itemForBill.note && this.price == itemForBill.price
-				&& this.productId == itemForBill.productId && this.quantity == itemForBill.quantity);
+	public boolean equals(ItemForSubmission itemForSubmission) {
+		return (this.note == itemForSubmission.note && this.price == itemForSubmission.price
+				&& this.productId == itemForSubmission.productId && this.quantity == itemForSubmission.quantity);
 	}
 
 	public BigDecimal total() {

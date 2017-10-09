@@ -9,19 +9,26 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class ErrorStack {
 
 	@JsonSerialize
-	private List<ErrorService> errors;
+	private List<ErrorBilling> errors;
 
 	@JsonCreator
 	public ErrorStack() {
-		this.errors = new ArrayList<ErrorService>();
+		this.errors = new ArrayList<ErrorBilling>();
 	}
 
-	public void addError(ErrorService error) {
+	public void addError(ErrorBilling error) {
 		this.errors.add(error);
 	}
 
 	public boolean empty() {
 		return errors.isEmpty();
+	}
+
+	public boolean containsError(ErrorBilling errorBilling) {
+		for (ErrorBilling error : errors)
+			if (error.equals(errorBilling))
+				return true;
+		return false;
 	}
 
 }

@@ -9,13 +9,13 @@ import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 public class BillDto {
 
 	@JsonSerialize
-	private long id;
+	protected long id;
 	@JsonSerialize
-	private BigDecimal total;
+	protected BigDecimal total;
 	@JsonSerialize
-	private DueTerm dueTerm;
+	protected DueTerm dueTerm;
 	@JsonSerialize
-	private String url;
+	protected String url;
 
 	public BillDto(long id, BigDecimal total, DueTerm dueTerm) {
 		this.id = id;
