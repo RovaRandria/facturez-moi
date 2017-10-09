@@ -22,4 +22,12 @@ public class Submission {
 		this.items = items;
 		this.dueTerm = dueTerm;
 	}
+
+	public long getId() {
+		return clientId;
+	}
+
+	public String getCreationDate() {
+		return creationDate;
+	}
 }
