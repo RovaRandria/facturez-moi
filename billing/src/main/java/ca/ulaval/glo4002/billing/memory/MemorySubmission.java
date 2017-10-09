@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.billing.memory;
 import java.util.ArrayList;
 
 import ca.ulaval.glo4002.billing.domain.submission.Submission;
+import ca.ulaval.glo4002.errorManager.ErrorClientNotFound;
+import ca.ulaval.glo4002.errorManager.ErrorStack;
 
 public class MemorySubmission {
 
@@ -12,7 +14,29 @@ public class MemorySubmission {
 		listBill.add(submission);
 	}
 
-	public static Submission getSubmissionbyID(long id) throws Exception {
+	public void checkSubmissionExists(long id, ErrorStack errorList) {
+		try {
+			getSubmissionbyID(id);
+		} catch (Exception ex) {
+			errorList.addError(new ErrorClientNotFound(id));
+		}
+	}
+
+	public static boolean submissionExists(long id) {
+		boolean submissionExist = false;
+		try {
+			for (Submission submission : listBill) {
+				if (submission.getId() == id) {
+					submissionExist = true;
+				}
+			}
+		} catch (Exception ex) {
+			submissionExist = false;
+		}
+		return submissionExist;
+	}
+
+	public Submission getSubmissionbyID(long id) throws Exception {
 		for (Submission submission : listBill) {
 			if (submission.getId() == id) {
 				return submission;
@@ -21,14 +45,10 @@ public class MemorySubmission {
 		throw new Exception("Submission " + id + " not found");
 	}
 
-	public static boolean submissionExists(long id) {
-		boolean submissionExist = false;
-		try {
-			getSubmissionbyID(id);
-			submissionExist = true;
-		} catch (Exception ex) {
-			submissionExist = false;
+	public static boolean submissionAlreadyAccepted(long id) throws Exception {
+		for (Submission submission : listBill) {
+			// traiter le cas d'une soumission déjà accepter
 		}
-		return submissionExist;
+		throw new Exception("Invoice already accepted");
 	}
 }

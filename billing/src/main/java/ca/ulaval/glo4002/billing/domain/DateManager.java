@@ -9,7 +9,7 @@ public class DateManager {
 
 	static String format = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-	public static Date stringToDate(String string) {
+	public Date stringToDate(String string) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
 		try {
 			return dateFormat.parse(string);
