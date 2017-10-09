@@ -14,17 +14,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.ulaval.glo4002.billing.application.ClientService;
 import ca.ulaval.glo4002.billing.application.ProductService;
-import ca.ulaval.glo4002.billing.domain.submission.BillFactory;;
+import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
+import ca.ulaval.glo4002.billing.memory.MemoryClients;
+import ca.ulaval.glo4002.billing.memory.MemoryProduct;;
 
 @Path("/bills")
 public class BillResource {
 
-	ClientService clientService;
-	ProductService productService;
+	public static ClientService clientService;
+	public static ProductService productService;
+	public static MemoryClients memoryClients;
+	public static MemoryProduct memoryProduct;
 
 	public BillResource() throws IOException {
-		clientService = new ClientService();
-		productService = new ProductService();
+		this.memoryClients = new MemoryClients();
+		this.memoryProduct = new MemoryProduct();
+		this.clientService = new ClientService(memoryClients);
+		this.productService = new ProductService(memoryProduct);
 	}
 
 	@POST

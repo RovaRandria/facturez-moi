@@ -17,8 +17,8 @@ import ca.ulaval.glo4002.billing.memory.MemoryClients;
 public class ClientService {
 	private MemoryClients memoryClients;
 
-	public ClientService() {
-		memoryClients = new MemoryClients();
+	public ClientService(MemoryClients memoryClients) {
+		this.memoryClients = memoryClients;
 		saveClients();
 	}
 
