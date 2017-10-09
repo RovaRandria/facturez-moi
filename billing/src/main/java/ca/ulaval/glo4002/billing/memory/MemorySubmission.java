@@ -2,6 +2,8 @@ package ca.ulaval.glo4002.billing.memory;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.PathParam;
+
 import ca.ulaval.glo4002.billing.domain.submission.Submission;
 import ca.ulaval.glo4002.errorManager.ErrorClientNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
@@ -14,7 +16,7 @@ public class MemorySubmission {
 		listBill.add(submission);
 	}
 
-	public void checkSubmissionExists(long id, ErrorStack errorList) {
+	public void checkSubmissionExists(@PathParam("id") long id, ErrorStack errorList) {
 		try {
 			getSubmissionbyID(id);
 		} catch (Exception ex) {
@@ -22,7 +24,7 @@ public class MemorySubmission {
 		}
 	}
 
-	public static boolean submissionExists(long id) {
+	public static boolean submissionExists(@PathParam("id") long id) {
 		boolean submissionExist = false;
 		try {
 			for (Submission submission : listBill) {
@@ -36,7 +38,7 @@ public class MemorySubmission {
 		return submissionExist;
 	}
 
-	public Submission getSubmissionbyID(long id) throws Exception {
+	public Submission getSubmissionbyID(@PathParam("id") long id) throws Exception {
 		for (Submission submission : listBill) {
 			if (submission.getId() == id) {
 				return submission;
@@ -45,7 +47,7 @@ public class MemorySubmission {
 		throw new Exception("Submission " + id + " not found");
 	}
 
-	public static boolean submissionAlreadyAccepted(long id) throws Exception {
+	public static boolean submissionAlreadyAccepted(@PathParam("id") long id) throws Exception {
 		for (Submission submission : listBill) {
 			// traiter le cas d'une soumission déjà accepter
 		}

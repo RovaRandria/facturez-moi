@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.billing.domain.bill;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,6 +21,7 @@ public class BillingClientFactory {
 	private Date expectedPaiement;
 	private DueTerm dueTerm;
 	private ErrorStack errorStack;
+	private LocalDateTime localDateTime;
 
 	private MemorySubmission memBill = new MemorySubmission();
 	private DateManager dateManager = new DateManager();
@@ -37,12 +41,18 @@ public class BillingClientFactory {
 	}
 
 	private void setExpectedPaiement(Date effectiveDate, DueTerm dueTerm) {
+
 		if (dueTerm == DueTerm.IMMEDIATE)
 			this.expectedPaiement = this.effectiveDate;
-		else if (dueTerm == DueTerm.DAYS30)
-			this.expectedPaiement = this.effectiveDate; // + 30;
-		else if (dueTerm == DueTerm.DAYS90)
-			this.expectedPaiement = this.effectiveDate; // + 90;
+		else if (dueTerm == DueTerm.DAYS30) {
+			localDateTime = LocalDateTime.from(this.effectiveDate.toInstant()).plusDays(30);
+			Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
+			this.expectedPaiement = Date.from(instant);
+		} else if (dueTerm == DueTerm.DAYS90) {
+			localDateTime = LocalDateTime.from(this.effectiveDate.toInstant()).plusDays(90);
+			Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
+			this.expectedPaiement = Date.from(instant);
+		}
 	}
 
 	private void setDueTerm(DueTerm dueTerm) {
