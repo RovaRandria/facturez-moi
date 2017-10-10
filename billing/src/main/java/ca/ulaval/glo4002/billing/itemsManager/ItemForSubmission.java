@@ -1,12 +1,13 @@
 package ca.ulaval.glo4002.billing.itemsManager;
 
-import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
-import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
-import ca.ulaval.glo4002.errorManager.ErrorStack;
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
+import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
+import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
+import ca.ulaval.glo4002.errorManager.ErrorStack;
 
 public class ItemForSubmission {
 
@@ -38,10 +39,10 @@ public class ItemForSubmission {
     return new BigDecimal(price);
   }
 
-  public void check(ErrorStack errorList) {
-    if (!BillResource.memoryProduct.productExists(this.productId)) {
-      errorList.addError(new ErrorProductNotFound(this.productId));
-    }
-  }
+	public void check(ErrorStack errorList) {
+		if (!BillFactory.memoryProduct.productExists(this.productId)) {
+			errorList.addError(new ErrorProductNotFound(this.productId));
+		}
+	}
 
 }
