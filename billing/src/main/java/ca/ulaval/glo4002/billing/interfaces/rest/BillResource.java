@@ -16,20 +16,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
+import ca.ulaval.glo4002.billing.domain.submission.BillFactory;;
+
 @Path("/bills")
 public class BillResource {
 
-  public static ClientService clientService;
-  public static ProductService productService;
-  public static MemoryClients memoryClients;
-  public static MemoryProduct memoryProduct;
-
-  public BillResource() throws IOException {
-    this.memoryClients = new MemoryClients();
-    this.memoryProduct = new MemoryProduct();
-    this.clientService = new ClientService(memoryClients);
-    this.productService = new ProductService(memoryProduct);
-  }
+	public BillResource() {
+	}
 
   @POST
   @Produces(MediaType.APPLICATION_JSON)

@@ -1,12 +1,15 @@
 package ca.ulaval.glo4002.billing.domain.submission;
 
+import ca.ulaval.glo4002.billing.application.ClientService;
+import ca.ulaval.glo4002.billing.application.ProductService;
 import ca.ulaval.glo4002.billing.domain.DateManager;
 import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 import ca.ulaval.glo4002.billing.dto.BillDto;
-import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 import ca.ulaval.glo4002.billing.itemsManager.Cart;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForSubmission;
+import ca.ulaval.glo4002.billing.memory.MemoryClients;
+import ca.ulaval.glo4002.billing.memory.MemoryProduct;
 import ca.ulaval.glo4002.billing.memory.MemorySubmission;
 import ca.ulaval.glo4002.errorManager.ErrorClientNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
@@ -25,26 +28,35 @@ public class BillFactory {
   private BigDecimal total;
   private ErrorStack errorStack;
 
-  private IdBill indice = new IdBill();
-  private MemorySubmission memBill = new MemorySubmission();
+	private IdBill indice;
+	private MemorySubmission memBill;
+	private MemoryClients memoryClients;
+	private MemoryProduct memoryProduct;
 
-  @JsonCreator
-  public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
-                     @JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForSubmission> items) {
-    this.errorStack = new ErrorStack();
-    setClientId(clientId);
-    setDate(creationDate);
-    setItems(items);
-    setDueTerm(dueTerm);
-    this.total = this.items.total(this.errorStack);
-  }
+	@JsonCreator
+	public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
+			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForSubmission> items) {
+		this.errorStack = new ErrorStack();
+		setClientId(clientId);
+		setDate(creationDate);
+		setItems(items);
+		setDueTerm(dueTerm);
+		this.total = this.items.total(this.errorStack);
 
-  private void setClientId(long clientId) {
-    this.clientId = clientId;
-    if (!BillResource.memoryClients.checkClientID(clientId)) {
-      errorStack.addError(new ErrorClientNotFound(clientId));
-    }
-  }
+		indice = new IdBill();
+		memBill = new MemorySubmission();
+		memoryClients = new MemoryClients();
+		memoryProduct = new MemoryProduct();
+		new ClientService(memoryClients);
+		new ProductService(memoryProduct);
+	}
+
+	private void setClientId(long clientId) {
+		this.clientId = clientId;
+		if (!memoryClients.checkClientID(clientId)) {
+			errorStack.addError(new ErrorClientNotFound(clientId));
+		}
+	}
 
   private void setDate(String creationDate) {
     if (creationDate == null) {
