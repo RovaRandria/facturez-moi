@@ -36,7 +36,7 @@ public class BillResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Object GetBill(String jsonRequest) throws JsonParseException, JsonMappingException, IOException {
+	public Object getBill(String jsonRequest) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		BillFactory billFactory = mapper.readValue(jsonRequest, BillFactory.class);
 		return billFactory.wayOutFactory();

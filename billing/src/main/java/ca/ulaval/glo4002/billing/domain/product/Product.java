@@ -14,7 +14,7 @@ public class Product {
 	@JsonSerialize
 	private BigDecimal unitPrice;
 	@JsonSerialize
-	private Object _links;
+	private Object links;
 
 	@JsonCreator
 	public Product(@JsonProperty("id") Integer id, @JsonProperty("name") String name,
@@ -22,7 +22,7 @@ public class Product {
 		this.id = id;
 		this.name = name;
 		this.unitPrice = unitPrice;
-		this._links = _links;
+		this.links = _links;
 	}
 
 	public Integer getId() {

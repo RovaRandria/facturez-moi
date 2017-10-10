@@ -13,9 +13,11 @@ public class MemoryClients {
 	}
 
 	public boolean checkClientID(long id) {
-		for (ca.ulaval.glo4002.billing.domain.client.Client client : listClients)
-			if (client.getId() == id)
+		for (ca.ulaval.glo4002.billing.domain.client.Client client : listClients) {
+			if (client.getId() == id) {
 				return true;
+			}
+		}
 		return false;
 	}
 }
