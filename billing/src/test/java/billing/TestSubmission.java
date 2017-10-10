@@ -66,7 +66,6 @@ public class TestSubmission {
 		NOT_AVAILABLE_ITEMS.add(item3);
 		NEGATIVE_PRICE_ITEMS.add(item2);
 		NNA_ITEMS.add(item4);
-
 	}
 
 	@Test
