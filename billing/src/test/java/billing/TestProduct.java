@@ -32,4 +32,28 @@ public class TestProduct {
 		}
 		assertEquals(product, expectedProduct);
 	}
+
+	@Test
+	public void givenAWrongProductID_whenIsSaved_thenGetProductByIDReturnsWrongProduct() {
+		memoryProduct.saveProduct(product);
+		Product expectedProduct;
+		try {
+			expectedProduct = memoryProduct.getProductByID(0);
+		} catch (Exception e) {
+			expectedProduct = new Product(null, null, null, null);
+		}
+		assertNotEquals(product, expectedProduct);
+	}
+
+	@Test
+	public void givenAProduct_whenIsSaved_thenItExists() {
+		memoryProduct.saveProduct(product);
+		assertTrue(memoryProduct.productExists(1));
+	}
+
+	@Test
+	public void givenAWrongProductID_whenIsSaved_thenDoesNotExists() {
+		memoryProduct.saveProduct(product);
+		assertFalse(memoryProduct.productExists(0));
+	}
 }
