@@ -26,4 +26,8 @@ public class BillingClientDto {
 		this.dueTerm = dueTerm;
 		this.url = "/bills/" + id;
 	}
+
+	public long getId() {
+		return id;
+	}
 }

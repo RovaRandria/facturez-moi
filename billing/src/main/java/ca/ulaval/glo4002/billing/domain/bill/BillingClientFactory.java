@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import ca.ulaval.glo4002.billing.domain.DateManager;
@@ -27,7 +31,7 @@ public class BillingClientFactory {
 	private DateManager dateManager = new DateManager();
 
 	@JsonCreator
-	public BillingClientFactory() throws Exception {
+	public BillingClientFactory(@PathParam("id") long id) throws Exception {
 		this.errorStack = new ErrorStack();
 		setId(id);
 		setDueTerm(dueTerm);
@@ -62,12 +66,26 @@ public class BillingClientFactory {
 			this.dueTerm = dueTerm;
 	}
 
+	@GET
+	@Path("/bills/{id}")
 	public BillingClientDto proccessing() throws Exception {
 		if (errorStack.empty()) {
-			Submission submission = memBill.getSubmissionbyID(id); // parametre id ???
+			Submission submission = memBill.getSubmissionbyID(id);
 			return new BillingClientDto(submission.getId(), effectiveDate, expectedPaiement, this.dueTerm);
 		} else {
 			throw new Exception("Error(s) found");
+		}
+	}
+
+	public ErrorStack errorReport() {
+		return this.errorStack;
+	}
+
+	public Object wayOutFactory() {
+		try {
+			return this.proccessing();
+		} catch (Exception ex) {
+			return this.errorReport();
 		}
 	}
 }
