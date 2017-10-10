@@ -1,5 +1,7 @@
 package billing;
 
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +18,6 @@ import ca.ulaval.glo4002.errorManager.ErrorNegativeItemPrice;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeTotal;
 import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
-import junit.framework.Assert;
 
 public class TestItemForBill {
 
@@ -53,70 +54,69 @@ public class TestItemForBill {
 
 	@Test
 	public void givenItemWithSameProperties_whenAlreadyHaveOne_thenEquals() {
-		Assert.assertEquals(true, RIGHT_ITEM
+		assertEquals(true, RIGHT_ITEM
 				.equals(new ItemForSubmission(TestV.RIGHT_PRICE, average_note, TestV.RIGHT_ITEMID, TestV.QUANTITY)));
 	}
 
 	@Test
 	public void givenAnyItem_whenAlways_thenReturnRightTotal() {
-		Assert.assertEquals(TestV.RIGHT_PRICE * TestV.QUANTITY, RIGHT_ITEM.total().floatValue());
+		assertTrue(TestV.RIGHT_PRICE * TestV.QUANTITY == RIGHT_ITEM.total().floatValue());
 	}
 
 	@Test
 	public void givenAnyItem_whenAlways_thenReturnRightPrice() {
-		Assert.assertEquals(TestV.RIGHT_PRICE, RIGHT_ITEM.price().floatValue());
+		assertTrue(TestV.RIGHT_PRICE == RIGHT_ITEM.price().floatValue());
 	}
 
 	@Test
 	public void givenRightItem_whenChecked_thenReturnTrue() {
-		Assert.assertEquals(TestV.RIGHT_PRICE, RIGHT_ITEM.price().floatValue());
+		assertTrue(TestV.RIGHT_PRICE == RIGHT_ITEM.price().floatValue());
 	}
 
 	@Test
 	public void givenRightItem_whenChecked_thenDontFillErrorList() {
 		RIGHT_ITEM.check(errorlist);
-		Assert.assertEquals(true, errorlist.empty());
+		assertEquals(true, errorlist.empty());
 	}
 
 	@Test
 	public void givenNotExisting_whenChecked_thenFillErrorList() {
 		NOT_EXISTING_ITEM.check(errorlist);
-		Assert.assertEquals(false, errorlist.empty());
+		assertEquals(false, errorlist.empty());
 	}
 
 	@Test
 	public void givenRightItem_whenGivenToCart_thenDontFillErrorList() {
 		testCart.addItem(RIGHT_ITEM, errorlist);
-		Assert.assertEquals(true, errorlist.empty());
+		assertEquals(true, errorlist.empty());
 	}
 
 	@Test
 	public void givenNegativePriceItem_whenGivenToCart_thenFillErrorList() {
 		testCart.addItem(WRONG_PRICE_ITEM, errorlist);
-		Assert.assertEquals(false, errorlist.empty());
+		assertEquals(false, errorlist.empty());
 	}
 
 	@Test
 	public void givenNotExistentItem_whenGeneralCheck_thenFillErrorList() {
 		testCart.addItem(NOT_EXISTING_ITEM, errorlist);
 		testCart.checkAllItems(errorlist);
-		Assert.assertEquals(false, errorlist.empty());
+		assertEquals(false, errorlist.empty());
 	}
 
 	@Test
 	public void givenWPNE_whenGivenAndGeneralCheck_thenTwoErrors() {
 		testCart.addItem(WPNE_ITEM, errorlist);
 		testCart.checkAllItems(errorlist);
-		Assert.assertEquals(true, errorlist.containsError(new ErrorNegativeItemPrice(TestV.NEGATIVE_PRICE)));
-		Assert.assertEquals(true, errorlist.containsError(new ErrorProductNotFound(TestV.WRONG_ITEMID)));
+		assertEquals(true, errorlist.containsError(new ErrorNegativeItemPrice(TestV.NEGATIVE_PRICE)));
+		assertEquals(true, errorlist.containsError(new ErrorProductNotFound(TestV.WRONG_ITEMID)));
 	}
 
 	@Test
 	public void givenNegativePriceItem_whenCheckTotal_thenFindNTotalError() {
 		testCart.addItem(WRONG_PRICE_ITEM, errorlist);
 		testCart.total(errorlist);
-		Assert.assertEquals(true,
-				errorlist.containsError(new ErrorNegativeTotal(TestV.NEGATIVE_PRICE * TestV.QUANTITY)));
+		assertEquals(true, errorlist.containsError(new ErrorNegativeTotal(TestV.NEGATIVE_PRICE * TestV.QUANTITY)));
 	}
 
 }
