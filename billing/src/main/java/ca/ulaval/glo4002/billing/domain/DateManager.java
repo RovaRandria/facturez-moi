@@ -7,10 +7,10 @@ import java.util.Date;
 
 public class DateManager {
 
-	static String format = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+	private final static String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
 	public static Date stringToDate(String string) {
-		DateFormat dateFormat = new SimpleDateFormat(format);
+		DateFormat dateFormat = new SimpleDateFormat(FORMAT);
 		try {
 			return dateFormat.parse(string);
 		} catch (ParseException e) {
@@ -22,7 +22,7 @@ public class DateManager {
 	}
 
 	public static String dateToString(Date date) {
-		return new SimpleDateFormat(format).format(date);
+		return new SimpleDateFormat(FORMAT).format(date);
 	}
 
 	public static String defaultDate() {

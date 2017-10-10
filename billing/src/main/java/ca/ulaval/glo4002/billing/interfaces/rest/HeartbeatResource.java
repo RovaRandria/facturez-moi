@@ -14,7 +14,7 @@ public class HeartbeatResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public HeartbeatDto GetHeartbeat(@QueryParam("token") String token) {
+  public HeartbeatDto getHeartbeat(@QueryParam("token") String token) {
     long timestamp = new Date().toInstant().toEpochMilli();
     return new HeartbeatDto(timestamp, token);
   }

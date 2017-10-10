@@ -20,7 +20,7 @@ public class Client {
 	@JsonSerialize
 	private ClientAddress address;
 	@JsonSerialize
-	private Object _links;
+	private Object links;
 
 	@JsonCreator
 	public Client(@JsonProperty("id") Integer id, @JsonProperty("category") ClientCategory category,
@@ -34,7 +34,7 @@ public class Client {
 		this.fullName = fullName;
 		this.email = email;
 		this.address = address;
-		this._links = _links;
+		this.links = _links;
 	}
 
 	public Integer getId() {

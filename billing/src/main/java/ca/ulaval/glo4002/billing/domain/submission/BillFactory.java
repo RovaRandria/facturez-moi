@@ -42,29 +42,33 @@ public class BillFactory {
 
 	private void setClientId(long clientId) {
 		this.clientId = clientId;
-		if (!BillResource.memoryClients.checkClientID(clientId))
+		if (!BillResource.memoryClients.checkClientID(clientId)) {
 			errorStack.addError(new ErrorClientNotFound(clientId));
+		}
 	}
 
 	private void setDate(String creationDate) {
-		if (creationDate == null)
+		if (creationDate == null) {
 			this.creationDate = DateManager.defaultDate();
-		else
+		} else {
 			this.creationDate = creationDate;
+		}
 	}
 
 	private void setItems(List<ItemForSubmission> items) {
 		this.items = new Cart();
-		for (ItemForSubmission item : items)
+		for (ItemForSubmission item : items) {
 			this.items.addItem(item, this.errorStack);
+		}
 		this.items.checkAllItems(this.errorStack);
 	}
 
 	private void setDueTerm(DueTerm dueTerm) {
-		if (dueTerm == null)
+		if (dueTerm == null) {
 			this.dueTerm = DueTerm.IMMEDIATE;
-		else
+		} else {
 			this.dueTerm = dueTerm;
+		}
 	}
 
 	public BillDto proccessing() throws Exception {
