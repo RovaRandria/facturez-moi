@@ -13,15 +13,15 @@ public class HeartbeatDto {
   }
 
   public HeartbeatDto(long timestamp, String token) {
-    SetToken(token);
-    SetDate(timestamp);
+    setToken(token);
+    setDate(timestamp);
   }
 
-  public void SetToken(String token) {
+  public void setToken(String token) {
     this.token = token;
   }
 
-  public void SetDate(long date) {
+  public void setDate(long date) {
     this.date = date;
   }
 }

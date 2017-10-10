@@ -25,9 +25,11 @@ public class ErrorStack {
   }
 
   public boolean containsError(ErrorBilling errorBilling) {
-    for (ErrorBilling error : errors)
-      if (error.equals(errorBilling))
+    for (ErrorBilling error : errors) {
+      if (error.equals(errorBilling)) {
         return true;
+      }
+    }
     return false;
   }
 
