@@ -1,5 +1,7 @@
 package billing;
 
+import static org.junit.Assert.*;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +15,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import ca.ulaval.glo4002.billing.domain.IdBill;
-import ca.ulaval.glo4002.billing.domain.client.Client;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
-import ca.ulaval.glo4002.billing.domain.product.Product;
 import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
@@ -27,7 +27,6 @@ import ca.ulaval.glo4002.errorManager.ErrorNegativeItemPrice;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeTotal;
 import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
-import junit.framework.Assert;
 
 public class TestSubmission {
 
@@ -35,9 +34,6 @@ public class TestSubmission {
 	private List<ItemForSubmission> NEGATIVE_PRICE_ITEMS = new ArrayList<ItemForSubmission>();
 	private List<ItemForSubmission> NNA_ITEMS = new ArrayList<ItemForSubmission>();
 	private List<ItemForSubmission> RIGHT_ITEMS = new ArrayList<ItemForSubmission>();
-
-	private Client RIGHT_CLIENT;
-	private Product RIGHT_PRODUCT;
 
 	@Mock
 	MemoryClients memoryClients;
@@ -60,9 +56,11 @@ public class TestSubmission {
 		Mockito.when(memoryProduct.productExists(TestV.WRONG_ITEMID)).thenReturn(false);
 
 		ItemForSubmission item1 = new ItemForSubmission(TestV.RIGHT_PRICE, "note1", TestV.RIGHT_ITEMID, TestV.QUANTITY);
-		ItemForSubmission item2 = new ItemForSubmission(TestV.NEGATIVE_PRICE, "note2", TestV.RIGHT_ITEMID, TestV.QUANTITY);
+		ItemForSubmission item2 = new ItemForSubmission(TestV.NEGATIVE_PRICE, "note2", TestV.RIGHT_ITEMID,
+				TestV.QUANTITY);
 		ItemForSubmission item3 = new ItemForSubmission(TestV.RIGHT_PRICE, "note3", TestV.WRONG_ITEMID, TestV.QUANTITY);
-		ItemForSubmission item4 = new ItemForSubmission(TestV.NEGATIVE_PRICE, "note4", TestV.WRONG_ITEMID, TestV.QUANTITY);
+		ItemForSubmission item4 = new ItemForSubmission(TestV.NEGATIVE_PRICE, "note4", TestV.WRONG_ITEMID,
+				TestV.QUANTITY);
 
 		RIGHT_ITEMS.add(item1);
 		NOT_AVAILABLE_ITEMS.add(item3);
@@ -79,7 +77,7 @@ public class TestSubmission {
 		BillDto billDto = new BillDto((new IdBill()).current() + 1, new BigDecimal(TestV.RIGHT_PRICE * TestV.QUANTITY),
 				DueTerm.IMMEDIATE);
 
-		Assert.assertEquals(true, billFactory.proccessing().equals(billDto));
+		assertEquals(true, billFactory.proccessing().equals(billDto));
 	}
 
 	@Test
@@ -87,7 +85,7 @@ public class TestSubmission {
 		BillFactory billFactory = new BillFactory(TestV.RIGHT_CLIENTID, TestV.MODEL_DATE, DueTerm.IMMEDIATE,
 				RIGHT_ITEMS);
 
-		Assert.assertEquals(true, (billFactory.wayOutFactory() instanceof BillDto));
+		assertEquals(true, (billFactory.wayOutFactory() instanceof BillDto));
 	}
 
 	@Test
@@ -97,7 +95,7 @@ public class TestSubmission {
 
 		ErrorClientNotFound errorClientNotFound = new ErrorClientNotFound(TestV.WRONG_CLIENTID);
 
-		Assert.assertEquals(true, billFactory.errorReport().containsError(errorClientNotFound));
+		assertEquals(true, billFactory.errorReport().containsError(errorClientNotFound));
 	}
 
 	@Test
@@ -105,7 +103,7 @@ public class TestSubmission {
 		BillFactory billFactory = new BillFactory(TestV.WRONG_CLIENTID, TestV.MODEL_DATE, DueTerm.IMMEDIATE,
 				RIGHT_ITEMS);
 
-		Assert.assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
+		assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
 	}
 
 	@Test
@@ -116,8 +114,8 @@ public class TestSubmission {
 		ErrorNegativeItemPrice errorNegativeItemPrice = new ErrorNegativeItemPrice(TestV.NEGATIVE_PRICE);
 		ErrorNegativeTotal errorNegativeTotal = new ErrorNegativeTotal(TestV.NEGATIVE_PRICE * TestV.QUANTITY);
 
-		Assert.assertEquals(true, billFactory.errorReport().containsError(errorNegativeItemPrice));
-		Assert.assertEquals(true, billFactory.errorReport().containsError(errorNegativeTotal));
+		assertEquals(true, billFactory.errorReport().containsError(errorNegativeItemPrice));
+		assertEquals(true, billFactory.errorReport().containsError(errorNegativeTotal));
 	}
 
 	@Test
@@ -125,7 +123,7 @@ public class TestSubmission {
 		BillFactory billFactory = new BillFactory(TestV.RIGHT_CLIENTID, TestV.MODEL_DATE, DueTerm.IMMEDIATE,
 				NEGATIVE_PRICE_ITEMS);
 
-		Assert.assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
+		assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
 	}
 
 	@Test
@@ -135,7 +133,7 @@ public class TestSubmission {
 
 		ErrorProductNotFound errorProductNotFound = new ErrorProductNotFound(TestV.WRONG_ITEMID);
 
-		Assert.assertEquals(true, billFactory.errorReport().containsError(errorProductNotFound));
+		assertEquals(true, billFactory.errorReport().containsError(errorProductNotFound));
 	}
 
 	@Test
@@ -143,7 +141,7 @@ public class TestSubmission {
 		BillFactory billFactory = new BillFactory(TestV.RIGHT_CLIENTID, TestV.MODEL_DATE, DueTerm.IMMEDIATE,
 				NOT_AVAILABLE_ITEMS);
 
-		Assert.assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
+		assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
 	}
 
 	@Test
@@ -155,9 +153,9 @@ public class TestSubmission {
 		ErrorNegativeItemPrice errorNegativeItemPrice = new ErrorNegativeItemPrice(TestV.NEGATIVE_PRICE);
 		ErrorNegativeTotal errorNegativeTotal = new ErrorNegativeTotal(TestV.NEGATIVE_PRICE * TestV.QUANTITY);
 
-		Assert.assertEquals(true, billFactory.errorReport().containsError(errorProductNotFound));
-		Assert.assertEquals(true, billFactory.errorReport().containsError(errorNegativeItemPrice));
-		Assert.assertEquals(true, billFactory.errorReport().containsError(errorNegativeTotal));
+		assertEquals(true, billFactory.errorReport().containsError(errorProductNotFound));
+		assertEquals(true, billFactory.errorReport().containsError(errorNegativeItemPrice));
+		assertEquals(true, billFactory.errorReport().containsError(errorNegativeTotal));
 	}
 
 	@Test
@@ -165,6 +163,6 @@ public class TestSubmission {
 		BillFactory billFactory = new BillFactory(TestV.RIGHT_CLIENTID, TestV.MODEL_DATE, DueTerm.IMMEDIATE,
 				NOT_AVAILABLE_ITEMS);
 
-		Assert.assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
+		assertEquals(true, (billFactory.wayOutFactory() instanceof ErrorStack));
 	}
 }

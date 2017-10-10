@@ -1,11 +1,12 @@
 package billing;
 
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4002.errorManager.ErrorBilling;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
-import junit.framework.Assert;
 
 public class TestErrorManager {
 
@@ -22,24 +23,24 @@ public class TestErrorManager {
 	@Test
 	public void givenAnyError_whenStackWereEmpty_thenRetunNotEmpty() {
 		ERRORLIST.addError(ANYERROR);
-		Assert.assertEquals(false, ERRORLIST.empty());
+		assertEquals(false, ERRORLIST.empty());
 	}
 
 	@Test
 	public void givenNothing_whenStackWereEmpty_thenRetunEmpty() {
-		Assert.assertEquals(true, ERRORLIST.empty());
+		assertEquals(true, ERRORLIST.empty());
 	}
 
 	@Test
 	public void givenAnyError_whenStackWereEmpty_thenErrorFound() {
 		ERRORLIST.addError(ANYERROR);
-		Assert.assertEquals(true, ERRORLIST.containsError(ANYERROR));
+		assertEquals(true, ERRORLIST.containsError(ANYERROR));
 	}
 
 	@Test
 	public void givenAnyError_whenStackWereEmpty_thenErrorNotSameObjectFound() {
 		ERRORLIST.addError(ANYERROR);
-		Assert.assertEquals(true, ERRORLIST.containsError(new ErrorBilling(test, test, test)));
+		assertEquals(true, ERRORLIST.containsError(new ErrorBilling(test, test, test)));
 	}
 
 }
