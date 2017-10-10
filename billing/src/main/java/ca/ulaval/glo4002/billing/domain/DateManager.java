@@ -7,26 +7,26 @@ import java.util.Date;
 
 public class DateManager {
 
-	private final static String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+  private final static String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-	public static Date stringToDate(String string) {
-		DateFormat dateFormat = new SimpleDateFormat(FORMAT);
-		try {
-			return dateFormat.parse(string);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return new Date();
-		// courtesy to
-		// stackoverflow.com/questions/35952809/java-convert-string-in-iso-instant-format-to-date
-	}
+  public static Date stringToDate(String string) {
+    DateFormat dateFormat = new SimpleDateFormat(FORMAT);
+    try {
+      return dateFormat.parse(string);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return new Date();
+    // courtesy to
+    // stackoverflow.com/questions/35952809/java-convert-string-in-iso-instant-format-to-date
+  }
 
-	public static String dateToString(Date date) {
-		return new SimpleDateFormat(FORMAT).format(date);
-	}
+  public static String dateToString(Date date) {
+    return new SimpleDateFormat(FORMAT).format(date);
+  }
 
-	public static String defaultDate() {
-		return dateToString(new Date());
-	}
+  public static String defaultDate() {
+    return dateToString(new Date());
+  }
 
 }
