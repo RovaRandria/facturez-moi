@@ -12,12 +12,25 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ca.ulaval.glo4002.billing.domain.submission.BillFactory;;
+import ca.ulaval.glo4002.billing.application.ClientService;
+import ca.ulaval.glo4002.billing.application.ProductService;
+import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
+import ca.ulaval.glo4002.billing.memory.MemoryClients;
+import ca.ulaval.glo4002.billing.memory.MemoryProduct;;
 
 @Path("/bills")
 public class BillResource {
 
+	public static MemoryClients memoryClients;
+	public static MemoryProduct memoryProduct;
+	public static ClientService clientService;
+	public static ProductService productService;
+
 	public BillResource() {
+		memoryClients = new MemoryClients();
+		memoryProduct = new MemoryProduct();
+		clientService = new ClientService(memoryClients);
+		productService = new ProductService(memoryProduct);
 	}
 
 	@POST

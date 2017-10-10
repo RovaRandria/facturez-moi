@@ -18,6 +18,7 @@ import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
 import ca.ulaval.glo4002.billing.dto.BillDto;
+import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForSubmission;
 import ca.ulaval.glo4002.billing.memory.MemoryClients;
 import ca.ulaval.glo4002.billing.memory.MemoryProduct;
@@ -45,8 +46,8 @@ public class TestSubmission {
 
 	@Before
 	public void init() {
-		BillFactory.memoryClients = memoryClients;
-		BillFactory.memoryProduct = memoryProduct;
+		BillResource.memoryClients = memoryClients;
+		BillResource.memoryProduct = memoryProduct;
 
 		Mockito.when(memoryClients.checkClientID(TestV.RIGHT_CLIENTID)).thenReturn(true);
 		Mockito.when(memoryProduct.productExists(TestV.RIGHT_ITEMID)).thenReturn(true);
