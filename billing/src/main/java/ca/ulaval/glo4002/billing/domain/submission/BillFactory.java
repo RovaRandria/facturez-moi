@@ -31,8 +31,8 @@ public class BillFactory {
 
 	private IdBill indice;
 	private MemorySubmission memBill;
-	private MemoryClients memoryClients;
-	private MemoryProduct memoryProduct;
+	public static MemoryClients memoryClients;
+	public static MemoryProduct memoryProduct;
 
 	@JsonCreator
 	public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
