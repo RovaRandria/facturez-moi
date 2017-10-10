@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
+import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 import ca.ulaval.glo4002.billing.itemsManager.Cart;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForSubmission;
 import ca.ulaval.glo4002.billing.memory.MemoryProduct;
@@ -41,7 +41,7 @@ public class TestItemForBill {
     errorlist = new ErrorStack();
     testCart = new Cart();
 
-		BillFactory.memoryProduct = memoryProduct;
+		BillResource.memoryProduct = memoryProduct;
 		Mockito.when(memoryProduct.productExists(TestV.RIGHT_ITEMID)).thenReturn(true);
 		Mockito.when(memoryProduct.productExists(TestV.WRONG_ITEMID)).thenReturn(false);
 

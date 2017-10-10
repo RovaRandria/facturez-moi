@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
+import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
 
@@ -40,7 +40,7 @@ public class ItemForSubmission {
   }
 
 	public void check(ErrorStack errorList) {
-		if (!BillFactory.memoryProduct.productExists(this.productId)) {
+		if (!BillResource.memoryProduct.productExists(this.productId)) {
 			errorList.addError(new ErrorProductNotFound(this.productId));
 		}
 	}
