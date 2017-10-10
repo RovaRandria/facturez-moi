@@ -2,8 +2,6 @@ package billing;
 
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +16,7 @@ public class TestProduct {
 	@Before
 	public void init() {
 		memoryProduct = new MemoryProduct();
-		product = new Product(1, "bla", new BigDecimal(2), null);
+		product = new Product(TestV.PRODUCT_ID, TestV.PRODUCT_NAME, TestV.PRODUCT_PRICE, TestV.PRODUCT_LINKS);
 	}
 
 	@Test
@@ -26,7 +24,7 @@ public class TestProduct {
 		memoryProduct.saveProduct(product);
 		Product expectedProduct;
 		try {
-			expectedProduct = memoryProduct.getProductByID(1);
+			expectedProduct = memoryProduct.getProductByID(TestV.PRODUCT_ID);
 		} catch (Exception e) {
 			expectedProduct = new Product(null, null, null, null);
 		}
@@ -38,7 +36,7 @@ public class TestProduct {
 		memoryProduct.saveProduct(product);
 		Product expectedProduct;
 		try {
-			expectedProduct = memoryProduct.getProductByID(0);
+			expectedProduct = memoryProduct.getProductByID(TestV.WRONG_PRODUCT_ID);
 		} catch (Exception e) {
 			expectedProduct = new Product(null, null, null, null);
 		}
@@ -48,12 +46,12 @@ public class TestProduct {
 	@Test
 	public void givenAProduct_whenIsSaved_thenItExists() {
 		memoryProduct.saveProduct(product);
-		assertTrue(memoryProduct.productExists(1));
+		assertTrue(memoryProduct.productExists(TestV.PRODUCT_ID));
 	}
 
 	@Test
 	public void givenAWrongProductID_whenIsSaved_thenDoesNotExists() {
 		memoryProduct.saveProduct(product);
-		assertFalse(memoryProduct.productExists(0));
+		assertFalse(memoryProduct.productExists(TestV.WRONG_PRODUCT_ID));
 	}
 }
