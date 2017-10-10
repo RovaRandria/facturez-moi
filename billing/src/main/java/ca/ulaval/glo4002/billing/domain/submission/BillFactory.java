@@ -1,11 +1,5 @@
 package ca.ulaval.glo4002.billing.domain.submission;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import ca.ulaval.glo4002.billing.domain.DateManager;
 import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
@@ -31,29 +25,29 @@ public class BillFactory {
   private BigDecimal total;
   private ErrorStack errorStack;
 
-	private IdBill indice;
-	private MemorySubmission memBill;
+  private IdBill indice;
+  private MemorySubmission memBill;
 
-	@JsonCreator
-	public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
-			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForSubmission> items) {
-		this.errorStack = new ErrorStack();
-		setClientId(clientId);
-		setDate(creationDate);
-		setItems(items);
-		setDueTerm(dueTerm);
-		this.total = this.items.total(this.errorStack);
+  @JsonCreator
+  public BillFactory(@JsonProperty("clientId") long clientId, @JsonProperty("creationDate") String creationDate,
+                     @JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ItemForSubmission> items) {
+    this.errorStack = new ErrorStack();
+    setClientId(clientId);
+    setDate(creationDate);
+    setItems(items);
+    setDueTerm(dueTerm);
+    this.total = this.items.total(this.errorStack);
 
-		indice = new IdBill();
-		memBill = new MemorySubmission();
-	}
+    indice = new IdBill();
+    memBill = new MemorySubmission();
+  }
 
-	private void setClientId(long clientId) {
-		this.clientId = clientId;
-		if (!BillResource.memoryClients.checkClientID(clientId)) {
-			errorStack.addError(new ErrorClientNotFound(clientId));
-		}
-	}
+  private void setClientId(long clientId) {
+    this.clientId = clientId;
+    if (!BillResource.memoryClients.checkClientID(clientId)) {
+      errorStack.addError(new ErrorClientNotFound(clientId));
+    }
+  }
 
   private void setDate(String creationDate) {
     if (creationDate == null) {

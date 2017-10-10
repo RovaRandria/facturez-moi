@@ -1,15 +1,5 @@
 package billing;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
 import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 import ca.ulaval.glo4002.billing.itemsManager.Cart;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForSubmission;
@@ -18,6 +8,16 @@ import ca.ulaval.glo4002.errorManager.ErrorNegativeItemPrice;
 import ca.ulaval.glo4002.errorManager.ErrorNegativeTotal;
 import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
 import ca.ulaval.glo4002.errorManager.ErrorStack;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestItemForBill {
 
@@ -41,9 +41,9 @@ public class TestItemForBill {
     errorlist = new ErrorStack();
     testCart = new Cart();
 
-		BillResource.memoryProduct = memoryProduct;
-		Mockito.when(memoryProduct.productExists(TestV.RIGHT_ITEMID)).thenReturn(true);
-		Mockito.when(memoryProduct.productExists(TestV.WRONG_ITEMID)).thenReturn(false);
+    BillResource.memoryProduct = memoryProduct;
+    Mockito.when(memoryProduct.productExists(TestV.RIGHT_ITEMID)).thenReturn(true);
+    Mockito.when(memoryProduct.productExists(TestV.WRONG_ITEMID)).thenReturn(false);
 
     RIGHT_ITEM = new ItemForSubmission(TestV.RIGHT_PRICE, average_note, TestV.RIGHT_ITEMID, TestV.QUANTITY);
     WRONG_PRICE_ITEM = new ItemForSubmission(TestV.NEGATIVE_PRICE, average_note, TestV.RIGHT_ITEMID,

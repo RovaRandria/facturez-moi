@@ -1,19 +1,5 @@
 package billing;
 
-import static org.junit.Assert.*;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
 import ca.ulaval.glo4002.billing.domain.IdBill;
 import ca.ulaval.glo4002.billing.domain.client.DueTerm;
 import ca.ulaval.glo4002.billing.domain.submission.BillFactory;
@@ -22,11 +8,18 @@ import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 import ca.ulaval.glo4002.billing.itemsManager.ItemForSubmission;
 import ca.ulaval.glo4002.billing.memory.MemoryClients;
 import ca.ulaval.glo4002.billing.memory.MemoryProduct;
-import ca.ulaval.glo4002.errorManager.ErrorClientNotFound;
-import ca.ulaval.glo4002.errorManager.ErrorNegativeItemPrice;
-import ca.ulaval.glo4002.errorManager.ErrorNegativeTotal;
-import ca.ulaval.glo4002.errorManager.ErrorProductNotFound;
-import ca.ulaval.glo4002.errorManager.ErrorStack;
+import ca.ulaval.glo4002.errorManager.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,10 +39,10 @@ public class TestSubmission {
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-	@Before
-	public void init() {
-		BillResource.memoryClients = memoryClients;
-		BillResource.memoryProduct = memoryProduct;
+  @Before
+  public void init() {
+    BillResource.memoryClients = memoryClients;
+    BillResource.memoryProduct = memoryProduct;
 
     Mockito.when(memoryClients.checkClientID(TestV.RIGHT_CLIENTID)).thenReturn(true);
     Mockito.when(memoryProduct.productExists(TestV.RIGHT_ITEMID)).thenReturn(true);
