@@ -12,4 +12,20 @@ public class Item {
 		this.productId = productId;
 		this.quantity = quantity;
 	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
 }
