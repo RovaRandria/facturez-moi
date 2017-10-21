@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ca.ulaval.glo4002.billing.domain.Item;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 
-public class RequestBillDto {
+public class OrderDto {
 
 	@JsonProperty("clientId")
 	ClientID clientId;
@@ -24,7 +24,7 @@ public class RequestBillDto {
 	List<Item> items;
 
 	@JsonCreator
-	public RequestBillDto(ClientID clientId, Date creationDate, DueTerm dueTerm, List<Item> items) {
+	public OrderDto(ClientID clientId, Date creationDate, DueTerm dueTerm, List<Item> items) {
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.dueTerm = dueTerm;

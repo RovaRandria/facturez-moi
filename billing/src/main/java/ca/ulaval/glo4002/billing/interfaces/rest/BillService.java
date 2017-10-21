@@ -1,11 +1,11 @@
 package ca.ulaval.glo4002.billing.interfaces.rest;
 
-import ca.ulaval.glo4002.billing.dto.RequestBillDto;
-import ca.ulaval.glo4002.billing.dto.ResponseBillDto;
+import ca.ulaval.glo4002.billing.dto.OrderDto;
+import ca.ulaval.glo4002.billing.dto.BillDto;
 
 public class BillService {
 
-	public ResponseBillDto create(RequestBillDto bill) {
+	public BillDto create(OrderDto bill) {
 		return null;
 	}
 

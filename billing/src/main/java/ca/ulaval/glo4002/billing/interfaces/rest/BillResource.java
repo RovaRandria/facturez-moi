@@ -6,8 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import ca.ulaval.glo4002.billing.dto.RequestBillDto;
-import ca.ulaval.glo4002.billing.dto.ResponseBillDto;
+import ca.ulaval.glo4002.billing.dto.OrderDto;
+import ca.ulaval.glo4002.billing.dto.BillDto;
 
 @Path("/bills")
 public class BillResource {
@@ -15,9 +15,9 @@ public class BillResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ResponseBillDto create(RequestBillDto bill) {
+	public BillDto create(OrderDto bill) {
 		BillService billService = new BillService();
-		ResponseBillDto response = billService.create(bill);
+		BillDto response = billService.create(bill);
 		return response;
 	}
 

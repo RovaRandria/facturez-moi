@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import ca.ulaval.glo4002.billing.dto.RequestBillDto;
+import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 
 public class TestBillResource {
@@ -16,7 +16,7 @@ public class TestBillResource {
 	BillResource billResource;
 
 	@Mock
-	RequestBillDto requestBillDto;
+	OrderDto requestBillDto;
 
 	@Rule
 	public MockitoRule mockitoRule = MockitoJUnit.rule();
