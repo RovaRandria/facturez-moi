@@ -16,14 +16,14 @@ public class TestBillResource {
 	BillResource billResource;
 
 	@Mock
-	OrderDto requestBillDto;
+	OrderDto orderDto;
 
 	@Rule
 	public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 	@Test
 	public void givenBillResource_whenCreate_thenCreateIsCalled() {
-		billResource.create(requestBillDto);
-		Mockito.verify(billResource).create(requestBillDto);
+		billResource.create(orderDto);
+		Mockito.verify(billResource).create(orderDto);
 	}
 }

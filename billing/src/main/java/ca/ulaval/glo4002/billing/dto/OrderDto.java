@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.billing.dto;
 import java.util.Date;
 import java.util.List;
 
+import ca.ulaval.glo4002.billing.domain.clients.ClientID;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.interfaces.rest;
+package ca.ulaval.glo4002.billing.services;
 
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.BillDto;
