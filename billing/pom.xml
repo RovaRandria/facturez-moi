@@ -21,6 +21,8 @@
     <jackson.core.version>2.9.1</jackson.core.version>
     <glassfish.jersey.containers.version>2.26</glassfish.jersey.containers.version>
     <maven-checkstyle.version>2.17</maven-checkstyle.version>
+    <version.sun.jersey>1.19.4</version.sun.jersey>
+    
   </properties>
 
   <dependencies>
@@ -55,7 +57,24 @@
       <version>${glassfish.jersey.containers.version}</version>
       <scope>runtime</scope>
     </dependency>
+    
+    
+    <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
+    <dependency>
+        <groupId>com.sun.jersey</groupId>
+        <artifactId>jersey-client</artifactId>
+        <version>${version.sun.jersey}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
+    <dependency>
+        <groupId>com.sun.jersey</groupId>
+        <artifactId>jersey-json</artifactId>
+        <version>${version.sun.jersey}</version>
+    </dependency>
+    
   </dependencies>
+  
+  
 
   <reporting>
     <plugins>
