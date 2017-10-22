@@ -5,31 +5,33 @@ import java.util.List;
 
 import ca.ulaval.glo4002.billing.domain.Item;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
+import ca.ulaval.glo4002.billing.domain.clients.ClientRepository;
 import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
+import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.repository.InMemoryClientRepository;
 
 public class BillService {
-	InMemoryClientRepository inMemoryClientRepository;
+	ClientRepository clientRepository;
 
 	public BillService() {
-		this.inMemoryClientRepository = new InMemoryClientRepository();
+		this.clientRepository = new InMemoryClientRepository();
 	}
 
-	public BillService(InMemoryClientRepository inMemoryClientRepository) {
-		this.inMemoryClientRepository = inMemoryClientRepository;
+	public BillService(ClientRepository clientRepository) {
+		this.clientRepository = clientRepository;
 	}
 
 	public BillDto create(OrderDto order) {
-		if (clientExist(order.getClientId())) {
+		if (clientExists(order.getClientId())) {
 
 		}
 		return null;
 	}
 
-	public boolean clientExist(ClientId clientId) {
-		CrmClient crmClient = inMemoryClientRepository.getClient(clientId);
+	public boolean clientExists(ClientId clientId) {
+		CrmClient crmClient = clientRepository.getClient(clientId);
 		return crmClient.getClientId().getId() == clientId.getId();
 	}
 
@@ -42,4 +44,11 @@ public class BillService {
 		return total;
 	}
 
+	public boolean dueTermIsValid(CrmDueTerm dueTerm) {
+        return dueTerm != null;
+	}
+
+    public CrmDueTerm useClientDueTerm(ClientId clientId) {
+        return clientRepository.getClient(clientId).getDefaultTerm();
+    }
 }

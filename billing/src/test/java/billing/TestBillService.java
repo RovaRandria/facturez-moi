@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class TestBillService {
 		ClientId clientId = new ClientId(GOOD_CLIENT);
 		client = new CrmClient(clientId);
 		Mockito.when(inMemoryClientRepository.getClient(clientId)).thenReturn(client);
-		boolean returnedValue = service.clientExist(clientId);
+		boolean returnedValue = service.clientExists(clientId);
 		assertTrue(returnedValue);
 	}
 
@@ -55,7 +56,7 @@ public class TestBillService {
 		ClientId badClientId = new ClientId(WRONG_CLIENT);
 		client = new CrmClient(goodClientId);
 		Mockito.when(inMemoryClientRepository.getClient(badClientId)).thenReturn(client);
-		boolean returnedValue = service.clientExist(badClientId);
+		boolean returnedValue = service.clientExists(badClientId);
 		assertFalse(returnedValue);
 	}
 
@@ -69,6 +70,29 @@ public class TestBillService {
 		BigDecimal expectedTotal = new BigDecimal(EXPECTED_TOTAL);
 		assertEquals(total, expectedTotal);
 	}
+
+	@Test
+    public void givenOrder_whenDueTermIsValid_thenReturnTrue() {
+        boolean dueTerm = service.dueTermIsValid(CrmDueTerm.IMMEDIATE);
+        assertTrue(dueTerm);
+    }
+
+    @Test
+    public void givenOrder_whenDueTermIsNotValid_thenReturnFalse() {
+        final CrmDueTerm INVALID_DUE_TERM = null;
+	    boolean dueTerm = service.dueTermIsValid(INVALID_DUE_TERM);
+	    assertFalse(dueTerm);
+    }
+
+    @Test
+    public void givenOrder_whenDueTermIsAbsent_thenUseClientDueTerm() {
+        ClientId goodClientId = new ClientId(GOOD_CLIENT);
+        client = new CrmClient(goodClientId, null, null, CrmDueTerm.DAYS30, "John Doe",
+                "john.doe@example.com", null);
+        Mockito.when(inMemoryClientRepository.getClient(goodClientId)).thenReturn(client);
+        CrmDueTerm clientDueTerm = service.useClientDueTerm(goodClientId);
+        assertEquals(CrmDueTerm.DAYS30, clientDueTerm);
+    }
 
 	private void fillItems(int nbItems) {
 		float price = 1;
