@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import ca.ulaval.glo4002.billing.domain.Item;
+import ca.ulaval.glo4002.billing.domain.bills.Bill;
+import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.ClientRepository;
 import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
@@ -13,31 +15,49 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
-import ca.ulaval.glo4002.billing.repository.InMemoryClientRepository;
-import ca.ulaval.glo4002.billing.repository.InMemoryProductRepository;
+import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
+import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
+import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
 
 public class BillService {
 	ClientRepository clientRepository;
 	ProductRepository productRepository;
+	BillRepository billRepository;
 
 	public BillService() {
-		this.clientRepository = new InMemoryClientRepository();
-		this.productRepository = new InMemoryProductRepository();
+		this.clientRepository = new CrmClientRepository();
+		this.productRepository = new CrmProductRepository();
+		this.billRepository = new InMemoryBillRepository();
 	}
 
-	public BillService(ClientRepository clientRepository, ProductRepository productRepository) {
+	public BillService(ClientRepository clientRepository, ProductRepository productRepository,
+                       BillRepository billRepository)
+    {
 		this.clientRepository = clientRepository;
 		this.productRepository = productRepository;
+		this.billRepository = billRepository;
 	}
 
 	public BillDto create(OrderDto order) {
-		if (clientAndProductExist(order)) {
+        BillDto billDto = null;
 
+		if (clientAndProductsExist(order)) {
+		    // TODO Replace createBill with a BillFactory
+            Bill bill = createBill(order);
+            billRepository.saveBill(bill);
+            billDto = new BillDto();
 		}
-		return null;
+
+		return billDto;
 	}
 
-	public BigDecimal getTotal(List<Item> items) {
+	private Bill createBill(OrderDto order) {
+        BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
+        return new Bill(billIdGenerator.getId(), order.getClientId(), order.getDate(), order.getDueTerm(),
+                order.getItems());
+    }
+
+    public BigDecimal getTotal(List<Item> items) {
 		BigDecimal total = new BigDecimal(0);
 		for (Item item : items) {
 			BigDecimal itemTotalPrice = new BigDecimal(item.getPrice() * item.getQuantity());
@@ -74,7 +94,7 @@ public class BillService {
 		return product != null;
 	}
 
-	public boolean clientAndProductExist(OrderDto order) {
+	public boolean clientAndProductsExist(OrderDto order) {
 		if (clientExists(order.getClientId()) && eachProductsExist(order.getItems())) {
 			return true;
 		}

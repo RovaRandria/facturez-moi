@@ -6,14 +6,23 @@ import ca.ulaval.glo4002.billing.domain.bills.BillId;
 
 public class BillIdGenerator {
 
-	private AtomicLong id;
+    private static BillIdGenerator billIdGenerator = null;
+	private static AtomicLong id;
 
-	public BillIdGenerator() {
+	private BillIdGenerator() {
 		this.id = new AtomicLong();
 	}
 
 	public BillId getId() {
 		return new BillId(id.incrementAndGet());
 	}
+
+	public static BillIdGenerator getInstance() {
+	    if (billIdGenerator == null) {
+	        billIdGenerator = new BillIdGenerator();
+        }
+
+        return billIdGenerator;
+    }
 
 }

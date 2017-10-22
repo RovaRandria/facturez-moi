@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.interfaces.BillingProperties;
 
-public class InMemoryProductRepository implements ProductRepository {
+public class CrmProductRepository implements ProductRepository {
 
 	private final String CRM_PRODUCTS_URL = "crmProductsUrl";
 

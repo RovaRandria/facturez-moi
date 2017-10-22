@@ -11,7 +11,7 @@ public class TestBillIdGenerator {
 
 	@Test
 	public void givenBillIdGenerator_whenCreatingNewId_thenNewIdIsIncrementedByOne() {
-		BillIdGenerator billIdGenerator = new BillIdGenerator();
+		BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
 		BillId firstId = billIdGenerator.getId();
 		BillId secondId = billIdGenerator.getId();
 		assertEquals(firstId.getId() + 1, secondId.getId());

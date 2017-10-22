@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,8 +21,8 @@ import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
 import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
 import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
-import ca.ulaval.glo4002.billing.repository.InMemoryClientRepository;
-import ca.ulaval.glo4002.billing.repository.InMemoryProductRepository;
+import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
+import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.services.BillService;
 
 public class TestBillService {
@@ -33,17 +34,20 @@ public class TestBillService {
 	private List<Item> items;
 
 	@Mock
-	private InMemoryClientRepository inMemoryClientRepository;
+	private CrmClientRepository crmClientRepository;
 
 	@Mock
-	private InMemoryProductRepository inMemoryProductRepository;
+	private CrmProductRepository crmProductRepository;
+
+	@Mock
+    private InMemoryBillRepository inMemoryBillRepository;
 
 	@Rule
 	public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 	@Before
 	public void init() {
-		service = new BillService(inMemoryClientRepository, inMemoryProductRepository);
+		service = new BillService(crmClientRepository, crmProductRepository, inMemoryBillRepository);
 		items = new ArrayList<>();
 	}
 
@@ -51,7 +55,7 @@ public class TestBillService {
 	public void givenClientId_whenClientExists_thenReturnTrue() {
 		ClientId clientId = new ClientId(GOOD_ID);
 		client = new CrmClient(clientId);
-		Mockito.when(inMemoryClientRepository.getClient(clientId)).thenReturn(client);
+		Mockito.when(crmClientRepository.getClient(clientId)).thenReturn(client);
 		boolean returnedValue = service.clientExists(clientId);
 		assertTrue(returnedValue);
 	}
@@ -59,7 +63,7 @@ public class TestBillService {
 	@Test
 	public void givenClientId_whenClientDoesNotExists_thenReturnFalse() {
 		ClientId badClientId = new ClientId(WRONG_ID);
-		Mockito.when(inMemoryClientRepository.getClient(badClientId)).thenReturn(null);
+		Mockito.when(crmClientRepository.getClient(badClientId)).thenReturn(null);
 		boolean returnedValue = service.clientExists(badClientId);
 		assertFalse(returnedValue);
 	}
@@ -92,7 +96,7 @@ public class TestBillService {
 	public void givenOrder_whenDueTermIsAbsent_thenUseClientDueTerm() {
 		ClientId goodClientId = new ClientId(GOOD_ID);
 		client = new CrmClient(goodClientId, null, null, CrmDueTerm.DAYS30, "John Doe", "john.doe@example.com", null);
-		Mockito.when(inMemoryClientRepository.getClient(goodClientId)).thenReturn(client);
+		Mockito.when(crmClientRepository.getClient(goodClientId)).thenReturn(client);
 		CrmDueTerm clientDueTerm = service.useClientDueTerm(goodClientId);
 		assertEquals(CrmDueTerm.DAYS30, clientDueTerm);
 	}
@@ -101,7 +105,7 @@ public class TestBillService {
 	public void givenOrder_whenProductIsValid_thenReturnTrue() {
 		ProductId goodProductId = new ProductId(GOOD_ID);
 		CrmProduct product = new CrmProduct(goodProductId);
-		Mockito.when(inMemoryProductRepository.getProduct(goodProductId)).thenReturn(product);
+		Mockito.when(crmProductRepository.getProduct(goodProductId)).thenReturn(product);
 		boolean productExists = service.productExists(goodProductId);
 		assertTrue(productExists);
 	}
@@ -109,7 +113,7 @@ public class TestBillService {
 	@Test
 	public void givenOrder_whenProductIsNotValid_thenReturnFalse() {
 		ProductId wrongProductId = new ProductId(WRONG_ID);
-		Mockito.when(inMemoryProductRepository.getProduct(wrongProductId)).thenReturn(null);
+		Mockito.when(crmProductRepository.getProduct(wrongProductId)).thenReturn(null);
 		boolean productExists = service.productExists(wrongProductId);
 		assertFalse(productExists);
 	}

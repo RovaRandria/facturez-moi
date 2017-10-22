@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.billing.domain.clients.ClientRepository;
 import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
 import ca.ulaval.glo4002.billing.interfaces.BillingProperties;
 
-public class InMemoryClientRepository implements ClientRepository {
+public class CrmClientRepository implements ClientRepository {
 
 	private final String CRM_CLIENTS_URL = "crmClientsUrl";
 
