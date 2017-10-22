@@ -50,7 +50,7 @@ public class TestBillService {
 	}
 
 	@Test
-	public void givenClientId_whenClientExists_thenReturnFalse() {
+	public void givenClientId_whenClientDoesNotExists_thenReturnFalse() {
 		ClientId goodClientId = new ClientId(GOOD_CLIENT);
 		ClientId badClientId = new ClientId(WRONG_CLIENT);
 		client = new CrmClient(goodClientId);

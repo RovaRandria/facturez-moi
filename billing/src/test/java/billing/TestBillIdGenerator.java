@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.billing.services.BillIdGenerator;
 public class TestBillIdGenerator {
 
 	@Test
-	public void givenBillIdGenerator_whenCreatingNewId_thenIdIsUnique() {
+	public void givenBillIdGenerator_whenCreatingNewId_thenNewIdIsIncrementedByOne() {
 		BillIdGenerator billIdGenerator = new BillIdGenerator();
 		BillId firstId = billIdGenerator.getId();
 		BillId secondId = billIdGenerator.getId();
