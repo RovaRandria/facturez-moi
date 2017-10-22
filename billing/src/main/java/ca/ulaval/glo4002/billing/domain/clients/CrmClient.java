@@ -14,6 +14,12 @@ public class CrmClient {
 
 	public CrmClient(ClientId id) {
 		this.id = id;
+		this.category = null;
+		this.creationDate = null;
+		this.defaultTerm = null;
+		this.fullName = "";
+		this.email = "";
+		this.address = null;
 	}
 
 	public CrmClient(ClientId id, CrmClientCategory category, Instant creationDate, CrmDueTerm defaultTerm,

@@ -12,11 +12,13 @@ import ca.ulaval.glo4002.billing.interfaces.BillingProperties;
 
 public class InMemoryClientRepository implements ClientRepository {
 
+	private final String CRM_CLIENTS_URL = "crmClientsUrl";
+
 	@Override
 	public CrmClient getClient(ClientId id) {
 		Client client = Client.create();
 		WebResource resource = client
-				.resource(BillingProperties.getInstance().getProperty("crmClientsUrl") + id.getId());
+				.resource(BillingProperties.getInstance().getProperty(CRM_CLIENTS_URL) + id.getId());
 		CrmClient crmClient = resource.type(MediaType.APPLICATION_JSON).get(CrmClient.class);
 		return crmClient;
 	}

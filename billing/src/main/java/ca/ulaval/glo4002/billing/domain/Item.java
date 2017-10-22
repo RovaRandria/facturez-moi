@@ -1,12 +1,14 @@
 package ca.ulaval.glo4002.billing.domain;
 
+import ca.ulaval.glo4002.billing.domain.products.ProductId;
+
 public class Item {
 	private float price;
 	private String note;
-	private int productId;
+	private ProductId productId;
 	private int quantity;
 
-	public Item(float price, String note, int productId, int quantity) {
+	public Item(float price, String note, ProductId productId, int quantity) {
 		this.price = price;
 		this.note = note;
 		this.productId = productId;
@@ -21,7 +23,7 @@ public class Item {
 		return note;
 	}
 
-	public int getProductId() {
+	public ProductId getProductId() {
 		return productId;
 	}
 
