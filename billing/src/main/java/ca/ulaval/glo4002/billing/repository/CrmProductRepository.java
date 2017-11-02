@@ -18,7 +18,7 @@ public class CrmProductRepository implements ProductRepository {
 	public CrmProduct getProduct(ProductId id) {
 		Client client = Client.create();
 		WebResource resource = client
-				.resource(BillingProperties.getInstance().getProperty(CRM_PRODUCTS_URL) + id.getId());
+				.resource(BillingProperties.getInstance().getProperty(CRM_PRODUCTS_URL) + id.toString());
 		CrmProduct crmProduct = resource.type(MediaType.APPLICATION_JSON).get(CrmProduct.class);
 		// TODO - Make sure it returns null if does not exist
 		return crmProduct;

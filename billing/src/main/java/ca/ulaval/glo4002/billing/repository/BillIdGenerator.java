@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.services;
+package ca.ulaval.glo4002.billing.repository;
 
 import java.util.concurrent.atomic.AtomicLong;
 

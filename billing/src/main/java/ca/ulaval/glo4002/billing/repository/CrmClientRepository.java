@@ -18,7 +18,7 @@ public class CrmClientRepository implements ClientRepository {
 	public CrmClient getClient(ClientId id) {
 		Client client = Client.create();
 		WebResource resource = client
-				.resource(BillingProperties.getInstance().getProperty(CRM_CLIENTS_URL) + id.getId());
+				.resource(BillingProperties.getInstance().getProperty(CRM_CLIENTS_URL) + id.toString());
 		CrmClient crmClient = resource.type(MediaType.APPLICATION_JSON).get(CrmClient.class);
 		return crmClient;
 	}

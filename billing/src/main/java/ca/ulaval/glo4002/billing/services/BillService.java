@@ -15,6 +15,7 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
+import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
