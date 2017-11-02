@@ -3,7 +3,7 @@ package ca.ulaval.glo4002.billing.services;
 import java.math.BigDecimal;
 import java.util.List;
 
-import ca.ulaval.glo4002.billing.domain.Item;
+import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
@@ -55,13 +55,13 @@ public class BillService {
 	private Bill createBill(OrderDto order) {
         BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
         return new Bill(billIdGenerator.getId(), order.getClientId(), order.getDate(), order.getDueTerm(),
-                order.getItems());
+                order.getProductDtos());
     }
 
-    public BigDecimal getTotal(List<Item> items) {
+    public BigDecimal getTotal(List<ProductDto> productDtos) {
 		BigDecimal total = new BigDecimal(0);
-		for (Item item : items) {
-			BigDecimal itemTotalPrice = new BigDecimal(item.getPrice() * item.getQuantity());
+		for (ProductDto productDto : productDtos) {
+			BigDecimal itemTotalPrice = new BigDecimal(productDto.getPrice() * productDto.getQuantity());
 			total = total.add(itemTotalPrice);
 		}
 		return total;
@@ -96,16 +96,16 @@ public class BillService {
 	}
 
 	public boolean clientAndProductsExist(OrderDto order) {
-		if (clientExists(order.getClientId()) && eachProductsExist(order.getItems())) {
+		if (clientExists(order.getClientId()) && eachProductsExist(order.getProductDtos())) {
 			return true;
 		}
 		return false;
 	}
 
-	private boolean eachProductsExist(List<Item> items) {
+	private boolean eachProductsExist(List<ProductDto> productDtos) {
 		boolean eachProductsExist = true;
-		for (Item item : items) {
-			if (!productExists(item.getProductId())) {
+		for (ProductDto productDto : productDtos) {
+			if (!productExists(productDto.getProductId())) {
 				eachProductsExist = false;
 			}
 		}

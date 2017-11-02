@@ -10,7 +10,7 @@ public class CrmClient {
 	private CrmDueTerm defaultTerm;
 	private String fullName;
 	private String email;
-	private CrmClientAddress address;
+	//private CrmClientAddress address;
 
 	public CrmClient(ClientId id) {
 		this.id = id;
@@ -19,7 +19,7 @@ public class CrmClient {
 		this.defaultTerm = null;
 		this.fullName = "";
 		this.email = "";
-		this.address = null;
+		//this.address = null;
 	}
 
 	public CrmClient(ClientId id, CrmClientCategory category, Instant creationDate, CrmDueTerm defaultTerm,
@@ -30,7 +30,7 @@ public class CrmClient {
 		this.defaultTerm = defaultTerm;
 		this.fullName = fullName;
 		this.email = email;
-		this.address = address;
+		//this.address = address;
 	}
 
 	public ClientId getClientId() {
@@ -57,7 +57,7 @@ public class CrmClient {
 		return email;
 	}
 
-	public CrmClientAddress getAddress() {
+	/*public CrmClientAddress getAddress() {
 		return address;
-	}
+	}*/
 }

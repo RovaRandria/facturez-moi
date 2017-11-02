@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,7 +16,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import ca.ulaval.glo4002.billing.domain.Item;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
 import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
@@ -31,7 +31,7 @@ public class TestBillService {
 	private CrmClient client;
 	private final int GOOD_ID = 1;
 	private final int WRONG_ID = -1;
-	private List<Item> items;
+	private List<ProductDto> productDtos;
 
 	@Mock
 	private CrmClientRepository crmClientRepository;
@@ -48,7 +48,7 @@ public class TestBillService {
 	@Before
 	public void init() {
 		service = new BillService(crmClientRepository, crmProductRepository, inMemoryBillRepository);
-		items = new ArrayList<>();
+		productDtos = new ArrayList<>();
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class TestBillService {
 		final int EXPECTED_TOTAL = 13;
 		fillItems(NB_ITEMS);
 
-		BigDecimal total = service.getTotal(items);
+		BigDecimal total = service.getTotal(productDtos);
 		BigDecimal expectedTotal = new BigDecimal(EXPECTED_TOTAL);
 		assertEquals(total, expectedTotal);
 	}
@@ -126,8 +126,8 @@ public class TestBillService {
 		for (int i = 0; i < nbItems; i++) {
 			price++;
 			quantity++;
-			Item item = new Item(price, note, productId, quantity);
-			items.add(item);
+			ProductDto productDto = new ProductDto(price, note, productId, quantity);
+			productDtos.add(productDto);
 		}
 	}
 }
