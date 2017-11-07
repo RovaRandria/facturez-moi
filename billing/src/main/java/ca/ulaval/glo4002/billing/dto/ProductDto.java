@@ -1,45 +1,58 @@
 package ca.ulaval.glo4002.billing.dto;
 
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+@JsonIgnoreProperties(value = { "links" }, ignoreUnknown = true)
 public class ProductDto {
-	@JsonSerialize
-	private float price;
-
-	@JsonSerialize
-	private String note;
-
-	@JsonSerialize
+	private BigDecimal price;
+	private String name;
 	private ProductId productId;
-
-	@JsonSerialize
 	private int quantity;
 
-	@JsonCreator
-	public ProductDto(@JsonProperty("price") float price, @JsonProperty("note") String note,
-					  @JsonProperty("productId") ProductId productId, @JsonProperty("quantity") int quantity) {
+	public ProductDto() {
+	}
+
+	public ProductDto(BigDecimal price, String name, ProductId productId, int quantity) {
 		this.price = price;
-		this.note = note;
+		this.name = name;
 		this.productId = productId;
 		this.quantity = quantity;
 	}
 
-	public float getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public String getNote() {
-		return note;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setNote(String note) {
+		this.name = note;
 	}
 
 	public ProductId getProductId() {
 		return productId;
 	}
 
+	public void setProductId(ProductId productId) {
+		this.productId = productId;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 }

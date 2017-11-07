@@ -1,13 +1,15 @@
 package ca.ulaval.glo4002.billing.repository;
 
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.net.URL;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
+import org.codehaus.jackson.map.DeserializationConfig.Feature;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
+import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.interfaces.BillingProperties;
 
 public class CrmProductRepository implements ProductRepository {
@@ -16,12 +18,18 @@ public class CrmProductRepository implements ProductRepository {
 
 	@Override
 	public CrmProduct getProduct(ProductId id) {
-		Client client = Client.create();
-		WebResource resource = client
-				.resource(BillingProperties.getInstance().getProperty(CRM_PRODUCTS_URL) + id.toString());
-		CrmProduct crmProduct = resource.type(MediaType.APPLICATION_JSON).get(CrmProduct.class);
-		// TODO - Make sure it returns null if does not exist
-		return crmProduct;
+		try {
+			URL url = new URL(BillingProperties.getInstance().getProperty(CRM_PRODUCTS_URL) + id.toString());
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+			ProductDto productDto = objectMapper.readValue(url, ProductDto.class);
+			return new CrmProduct(id, productDto.getName(), productDto.getPrice());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return new CrmProduct(id);
 	}
 
 }

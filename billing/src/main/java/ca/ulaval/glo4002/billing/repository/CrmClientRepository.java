@@ -1,13 +1,15 @@
 package ca.ulaval.glo4002.billing.repository;
 
-import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.net.URL;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
+import org.codehaus.jackson.map.DeserializationConfig.Feature;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.ClientRepository;
 import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
+import ca.ulaval.glo4002.billing.dto.ClientDto;
 import ca.ulaval.glo4002.billing.interfaces.BillingProperties;
 
 public class CrmClientRepository implements ClientRepository {
@@ -16,11 +18,19 @@ public class CrmClientRepository implements ClientRepository {
 
 	@Override
 	public CrmClient getClient(ClientId id) {
-		Client client = Client.create();
-		WebResource resource = client
-				.resource(BillingProperties.getInstance().getProperty(CRM_CLIENTS_URL) + id.toString());
-		CrmClient crmClient = resource.type(MediaType.APPLICATION_JSON).get(CrmClient.class);
-		return crmClient;
+		try {
+			URL url = new URL(BillingProperties.getInstance().getProperty(CRM_CLIENTS_URL) + id.toString());
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+			ClientDto clientDto = objectMapper.readValue(url, ClientDto.class);
+			return new CrmClient(id, clientDto.getCategory(), clientDto.getCreationDate(), clientDto.getDefaultTerm(),
+					clientDto.getFullName(), clientDto.getEmail(), clientDto.getAddress());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return new CrmClient(id);
 	}
 
 }

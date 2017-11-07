@@ -6,8 +6,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ulaval.glo4002.billing.dto.ProductDto;
-import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,8 +19,10 @@ import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
 import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
 import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
+import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
+import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
 import ca.ulaval.glo4002.billing.services.BillService;
 
 public class TestBillService {
@@ -40,7 +40,7 @@ public class TestBillService {
 	private CrmProductRepository crmProductRepository;
 
 	@Mock
-    private InMemoryBillRepository inMemoryBillRepository;
+	private InMemoryBillRepository inMemoryBillRepository;
 
 	@Rule
 	public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -119,12 +119,12 @@ public class TestBillService {
 	}
 
 	private void fillItems(int nbItems) {
-		float price = 1;
+		BigDecimal price = new BigDecimal(1);
 		String note = "note";
 		ProductId productId = new ProductId(1);
 		int quantity = 1;
 		for (int i = 0; i < nbItems; i++) {
-			price++;
+			price.add(new BigDecimal(1));
 			quantity++;
 			ProductDto productDto = new ProductDto(price, note, productId, quantity);
 			productDtos.add(productDto);

@@ -1,16 +1,14 @@
 package ca.ulaval.glo4002.billing.domain.clients;
 
-import java.time.Instant;
-
 public class CrmClient {
 
 	private ClientId id;
 	private CrmClientCategory category;
-	private Instant creationDate;
+	private String creationDate;
 	private CrmDueTerm defaultTerm;
 	private String fullName;
 	private String email;
-	//private CrmClientAddress address;
+	private CrmClientAddress address;
 
 	public CrmClient(ClientId id) {
 		this.id = id;
@@ -19,10 +17,10 @@ public class CrmClient {
 		this.defaultTerm = null;
 		this.fullName = "";
 		this.email = "";
-		//this.address = null;
+		this.address = null;
 	}
 
-	public CrmClient(ClientId id, CrmClientCategory category, Instant creationDate, CrmDueTerm defaultTerm,
+	public CrmClient(ClientId id, CrmClientCategory category, String creationDate, CrmDueTerm defaultTerm,
 			String fullName, String email, CrmClientAddress address) {
 		this.id = id;
 		this.category = category;
@@ -30,7 +28,7 @@ public class CrmClient {
 		this.defaultTerm = defaultTerm;
 		this.fullName = fullName;
 		this.email = email;
-		//this.address = address;
+		this.address = address;
 	}
 
 	public ClientId getClientId() {
@@ -41,7 +39,7 @@ public class CrmClient {
 		return category;
 	}
 
-	public Instant getCreationDate() {
+	public String getCreationDate() {
 		return creationDate;
 	}
 
@@ -57,7 +55,8 @@ public class CrmClient {
 		return email;
 	}
 
-	/*public CrmClientAddress getAddress() {
+	public CrmClientAddress getAddress() {
 		return address;
-	}*/
+	}
+
 }

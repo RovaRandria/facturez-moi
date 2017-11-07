@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.billing.services;
 import java.math.BigDecimal;
 import java.util.List;
 
-import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
@@ -15,6 +14,7 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
+import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
@@ -32,36 +32,35 @@ public class BillService {
 	}
 
 	public BillService(ClientRepository clientRepository, ProductRepository productRepository,
-                       BillRepository billRepository)
-    {
+			BillRepository billRepository) {
 		this.clientRepository = clientRepository;
 		this.productRepository = productRepository;
 		this.billRepository = billRepository;
 	}
 
 	public BillDto create(OrderDto order) {
-        BillDto billDto = null;
+		BillDto billDto = null;
 
 		if (clientAndProductsExist(order)) {
-		    // TODO Replace createBill with a BillFactory
-            Bill bill = createBill(order);
-            billRepository.saveBill(bill);
-            billDto = new BillDto();
+			// TODO Replace createBill with a BillFactory
+			Bill bill = createBill(order);
+			billRepository.saveBill(bill);
+			billDto = new BillDto();
 		}
 
 		return billDto;
 	}
 
 	private Bill createBill(OrderDto order) {
-        BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
-        return new Bill(billIdGenerator.getId(), order.getClientId(), order.getDate(), order.getDueTerm(),
-                order.getProductDtos());
-    }
+		BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
+		return new Bill(billIdGenerator.getId(), order.getClientId(), order.getDate(), order.getDueTerm(),
+				order.getProductDtos());
+	}
 
-    public BigDecimal getTotal(List<ProductDto> productDtos) {
+	public BigDecimal getTotal(List<ProductDto> productDtos) {
 		BigDecimal total = new BigDecimal(0);
 		for (ProductDto productDto : productDtos) {
-			BigDecimal itemTotalPrice = new BigDecimal(productDto.getPrice() * productDto.getQuantity());
+			BigDecimal itemTotalPrice = productDto.getPrice().multiply(new BigDecimal(productDto.getQuantity()));
 			total = total.add(itemTotalPrice);
 		}
 		return total;
