@@ -7,23 +7,29 @@ public class BillId {
 		this.id = id;
 	}
 
-    @Override
-    public String toString() {
-        return Long.toString(id);
-    }
+	@Override
+	public String toString() {
+		return Long.toString(id);
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public long getId() {
+		return id;
+	}
 
-        BillId billId = (BillId) o;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        return id == billId.id;
-    }
+		BillId billId = (BillId) o;
 
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
+		return id == billId.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) (id ^ (id >>> 32));
+	}
 }

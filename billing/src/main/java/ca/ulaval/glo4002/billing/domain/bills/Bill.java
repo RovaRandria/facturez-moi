@@ -3,9 +3,9 @@ package ca.ulaval.glo4002.billing.domain.bills;
 import java.util.Date;
 import java.util.List;
 
-import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+import ca.ulaval.glo4002.billing.dto.ProductDto;
 
 public class Bill {
 	BillId billId;
@@ -15,6 +15,7 @@ public class Bill {
 	List<ProductDto> productDtos;
 
 	public Bill(BillId billId, ClientId clientId, Date creationDate, CrmDueTerm dueTerm, List<ProductDto> productDtos) {
+		this.billId = billId;
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.dueTerm = dueTerm;

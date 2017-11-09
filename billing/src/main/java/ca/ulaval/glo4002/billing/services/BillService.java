@@ -45,9 +45,19 @@ public class BillService {
 			// TODO Replace createBill with a BillFactory
 			Bill bill = createBill(order);
 			billRepository.saveBill(bill);
-			billDto = new BillDto();
+			billDto = createBillDto(bill);
 		}
+		return billDto;
+	}
 
+	private BillDto createBillDto(Bill bill) { // A deplacer dans l'eventuel factory
+		BillDto billDto;
+		List<ProductDto> productDtos = bill.getProductDtos();
+		BigDecimal total = new BigDecimal(0);
+		for (ProductDto productDto : productDtos) {
+			total = total.add(productDto.getPrice());
+		}
+		billDto = new BillDto(bill.getBillId(), total, bill.getDueTerm(), "/bills/" + bill.getBillId().toString());
 		return billDto;
 	}
 
