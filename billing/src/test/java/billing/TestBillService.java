@@ -15,9 +15,9 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
-import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
-import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
+import ca.ulaval.glo4002.billing.domain.clients.Client;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
+import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
@@ -28,7 +28,7 @@ import ca.ulaval.glo4002.billing.services.BillService;
 public class TestBillService {
 
 	private BillService service;
-	private CrmClient client;
+	private Client client;
 	private final int GOOD_ID = 1;
 	private final int WRONG_ID = -1;
 	private List<ProductDto> productDtos;
@@ -54,7 +54,7 @@ public class TestBillService {
 	@Test
 	public void givenClientId_whenClientExists_thenReturnTrue() {
 		ClientId clientId = new ClientId(GOOD_ID);
-		client = new CrmClient(clientId);
+		client = new Client(clientId);
 		Mockito.when(crmClientRepository.getClient(clientId)).thenReturn(client);
 		boolean returnedValue = service.clientExists(clientId);
 		assertTrue(returnedValue);
@@ -81,13 +81,13 @@ public class TestBillService {
 
 	@Test
 	public void givenOrder_whenDueTermIsValid_thenReturnTrue() {
-		boolean dueTerm = service.dueTermIsValid(CrmDueTerm.IMMEDIATE);
+		boolean dueTerm = service.dueTermIsValid(DueTerm.IMMEDIATE);
 		assertTrue(dueTerm);
 	}
 
 	@Test
 	public void givenOrder_whenDueTermIsNotValid_thenReturnFalse() {
-		final CrmDueTerm INVALID_DUE_TERM = null;
+		final DueTerm INVALID_DUE_TERM = null;
 		boolean dueTerm = service.dueTermIsValid(INVALID_DUE_TERM);
 		assertFalse(dueTerm);
 	}
@@ -95,16 +95,16 @@ public class TestBillService {
 	@Test
 	public void givenOrder_whenDueTermIsAbsent_thenUseClientDueTerm() {
 		ClientId goodClientId = new ClientId(GOOD_ID);
-		client = new CrmClient(goodClientId, null, null, CrmDueTerm.DAYS30, "John Doe", "john.doe@example.com", null);
+		client = new Client(goodClientId, null, null, DueTerm.DAYS30, "John Doe", "john.doe@example.com", null);
 		Mockito.when(crmClientRepository.getClient(goodClientId)).thenReturn(client);
-		CrmDueTerm clientDueTerm = service.useClientDueTerm(goodClientId);
-		assertEquals(CrmDueTerm.DAYS30, clientDueTerm);
+		DueTerm clientDueTerm = service.useClientDueTerm(goodClientId);
+		assertEquals(DueTerm.DAYS30, clientDueTerm);
 	}
 
 	@Test
 	public void givenOrder_whenProductIsValid_thenReturnTrue() {
 		ProductId goodProductId = new ProductId(GOOD_ID);
-		CrmProduct product = new CrmProduct(goodProductId);
+		Product product = new Product(goodProductId);
 		Mockito.when(crmProductRepository.getProduct(goodProductId)).thenReturn(product);
 		boolean productExists = service.productExists(goodProductId);
 		assertTrue(productExists);

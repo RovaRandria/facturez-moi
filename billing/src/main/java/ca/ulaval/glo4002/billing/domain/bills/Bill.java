@@ -5,16 +5,16 @@ import java.util.List;
 
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 
 public class Bill {
 	BillId billId;
 	ClientId clientId;
 	Date creationDate;
-	CrmDueTerm dueTerm;
+	DueTerm dueTerm;
 	List<ProductDto> productDtos;
 
-	public Bill(BillId billId, ClientId clientId, Date creationDate, CrmDueTerm dueTerm, List<ProductDto> productDtos) {
+	public Bill(BillId billId, ClientId clientId, Date creationDate, DueTerm dueTerm, List<ProductDto> productDtos) {
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.dueTerm = dueTerm;
@@ -33,7 +33,7 @@ public class Bill {
 		return creationDate;
 	}
 
-	public CrmDueTerm getDueTerm() {
+	public DueTerm getDueTerm() {
 		return dueTerm;
 	}
 

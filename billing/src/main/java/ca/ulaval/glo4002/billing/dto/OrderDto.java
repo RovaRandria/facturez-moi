@@ -7,7 +7,7 @@ import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class OrderDto {
@@ -19,14 +19,14 @@ public class OrderDto {
 	private Date creationDate;
 
     @JsonSerialize
-	private CrmDueTerm dueTerm;
+	private DueTerm dueTerm;
 
     @JsonProperty("items")
 	private List<ProductDto> productDtos;
 
 	@JsonCreator
 	public OrderDto(@JsonProperty("clientId") ClientId clientId, @JsonProperty("creationDate") Date creationDate,
-					@JsonProperty("dueTerm") CrmDueTerm dueTerm, @JsonProperty("items") List<ProductDto> productDtos) {
+					@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ProductDto> productDtos) {
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.dueTerm = dueTerm;
@@ -41,7 +41,7 @@ public class OrderDto {
 		return creationDate;
 	}
 
-	public CrmDueTerm getDueTerm() {
+	public DueTerm getDueTerm() {
 		return dueTerm;
 	}
 

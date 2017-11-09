@@ -2,19 +2,19 @@ package ca.ulaval.glo4002.billing.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import ca.ulaval.glo4002.billing.domain.clients.CrmClientAddress;
-import ca.ulaval.glo4002.billing.domain.clients.CrmClientCategory;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+import ca.ulaval.glo4002.billing.domain.clients.ClientAddress;
+import ca.ulaval.glo4002.billing.domain.clients.ClientCategory;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 
 @JsonIgnoreProperties(value = { "_links" }, ignoreUnknown = true)
 public class ClientDto {
 	private int id;
-	private CrmClientCategory category;
+	private ClientCategory category;
 	private String creationDate;
-	private CrmDueTerm defaultTerm;
+	private DueTerm defaultTerm;
 	private String fullName;
 	private String email;
-	private CrmClientAddress address;
+	private ClientAddress address;
 
 	public ClientDto() {
 		// Jackson
@@ -40,27 +40,27 @@ public class ClientDto {
 		this.id = id;
 	}
 
-	public CrmClientCategory getCategory() {
+	public ClientCategory getCategory() {
 		return category;
 	}
 
-	public void setCategory(CrmClientCategory category) {
+	public void setCategory(ClientCategory category) {
 		this.category = category;
 	}
 
-	public CrmDueTerm getDefaultTerm() {
+	public DueTerm getDefaultTerm() {
 		return defaultTerm;
 	}
 
-	public void setDefaultTerm(CrmDueTerm defaultTerm) {
+	public void setDefaultTerm(DueTerm defaultTerm) {
 		this.defaultTerm = defaultTerm;
 	}
 
-	public CrmClientAddress getAddress() {
+	public ClientAddress getAddress() {
 		return address;
 	}
 
-	public void setAddress(CrmClientAddress address) {
+	public void setAddress(ClientAddress address) {
 		this.address = address;
 	}
 }
