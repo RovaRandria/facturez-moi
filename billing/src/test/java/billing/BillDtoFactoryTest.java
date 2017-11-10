@@ -7,22 +7,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
-import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
+import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 
 public class BillDtoFactoryTest {
 
@@ -38,9 +35,9 @@ public class BillDtoFactoryTest {
 	public void init() {
 		final BigDecimal PRICE = new BigDecimal(5);
 		final String NAME = "";
-        final int QUANTITY = 3;
-        final int CLIENT_ID = 1;
-        final int PRODUCT_ID = 1;
+		final int QUANTITY = 3;
+		final int CLIENT_ID = 1;
+		final int PRODUCT_ID = 1;
 
 		ProductId productId = new ProductId(PRODUCT_ID);
 		BillId billId = BillIdGenerator.getInstance().getId();
@@ -62,13 +59,13 @@ public class BillDtoFactoryTest {
 	public void givenFactory_whenGetTotal_thenPriceIsRight() {
 		final int EXPECTED_TOTAL = 9;
 		BigDecimal expectedTotal = new BigDecimal(EXPECTED_TOTAL);
-		BigDecimal total = billDtoFactory.getTotal(products);
+		BigDecimal total = bill.getTotal();
 		assertEquals(expectedTotal, total);
 	}
 
 	private boolean validDto(BillDto billDto) {
 		boolean dtoIsValid = true;
-		BigDecimal total = billDtoFactory.getTotal(products);
+		BigDecimal total = bill.getTotal();
 
 		if (!billDto.getTotal().equals(total)) {
 			dtoIsValid = false;

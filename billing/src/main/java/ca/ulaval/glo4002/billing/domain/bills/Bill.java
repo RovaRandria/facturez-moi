@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,16 @@ public class Bill {
 		this.creationDate = creationDate;
 		this.dueTerm = dueTerm;
 		this.products = products;
+	}
+
+	public BigDecimal getTotal() {
+		BigDecimal total = new BigDecimal(0);
+		for (CrmProduct product : products) {
+			BigDecimal quantity = new BigDecimal(product.getQuantity());
+			BigDecimal subTotal = quantity.multiply(product.getUnitPrice());
+			total = total.add(subTotal);
+		}
+		return total;
 	}
 
 	public BillId getBillId() {
