@@ -10,10 +10,10 @@ public class NegativeException extends BillingException {
 	public NegativeException() {
 	}
 
-	public NegativeException(String className, String id) {
+	public NegativeException(String variable, String value) {
 		super();
-		this.description = className + " " + id + " " + ERROR;
-		this.entity = className;
+		this.description = variable + " " + ERROR + " : " + value;
+		this.entity = variable;
 	}
 
 	public String getError() {
