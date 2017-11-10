@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.billing.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
@@ -14,6 +15,7 @@ import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
+import ca.ulaval.glo4002.billing.exceptions.NegativeException;
 import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 import ca.ulaval.glo4002.billing.factory.BillFactory;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
@@ -48,11 +50,28 @@ public class BillService {
 		BillDto billDto = null;
 
 		if (clientAndProductsExist(order)) {
-			Bill bill = billFactory.createBill(order);
-			billRepository.saveBill(bill);
-			billDto = billDtoFactory.createBillDto(bill);
+			if (!hasNegativeValues(order)) {
+				Bill bill = billFactory.createBill(order);
+				billRepository.saveBill(bill);
+				billDto = billDtoFactory.createBillDto(bill);
+			}
 		}
 		return billDto;
+	}
+
+	private boolean hasNegativeValues(OrderDto order) {
+		BigDecimal total = new BigDecimal(0);
+		List<ProductDto> listeProducts = order.getProductDtos();
+		for (ProductDto productDto : listeProducts) {
+			total = total.add(productDto.getPrice());
+			if (productDto.getQuantity() < 0) {
+				throw new NegativeException("Quantity", "" + productDto.getQuantity());
+			}
+		}
+		if (total.signum() < 0) {
+			throw new NegativeException("Total", "" + total.toString());
+		}
+		return false;
 	}
 
 	public boolean dueTermIsValid(DueTerm dueTerm) {

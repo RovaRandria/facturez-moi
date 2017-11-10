@@ -7,7 +7,6 @@ import java.util.List;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
-import ca.ulaval.glo4002.billing.exceptions.NegativeException;
 
 public class Bill {
 	BillId billId;
@@ -28,9 +27,6 @@ public class Bill {
 		BigDecimal total = new BigDecimal(0);
 		for (Product product : products) {
 			BigDecimal quantity = new BigDecimal(product.getQuantity());
-			if (quantity.signum() < 0) {
-				throw new NegativeException("Quantity", quantity.toString());
-			}
 
 			BigDecimal subTotal = quantity.multiply(product.getUnitPrice());
 			total = total.add(subTotal);

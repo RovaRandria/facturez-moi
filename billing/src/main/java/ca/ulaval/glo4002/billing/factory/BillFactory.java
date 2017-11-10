@@ -15,6 +15,7 @@ public class BillFactory {
 
 	public Bill createBill(OrderDto order) {
 		BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
+
 		return new Bill(billIdGenerator.getId(), order.getClientId(), order.getDate(), order.getDueTerm(),
 				createProducts(order.getProductDtos()));
 	}
