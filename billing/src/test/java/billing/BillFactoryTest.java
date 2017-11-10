@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
@@ -27,7 +27,7 @@ public class BillFactoryTest {
 	@Before
 	public void init() {
 		final int CLIENT_ID = 1;
-		final CrmDueTerm ORDER_DUE_TERM = CrmDueTerm.DAYS30;
+		final DueTerm ORDER_DUE_TERM = DueTerm.DAYS30;
 		final int PRODUCT_DTOS_QUANTITY = 3;
 
 		billFactory = new BillFactory();
@@ -60,7 +60,7 @@ public class BillFactoryTest {
 		if (!bill.getTotal().equals(totalExpected)) {
 			billIsValid = false;
 		}
-		if (orderDto.getDueTerm() != CrmDueTerm.DAYS30) {
+		if (orderDto.getDueTerm() != DueTerm.DAYS30) {
 			billIsValid = false;
 		}
 		return billIsValid;

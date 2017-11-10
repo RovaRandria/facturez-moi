@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.billing.domain.clients;
 
-public class CrmClientAddress {
+public class ClientAddress {
 
 	private String city;
 	private String country;

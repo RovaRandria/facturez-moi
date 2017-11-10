@@ -1,16 +1,16 @@
 package ca.ulaval.glo4002.billing.domain.clients;
 
-public class CrmClient {
+public class Client {
 
 	private ClientId id;
-	private CrmClientCategory category;
+	private ClientCategory category;
 	private String creationDate;
-	private CrmDueTerm defaultTerm;
+	private DueTerm defaultTerm;
 	private String fullName;
 	private String email;
-	private CrmClientAddress address;
+	private ClientAddress address;
 
-	public CrmClient(ClientId id) {
+	public Client(ClientId id) {
 		this.id = id;
 		this.category = null;
 		this.creationDate = null;
@@ -20,8 +20,8 @@ public class CrmClient {
 		this.address = null;
 	}
 
-	public CrmClient(ClientId id, CrmClientCategory category, String creationDate, CrmDueTerm defaultTerm,
-			String fullName, String email, CrmClientAddress address) {
+	public Client(ClientId id, ClientCategory category, String creationDate, DueTerm defaultTerm,
+			String fullName, String email, ClientAddress address) {
 		this.id = id;
 		this.category = category;
 		this.creationDate = creationDate;
@@ -35,7 +35,7 @@ public class CrmClient {
 		return id;
 	}
 
-	public CrmClientCategory getCategory() {
+	public ClientCategory getCategory() {
 		return category;
 	}
 
@@ -43,7 +43,7 @@ public class CrmClient {
 		return creationDate;
 	}
 
-	public CrmDueTerm getDefaultTerm() {
+	public DueTerm getDefaultTerm() {
 		return defaultTerm;
 	}
 
@@ -55,7 +55,7 @@ public class CrmClient {
 		return email;
 	}
 
-	public CrmClientAddress getAddress() {
+	public ClientAddress getAddress() {
 		return address;
 	}
 

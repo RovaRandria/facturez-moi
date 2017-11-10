@@ -13,8 +13,8 @@ import org.junit.Test;
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
-import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
+import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
@@ -24,8 +24,8 @@ import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 public class BillDtoFactoryTest {
 
 	Bill bill;
-	CrmDueTerm dueTerm;
-	List<CrmProduct> products;
+	DueTerm dueTerm;
+	List<Product> products;
 	ProductDto productDto;
 	BillDtoFactory billDtoFactory;
 
@@ -45,7 +45,7 @@ public class BillDtoFactoryTest {
 		Date creationDate = new Date();
 		productDto = new ProductDto(PRICE, NAME, productId, QUANTITY);
 		fillItems(QUANTITY);
-		bill = new Bill(billId, clientId, creationDate, CrmDueTerm.DAYS30, products);
+		bill = new Bill(billId, clientId, creationDate, DueTerm.DAYS30, products);
 		billDtoFactory = new BillDtoFactory();
 	}
 
@@ -73,7 +73,7 @@ public class BillDtoFactoryTest {
 		if (!billDto.getId().equals(bill.getBillId().toString())) {
 			dtoIsValid = false;
 		}
-		if (billDto.getDueTerm() != CrmDueTerm.DAYS30) {
+		if (billDto.getDueTerm() != DueTerm.DAYS30) {
 			dtoIsValid = false;
 		}
 		if (!billDto.getUrl().equals("/bills/" + bill.getBillId().toString())) {
@@ -92,7 +92,7 @@ public class BillDtoFactoryTest {
 		for (int i = 0; i < nbItems; i++) {
 			price.add(new BigDecimal(1));
 			quantity++;
-			CrmProduct product = new CrmProduct(productId, note, price, quantity);
+			Product product = new Product(productId, note, price, quantity);
 			products.add(product);
 		}
 	}

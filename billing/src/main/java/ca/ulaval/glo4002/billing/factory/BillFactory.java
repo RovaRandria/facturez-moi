@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.billing.factory;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
-import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
+import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BillFactory {
 
@@ -19,20 +19,20 @@ public class BillFactory {
 				createProducts(order.getProductDtos()));
 	}
 
-	private List<CrmProduct> createProducts(List<ProductDto> productDtos) {
-	    List<CrmProduct> products = new ArrayList<>();
+	private List<Product> createProducts(List<ProductDto> productDtos) {
+		List<Product> products = new ArrayList<>();
 
-	    for (ProductDto productDto : productDtos) {
-            ProductId productId = productDto.getProductId();
-            String name = productDto.getName();
-            BigDecimal unitPrice = productDto.getPrice();
-            int quantity = productDto.getQuantity();
+		for (ProductDto productDto : productDtos) {
+			ProductId productId = productDto.getProductId();
+			String name = productDto.getName();
+			BigDecimal unitPrice = productDto.getPrice();
+			int quantity = productDto.getQuantity();
 
-            CrmProduct product = new CrmProduct(productId, name, unitPrice, quantity);
-            products.add(product);
-        }
+			Product product = new Product(productId, name, unitPrice, quantity);
+			products.add(product);
+		}
 
-        return products;
-    }
+		return products;
+	}
 
 }

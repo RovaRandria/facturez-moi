@@ -13,15 +13,15 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 
 public class BillDtoTest {
 
 	private long idAverage = 1;
 	private BigDecimal totalAverage = new BigDecimal(1);
-	private CrmDueTerm dueTermAverage = CrmDueTerm.IMMEDIATE;
-	private String stringAverage = "THE WORLD"; // TODO : rendre le tout plus générique ?
+	private DueTerm dueTermAverage = DueTerm.IMMEDIATE;
+	private String stringAverage = "THE WORLD";
 
 	@Mock
 	BillId billId;

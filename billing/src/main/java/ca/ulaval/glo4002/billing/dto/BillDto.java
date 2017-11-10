@@ -1,16 +1,17 @@
 package ca.ulaval.glo4002.billing.dto;
 
 import java.math.BigDecimal;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
+
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 
 public class BillDto {
 
 	protected final String id;
 	protected final BigDecimal total;
-	protected final CrmDueTerm dueTerm;
+	protected final DueTerm dueTerm;
 	protected final String url;
 
-	public BillDto(String billId, BigDecimal total, CrmDueTerm dueTerm, String url) {
+	public BillDto(String billId, BigDecimal total, DueTerm dueTerm, String url) {
 		this.id = billId;
 		this.total = total;
 		this.dueTerm = dueTerm;
@@ -25,7 +26,7 @@ public class BillDto {
 		return total;
 	}
 
-	public CrmDueTerm getDueTerm() {
+	public DueTerm getDueTerm() {
 		return dueTerm;
 	}
 

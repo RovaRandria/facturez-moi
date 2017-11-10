@@ -4,11 +4,11 @@ import java.util.List;
 
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
+import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.ClientRepository;
-import ca.ulaval.glo4002.billing.domain.clients.CrmClient;
-import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
-import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
+import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.dto.BillDto;
@@ -55,16 +55,16 @@ public class BillService {
 		return billDto;
 	}
 
-	public boolean dueTermIsValid(CrmDueTerm dueTerm) {
+	public boolean dueTermIsValid(DueTerm dueTerm) {
 		return dueTerm != null;
 	}
 
-	public CrmDueTerm useClientDueTerm(ClientId clientId) {
+	public DueTerm useClientDueTerm(ClientId clientId) {
 		return clientRepository.getClient(clientId).getDefaultTerm();
 	}
 
-	public CrmDueTerm chooseDueTerm(OrderDto order) {
-		CrmDueTerm dueTerm;
+	public DueTerm chooseDueTerm(OrderDto order) {
+		DueTerm dueTerm;
 		if (dueTermIsValid(order.getDueTerm())) {
 			dueTerm = order.getDueTerm();
 		} else {
@@ -74,12 +74,12 @@ public class BillService {
 	}
 
 	public boolean clientExists(ClientId clientId) {
-		CrmClient client = clientRepository.getClient(clientId);
+		Client client = clientRepository.getClient(clientId);
 		return client != null;
 	}
 
 	public boolean productExists(ProductId productId) {
-		CrmProduct product = productRepository.getProduct(productId);
+		Product product = productRepository.getProduct(productId);
 		return product != null;
 	}
 
