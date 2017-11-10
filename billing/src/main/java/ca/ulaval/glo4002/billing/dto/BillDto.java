@@ -10,7 +10,7 @@ import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
 public class BillDto {
 
 	@JsonSerialize
-	protected final long id;
+	protected final BillId id;
 	@JsonSerialize
 	protected final BigDecimal total;
 	@JsonSerialize
@@ -18,14 +18,14 @@ public class BillDto {
 	@JsonSerialize
 	protected final String url;
 
-	public BillDto(BillId billId, BigDecimal total, CrmDueTerm dueTerm, String string) {
-		id = billId.getId();
+	public BillDto(BillId billId, BigDecimal total, CrmDueTerm dueTerm, String url) {
+		id = billId;
 		this.total = total;
 		this.dueTerm = dueTerm;
-		this.url = string;
+		this.url = url;
 	}
 
-	public long getId() {
+	public BillId getId() {
 		return id;
 	}
 

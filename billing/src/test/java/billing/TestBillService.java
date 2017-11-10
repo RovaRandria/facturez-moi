@@ -2,7 +2,6 @@ package billing;
 
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,17 +68,6 @@ public class TestBillService {
 	}
 
 	@Test
-	public void givenOrder_whenGetTotal_thenPriceIsRight() {
-		final int NB_ITEMS = 2;
-		final int EXPECTED_TOTAL = 13;
-		fillItems(NB_ITEMS);
-
-		BigDecimal total = service.getTotal(productDtos);
-		BigDecimal expectedTotal = new BigDecimal(EXPECTED_TOTAL);
-		assertEquals(total, expectedTotal);
-	}
-
-	@Test
 	public void givenOrder_whenDueTermIsValid_thenReturnTrue() {
 		boolean dueTerm = service.dueTermIsValid(CrmDueTerm.IMMEDIATE);
 		assertTrue(dueTerm);
@@ -118,16 +106,4 @@ public class TestBillService {
 		assertFalse(productExists);
 	}
 
-	private void fillItems(int nbItems) {
-		BigDecimal price = new BigDecimal(1);
-		String note = "note";
-		ProductId productId = new ProductId(1);
-		int quantity = 1;
-		for (int i = 0; i < nbItems; i++) {
-			price.add(new BigDecimal(1));
-			quantity++;
-			ProductDto productDto = new ProductDto(price, note, productId, quantity);
-			productDtos.add(productDto);
-		}
-	}
 }
