@@ -33,17 +33,18 @@ public class BillDtoFactoryTest {
 	BillDtoFactory billDtoFactory;
 
 	private long id = 1;
-	@Rule
-	public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 	@Before
 	public void init() {
 		final BigDecimal PRICE = new BigDecimal(5);
 		final String NAME = "";
-		ProductId productId = new ProductId(1);
-		final int QUANTITY = 3;
+        final int QUANTITY = 3;
+        final int CLIENT_ID = 1;
+        final int PRODUCT_ID = 1;
+
+		ProductId productId = new ProductId(PRODUCT_ID);
 		BillId billId = BillIdGenerator.getInstance().getId();
-		ClientId clientId = new ClientId(id);
+		ClientId clientId = new ClientId(CLIENT_ID);
 		Date creationDate = new Date();
 		productDto = new ProductDto(PRICE, NAME, productId, QUANTITY);
 		fillItems(QUANTITY);
@@ -68,7 +69,8 @@ public class BillDtoFactoryTest {
 	private boolean validDto(BillDto billDto) {
 		boolean dtoIsValid = true;
 		BigDecimal total = billDtoFactory.getTotal(products);
-		if (billDto.getTotal() != total) {
+
+		if (!billDto.getTotal().equals(total)) {
 			dtoIsValid = false;
 		}
 		if (!billDto.getId().equals(bill.getBillId().toString())) {
@@ -89,6 +91,7 @@ public class BillDtoFactoryTest {
 		ProductId productId = new ProductId(1);
 		int quantity = 1;
 		products = new ArrayList<>();
+
 		for (int i = 0; i < nbItems; i++) {
 			price.add(new BigDecimal(1));
 			quantity++;

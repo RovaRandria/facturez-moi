@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 
 @JsonIgnoreProperties(value = { "links" }, ignoreUnknown = true)
 public class ProductDto {
+
 	private BigDecimal price;
 	private String name;
 	private ProductId productId;
