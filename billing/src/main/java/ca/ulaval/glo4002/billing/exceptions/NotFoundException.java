@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.billing.exceptions;
 
-public class NotFoundException extends RuntimeException {
+public class NotFoundException extends BillingException {
 
 	private static final long serialVersionUID = 1L;
 	private final String ERROR = "not found";

@@ -9,10 +9,10 @@ import ca.ulaval.glo4002.billing.dto.ErrorsDto;
 import ca.ulaval.glo4002.billing.dto.ExceptionDto;
 
 @Provider
-public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
+public class NotFoundExceptionMapper implements ExceptionMapper<BillingException> {
 
 	@Override
-	public Response toResponse(NotFoundException arg0) {
+	public Response toResponse(BillingException arg0) {
 		ExceptionDto exceptionDto = new ExceptionDto();
 		exceptionDto.setDescription(arg0.getDescription());
 		exceptionDto.setEntity(arg0.getEntity());
