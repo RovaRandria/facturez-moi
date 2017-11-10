@@ -36,7 +36,7 @@ public class BillDtoTest {
 
 	@Test
 	public void testCreationBillDto() {
-		BillDto billDto = new BillDto(billId, totalAverage, dueTermAverage, stringAverage);
+		BillDto billDto = new BillDto(billId.toString(), totalAverage, dueTermAverage, stringAverage);
 		// assertTrue(billId.getId().equals(billDto.getId()));
 		assertTrue(totalAverage.equals(billDto.getTotal()));
 		assertTrue(dueTermAverage.equals(billDto.getDueTerm()));

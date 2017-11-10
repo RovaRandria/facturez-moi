@@ -5,21 +5,21 @@ import java.util.List;
 
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.CrmDueTerm;
-import ca.ulaval.glo4002.billing.dto.ProductDto;
+import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
 
 public class Bill {
 	BillId billId;
 	ClientId clientId;
 	Date creationDate;
 	CrmDueTerm dueTerm;
-	List<ProductDto> productDtos;
+	List<CrmProduct> products;
 
-	public Bill(BillId billId, ClientId clientId, Date creationDate, CrmDueTerm dueTerm, List<ProductDto> productDtos) {
+	public Bill(BillId billId, ClientId clientId, Date creationDate, CrmDueTerm dueTerm, List<CrmProduct> products) {
 		this.billId = billId;
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.dueTerm = dueTerm;
-		this.productDtos = productDtos;
+		this.products = products;
 	}
 
 	public BillId getBillId() {
@@ -38,7 +38,7 @@ public class Bill {
 		return dueTerm;
 	}
 
-	public List<ProductDto> getProductDtos() {
-		return productDtos;
+	public List<CrmProduct> getProductDtos() {
+		return products;
 	}
 }

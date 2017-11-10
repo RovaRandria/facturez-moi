@@ -6,17 +6,20 @@ public class CrmProduct {
 	private ProductId id;
 	private String name;
 	private BigDecimal unitPrice;
+	private int quantity;
 
 	public CrmProduct(ProductId id) {
 		this.id = id;
 		this.name = "";
 		this.unitPrice = new BigDecimal(0);
+		this.quantity = 0;
 	}
 
-	public CrmProduct(ProductId id, String name, BigDecimal unitPrice) {
+	public CrmProduct(ProductId id, String name, BigDecimal unitPrice, int quantity) {
 		this.id = id;
 		this.name = name;
 		this.unitPrice = unitPrice;
+		this.quantity = quantity;
 	}
 
 	public ProductId getProductId() {
@@ -30,4 +33,8 @@ public class CrmProduct {
 	public BigDecimal getUnitPrice() {
 		return unitPrice;
 	}
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

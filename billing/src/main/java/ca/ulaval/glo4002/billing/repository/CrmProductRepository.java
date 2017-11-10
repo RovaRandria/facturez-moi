@@ -25,7 +25,7 @@ public class CrmProductRepository implements ProductRepository {
 			objectMapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 			ProductDto productDto = objectMapper.readValue(url, ProductDto.class);
-			return new CrmProduct(id, productDto.getName(), productDto.getPrice());
+			return new CrmProduct(id, productDto.getName(), productDto.getPrice(), productDto.getQuantity());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

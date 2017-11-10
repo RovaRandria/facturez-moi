@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ca.ulaval.glo4002.billing.domain.products.CrmProduct;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,13 +22,13 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
-import ca.ulaval.glo4002.billing.services.BillDtoFactory;
+import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 
 public class BillDtoFactoryTest {
 
 	Bill bill;
 	CrmDueTerm dueTerm;
-	List<ProductDto> productDtos;
+	List<CrmProduct> products;
 	ProductDto productDto;
 	BillDtoFactory billDtoFactory;
 
@@ -46,31 +47,31 @@ public class BillDtoFactoryTest {
 		Date creationDate = new Date();
 		productDto = new ProductDto(PRICE, NAME, productId, QUANTITY);
 		fillItems(QUANTITY);
-		bill = new Bill(billId, clientId, creationDate, CrmDueTerm.DAYS30, productDtos);
+		bill = new Bill(billId, clientId, creationDate, CrmDueTerm.DAYS30, products);
 		billDtoFactory = new BillDtoFactory();
 	}
 
 	@Test
-	public void givenOrder_whenCreateBillDto_thenBillDtoIsValid() {
+	public void givenFactory_whenCreateBillDto_thenBillDtoIsValid() {
 		BillDto billDto = billDtoFactory.createBillDto(bill);
 		assertTrue(validDto(billDto));
 	}
 
 	@Test
-	public void givenOrder_whenGetTotal_thenPriceIsRight() {
+	public void givenFactory_whenGetTotal_thenPriceIsRight() {
 		final int EXPECTED_TOTAL = 9;
 		BigDecimal expectedTotal = new BigDecimal(EXPECTED_TOTAL);
-		BigDecimal total = billDtoFactory.getTotal(productDtos);
+		BigDecimal total = billDtoFactory.getTotal(products);
 		assertEquals(expectedTotal, total);
 	}
 
 	private boolean validDto(BillDto billDto) {
 		boolean dtoIsValid = true;
-		BigDecimal total = billDtoFactory.getTotal(productDtos);
+		BigDecimal total = billDtoFactory.getTotal(products);
 		if (billDto.getTotal() != total) {
 			dtoIsValid = false;
 		}
-		if (billDto.getId() != bill.getBillId()) {
+		if (!billDto.getId().equals(bill.getBillId().toString())) {
 			dtoIsValid = false;
 		}
 		if (billDto.getDueTerm() != CrmDueTerm.DAYS30) {
@@ -87,12 +88,12 @@ public class BillDtoFactoryTest {
 		String note = "note";
 		ProductId productId = new ProductId(1);
 		int quantity = 1;
-		productDtos = new ArrayList<>();
+		products = new ArrayList<>();
 		for (int i = 0; i < nbItems; i++) {
 			price.add(new BigDecimal(1));
 			quantity++;
-			ProductDto productDto = new ProductDto(price, note, productId, quantity);
-			productDtos.add(productDto);
+			CrmProduct product = new CrmProduct(productId, note, price, quantity);
+			products.add(product);
 		}
 	}
 }
