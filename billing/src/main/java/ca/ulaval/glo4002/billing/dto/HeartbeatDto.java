@@ -4,24 +4,24 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class HeartbeatDto {
 
-	@JsonSerialize
-	private long date;
-	@JsonSerialize
-	private String token;
+  @JsonSerialize
+  private long date;
+  @JsonSerialize
+  private String token;
 
-	public HeartbeatDto() {
-	}
+  public HeartbeatDto() {
+  }
 
-	public HeartbeatDto(long timestamp, String token) {
-		this.token = token;
-		this.date = timestamp;
-	}
+  public HeartbeatDto(long timestamp, String token) {
+    this.token = token;
+    this.date = timestamp;
+  }
 
-	public String GetToken() {
-		return token;
-	}
+  public String getToken() {
+    return token;
+  }
 
-	public long GetDate() {
-		return date;
-	}
+  public long getDate() {
+    return date;
+  }
 }

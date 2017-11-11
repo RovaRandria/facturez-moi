@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ErrorsDto {
-	private List<ExceptionDto> errors;
+  private List<ExceptionDto> errors;
 
-	public ErrorsDto() {
-		this.errors = new ArrayList<>();
-	}
+  public ErrorsDto() {
+    this.errors = new ArrayList<>();
+  }
 
-	public void addError(ExceptionDto exceptionDto) {
-		this.errors.add(exceptionDto);
-	}
+  public void addError(ExceptionDto exceptionDto) {
+    this.errors.add(exceptionDto);
+  }
 
-	public List<ExceptionDto> getErrors() {
-		return this.errors;
-	}
+  public List<ExceptionDto> getErrors() {
+    return this.errors;
+  }
 }

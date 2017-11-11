@@ -1,11 +1,5 @@
 package ca.ulaval.glo4002.billing.services;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
@@ -27,115 +21,117 @@ import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import java.math.BigDecimal;
+import java.util.List;
+
 public class BillService {
-	ClientRepository clientRepository;
-	ProductRepository productRepository;
-	BillRepository billRepository;
-	BillFactory billFactory;
-	BillDtoFactory billDtoFactory;
+  private ClientRepository clientRepository;
+  private ProductRepository productRepository;
+  private BillRepository billRepository;
+  private BillFactory billFactory;
+  private BillDtoFactory billDtoFactory;
 
-	public BillService() {
-		prepareDatabase();
-		this.clientRepository = new CrmClientRepository();
-		this.productRepository = new CrmProductRepository();
-		// this.billRepository = new InMemoryBillRepository();
-		this.billRepository = new HibernateBillRepository();
-		this.billFactory = new BillFactory();
-		this.billDtoFactory = new BillDtoFactory();
-	}
+  public BillService() {
+    prepareDatabase();
+    this.clientRepository = new CrmClientRepository();
+    this.productRepository = new CrmProductRepository();
+    this.billRepository = new HibernateBillRepository();
+    this.billFactory = new BillFactory();
+    this.billDtoFactory = new BillDtoFactory();
+  }
 
-	public BillService(ClientRepository clientRepository, ProductRepository productRepository,
-			BillRepository billRepository) {
-		this.clientRepository = clientRepository;
-		this.productRepository = productRepository;
-		this.billRepository = billRepository;
-		this.billFactory = new BillFactory();
-		this.billDtoFactory = new BillDtoFactory();
-		// We do not call prepareDatabase() here since this constructor is for tests
-		// only.
-	}
+  public BillService(ClientRepository clientRepository, ProductRepository productRepository,
+                     BillRepository billRepository) {
+    this.clientRepository = clientRepository;
+    this.productRepository = productRepository;
+    this.billRepository = billRepository;
+    this.billFactory = new BillFactory();
+    this.billDtoFactory = new BillDtoFactory();
+  }
 
-	private void prepareDatabase() {
-		EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		EntityManagerProvider.setEntityManager(entityManager);
-	}
+  private void prepareDatabase() {
+    EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    EntityManagerProvider.setEntityManager(entityManager);
+  }
 
-	public BillDto create(OrderDto order) {
-		BillDto billDto = null;
-		if (orderIsValid(order)) {
-			Bill bill = billFactory.createBill(order);
-			billRepository.insert(bill);
-			billDto = billDtoFactory.createBillDto(bill);
-		}
-		return billDto;
-	}
+  public BillDto create(OrderDto order) {
+    BillDto billDto = null;
+    if (orderIsValid(order)) {
+      Bill bill = billFactory.createBill(order);
+      billRepository.insert(bill);
+      billDto = billDtoFactory.createBillDto(bill);
+    }
+    return billDto;
+  }
 
-	public boolean orderIsValid(OrderDto order) {
-		boolean orderIsValid = false;
-		Client client = getClient(order.getClientId());
-		if (clientExists(client) && eachProductsExist(order.getProductDtos())) {
-			if (!hasNegativeValues(order)) {
-				order.setDueTerm(chooseDueTerm(client.getDefaultTerm(), order.getDueTerm()));
-				orderIsValid = true;
-			}
-		}
-		return orderIsValid;
-	}
+  public boolean orderIsValid(OrderDto order) {
+    boolean orderIsValid = false;
+    Client client = getClient(order.getClientId());
+    if (clientExists(client) && eachProductsExist(order.getProductDtos())) {
+      if (!hasNegativeValues(order)) {
+        order.setDueTerm(chooseDueTerm(client.getDefaultTerm(), order.getDueTerm()));
+        orderIsValid = true;
+      }
+    }
+    return orderIsValid;
+  }
 
-	public boolean hasNegativeValues(OrderDto order) {
-		BigDecimal total = new BigDecimal(0);
-		List<ProductDto> listeProducts = order.getProductDtos();
-		for (ProductDto productDto : listeProducts) {
-			total = total.add(productDto.getPrice());
-			if (productDto.getQuantity() < 0) {
-				throw new NegativeException("Quantity", "" + productDto.getQuantity());
-			}
-		}
-		if (total.signum() < 0) {
-			throw new NegativeException("Total", "" + total.toString());
-		}
-		return false;
-	}
+  public boolean hasNegativeValues(OrderDto order) {
+    BigDecimal total = new BigDecimal(0);
+    List<ProductDto> listeProducts = order.getProductDtos();
+    for (ProductDto productDto : listeProducts) {
+      total = total.add(productDto.getPrice());
+      if (productDto.getQuantity() < 0) {
+        throw new NegativeException("Quantity", "" + productDto.getQuantity());
+      }
+    }
+    if (total.signum() < 0) {
+      throw new NegativeException("Total", "" + total.toString());
+    }
+    return false;
+  }
 
-	public boolean dueTermIsValid(DueTerm dueTerm) {
-		return dueTerm != null;
-	}
+  public boolean dueTermIsValid(DueTerm dueTerm) {
+    return dueTerm != null;
+  }
 
-	public DueTerm chooseDueTerm(DueTerm clientDueTerm, DueTerm orderDueTerm) {
-		DueTerm dueTerm;
-		if (dueTermIsValid(orderDueTerm)) {
-			dueTerm = orderDueTerm;
-		} else {
-			dueTerm = clientDueTerm;
-		}
-		return dueTerm;
-	}
+  public DueTerm chooseDueTerm(DueTerm clientDueTerm, DueTerm orderDueTerm) {
+    DueTerm dueTerm;
+    if (dueTermIsValid(orderDueTerm)) {
+      dueTerm = orderDueTerm;
+    } else {
+      dueTerm = clientDueTerm;
+    }
+    return dueTerm;
+  }
 
-	public Client getClient(ClientId clientId) {
-		return clientRepository.getClient(clientId);
-	}
+  public Client getClient(ClientId clientId) {
+    return clientRepository.getClient(clientId);
+  }
 
-	public boolean clientExists(Client client) {
-		return client != null;
-	}
+  public boolean clientExists(Client client) {
+    return client != null;
+  }
 
-	public Product getProduct(ProductId productId) {
-		return productRepository.getProduct(productId);
-	}
+  public Product getProduct(ProductId productId) {
+    return productRepository.getProduct(productId);
+  }
 
-	public boolean productExists(Product product) {
-		return product != null;
-	}
+  public boolean productExists(Product product) {
+    return product != null;
+  }
 
-	public boolean eachProductsExist(List<ProductDto> productDtos) {
-		boolean eachProductsExist = true;
-		for (ProductDto productDto : productDtos) {
-			Product product = getProduct(productDto.getProductId());
-			if (!productExists(product)) {
-				eachProductsExist = false;
-			}
-		}
-		return eachProductsExist;
-	}
+  public boolean eachProductsExist(List<ProductDto> productDtos) {
+    boolean eachProductsExist = true;
+    for (ProductDto productDto : productDtos) {
+      Product product = getProduct(productDto.getProductId());
+      if (!productExists(product)) {
+        eachProductsExist = false;
+      }
+    }
+    return eachProductsExist;
+  }
 }

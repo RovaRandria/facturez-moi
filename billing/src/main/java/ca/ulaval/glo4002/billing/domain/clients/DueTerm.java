@@ -4,5 +4,5 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public enum DueTerm {
-	IMMEDIATE, DAYS30, DAYS90
+  IMMEDIATE, DAYS30, DAYS90
 }

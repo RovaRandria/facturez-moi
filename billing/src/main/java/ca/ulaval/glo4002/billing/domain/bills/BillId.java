@@ -1,41 +1,42 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
-import java.io.Serializable;
-
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
 public class BillId implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private long billId;
+  private static final long serialVersionUID = 1L;
+  private long billId;
 
-	public BillId(long id) {
-		this.billId = id;
-	}
+  public BillId(long id) {
+    this.billId = id;
+  }
 
-	@Override
-	public String toString() {
-		return Long.toString(billId);
-	}
+  @Override
+  public String toString() {
+    return Long.toString(billId);
+  }
 
-	public long getId() {
-		return billId;
-	}
+  public long getId() {
+    return billId;
+  }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
-		BillId billId = (BillId) o;
+    BillId billId = (BillId) o;
 
-		return this.billId == billId.billId;
-	}
+    return this.billId == billId.billId;
+  }
 
-	@Override
-	public int hashCode() {
-		return (int) (billId ^ (billId >>> 32));
-	}
+  @Override
+  public int hashCode() {
+    return (int) (billId ^ (billId >>> Integer.SIZE));
+  }
 }
