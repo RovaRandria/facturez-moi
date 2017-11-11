@@ -16,10 +16,6 @@ public class ClientDto {
 	private String email;
 	private ClientAddress address;
 
-	public ClientDto() {
-		// Jackson
-	}
-
 	public String getCreationDate() {
 		return creationDate;
 	}
@@ -36,31 +32,15 @@ public class ClientDto {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public ClientCategory getCategory() {
 		return category;
-	}
-
-	public void setCategory(ClientCategory category) {
-		this.category = category;
 	}
 
 	public DueTerm getDefaultTerm() {
 		return defaultTerm;
 	}
 
-	public void setDefaultTerm(DueTerm defaultTerm) {
-		this.defaultTerm = defaultTerm;
-	}
-
 	public ClientAddress getAddress() {
 		return address;
-	}
-
-	public void setAddress(ClientAddress address) {
-		this.address = address;
 	}
 }
