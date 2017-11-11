@@ -50,7 +50,7 @@ public class TestBillDtoFactory {
 
   @Test
   public void givenFactory_whenCreateBillDto_thenBillDtoIsValid() {
-    BillDto billDto = billDtoFactory.createBillDto(bill);
+    BillDto billDto = billDtoFactory.create(bill);
     assertTrue(validDto(billDto));
   }
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class BillFactory {
 
-  public Bill createBill(OrderDto order) {
+  public Bill create(OrderDto order) {
     BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
 
     return new Bill(billIdGenerator.getId(), order.getClientId(), order.getDate(), order.getDueTerm(),

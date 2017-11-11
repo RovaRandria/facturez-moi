@@ -20,7 +20,9 @@ import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
+import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.domain.products.Product;
+import ca.ulaval.glo4002.billing.dto.InvoiceDto;
 import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
 import ca.ulaval.glo4002.billing.repository.HibernateInvoiceRepository;
 import ca.ulaval.glo4002.billing.services.InvoiceService;
@@ -59,7 +61,8 @@ public class TestInvoiceService {
 
 	@Test
 	public void givenBillId_whenInvoiceExists_thenReturnTrue() {
-		final Invoice INVOICE = new Invoice();
+		final InvoiceId INVOICE_ID = new InvoiceId(validBillId);
+		final Invoice INVOICE = new Invoice(INVOICE_ID, toDaysDate, DueTerm.DAYS30);
 		Mockito.when(invoiceRepository.find(validBillId)).thenReturn(INVOICE);
 		boolean invoiceExists = service.invoiceExists(validBillId);
 		assertTrue(invoiceExists);
@@ -76,9 +79,9 @@ public class TestInvoiceService {
 		Bill bill = new Bill(validBillId, clientId, toDaysDate, DueTerm.DAYS30, products);
 		Mockito.when(billRepository.find(validBillId)).thenReturn(bill);
 		Date billCreationDate = bill.getCreationDate();
-		Invoice invoice = service.createInvoice(validBillId);
+		InvoiceDto invoiceDto = service.create(validBillId);
 		Date expectedDueDate = addDaysToDate(billCreationDate, DueTerm.convertToInt(bill.getDueTerm()));
-		assertEquals(expectedDueDate, invoice.getDueDate());
+		assertTrue(expectedDueDate.equals(invoiceDto.getExpectedPayment()));
 	}
 
 	private Date addDaysToDate(Date date, int days) {
@@ -87,12 +90,4 @@ public class TestInvoiceService {
 		sumDate.add(Calendar.DATE, days);
 		return sumDate.getTime();
 	}
-
-	/*
-	 * @Test public void givenBillId_whenNoInvoiceExists_thenCreateInvoice() {
-	 * BillId billId = new BillId(1); boolean invoiceExists =
-	 * service.invoiceExists(billId);
-	 * 
-	 * }
-	 */
 }

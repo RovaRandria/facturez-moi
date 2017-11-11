@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 
@@ -32,8 +31,7 @@ public class TestBillResource {
 
 	@Test
 	public void givenBillResource_whenCreateInvoice_thenCreateInvoiceIsCalled() {
-		BillId billId = new BillId(BILL_ID);
-		billResource.createInvoice(billId);
-		Mockito.verify(billResource).createInvoice(billId);
+		billResource.createInvoice((int) BILL_ID);
+		Mockito.verify(billResource).createInvoice((int) BILL_ID);
 	}
 }

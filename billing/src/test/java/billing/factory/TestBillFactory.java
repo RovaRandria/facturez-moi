@@ -36,7 +36,7 @@ public class TestBillFactory {
 
   @Test
   public void givenFactory_whenCreateBill_thenBillIsValid() {
-    Bill bill = billFactory.createBill(orderDto);
+    Bill bill = billFactory.create(orderDto);
     assertTrue(validBill(bill));
   }
 

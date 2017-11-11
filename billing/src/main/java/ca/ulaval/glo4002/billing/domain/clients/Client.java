@@ -2,61 +2,64 @@ package ca.ulaval.glo4002.billing.domain.clients;
 
 public class Client {
 
-  private ClientId id;
-  private ClientCategory category;
-  private String creationDate;
-  private DueTerm defaultTerm;
-  private String fullName;
-  private String email;
-  private ClientAddress address;
+	private ClientId id;
+	private ClientCategory category;
+	private String creationDate;
+	private DueTerm defaultTerm;
+	private String fullName;
+	private String email;
+	private ClientAddress address;
 
-  public Client(ClientId id) {
-    this.id = id;
-    this.category = null;
-    this.creationDate = null;
-    this.defaultTerm = null;
-    this.fullName = "";
-    this.email = "";
-    this.address = null;
-  }
+	public Client() {
+	}
 
-  public Client(ClientId id, ClientCategory category, String creationDate, DueTerm defaultTerm,
-                String fullName, String email, ClientAddress address) {
-    this.id = id;
-    this.category = category;
-    this.creationDate = creationDate;
-    this.defaultTerm = defaultTerm;
-    this.fullName = fullName;
-    this.email = email;
-    this.address = address;
-  }
+	public Client(ClientId id) {
+		this.id = id;
+		this.category = null;
+		this.creationDate = null;
+		this.defaultTerm = null;
+		this.fullName = "";
+		this.email = "";
+		this.address = null;
+	}
 
-  public ClientId getClientId() {
-    return id;
-  }
+	public Client(ClientId id, ClientCategory category, String creationDate, DueTerm defaultTerm, String fullName,
+			String email, ClientAddress address) {
+		this.id = id;
+		this.category = category;
+		this.creationDate = creationDate;
+		this.defaultTerm = defaultTerm;
+		this.fullName = fullName;
+		this.email = email;
+		this.address = address;
+	}
 
-  public ClientCategory getCategory() {
-    return category;
-  }
+	public ClientId getClientId() {
+		return id;
+	}
 
-  public String getCreationDate() {
-    return creationDate;
-  }
+	public ClientCategory getCategory() {
+		return category;
+	}
 
-  public DueTerm getDefaultTerm() {
-    return defaultTerm;
-  }
+	public String getCreationDate() {
+		return creationDate;
+	}
 
-  public String getFullName() {
-    return fullName;
-  }
+	public DueTerm getDefaultTerm() {
+		return defaultTerm;
+	}
 
-  public String getEmail() {
-    return email;
-  }
+	public String getFullName() {
+		return fullName;
+	}
 
-  public ClientAddress getAddress() {
-    return address;
-  }
+	public String getEmail() {
+		return email;
+	}
+
+	public ClientAddress getAddress() {
+		return address;
+	}
 
 }

@@ -28,11 +28,11 @@ public class BillResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
-	public InvoiceDto createInvoice(@PathParam("id") BillId billId) {
+	@Path("{id}")
+	public InvoiceDto createInvoice(@PathParam("id") int id) {
+		BillId billId = new BillId(id);
 		InvoiceService invoiceService = new InvoiceService();
-		// return invoiceService.createInvoice(billId);
-		return null;
+		return invoiceService.create(billId);
 	}
 
 }
