@@ -31,9 +31,6 @@ public class Bill {
 	private Date creationDate;
 	@Embedded
 	private DueTerm dueTerm;
-	// @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	// @JoinColumn(name = "productId")
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "billId")
 	private List<Product> products;
