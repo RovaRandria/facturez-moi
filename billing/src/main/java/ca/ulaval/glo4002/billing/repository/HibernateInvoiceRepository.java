@@ -16,7 +16,7 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
   }
 
   @Override
-  public Invoice findInvoice(BillId billId) {
+  public Invoice find(BillId billId) {
     return entityManager.find(Invoice.class, billId);
   }
 }
