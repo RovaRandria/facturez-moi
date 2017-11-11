@@ -1,4 +1,4 @@
-package billing;
+package billing.factory;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +21,7 @@ import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 
-public class BillDtoFactoryTest {
+public class TestBillDtoFactory {
 
 	Bill bill;
 	DueTerm dueTerm;

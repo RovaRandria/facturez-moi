@@ -1,4 +1,4 @@
-package billing;
+package billing.factory;
 
 import static junit.framework.TestCase.*;
 
@@ -18,7 +18,7 @@ import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.factory.BillFactory;
 
-public class BillFactoryTest {
+public class TestBillFactory {
 
 	BillFactory billFactory;
 	OrderDto orderDto;
