@@ -30,7 +30,7 @@ public class CrmProductRepository implements ProductRepository {
 		} catch (IOException e1) {
 			throw new NotFoundException(Product.class.getSimpleName(), id.toString());
 		}
-		return new Product(id, productDto.getName(), productDto.getPrice());
+		return new Product(id, productDto.getName(), productDto.getPrice(), productDto.getQuantity());
 	}
 
 }

@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 
 @JsonIgnoreProperties(value = { "links" }, ignoreUnknown = true)
 public class ProductDto {
+
 	private BigDecimal price;
 	private String name;
 	private ProductId productId;
@@ -27,32 +28,23 @@ public class ProductDto {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setNote(String note) {
-		this.name = note;
 	}
 
 	public ProductId getProductId() {
 		return productId;
 	}
 
-	public void setProductId(ProductId productId) {
-		this.productId = productId;
-	}
-
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

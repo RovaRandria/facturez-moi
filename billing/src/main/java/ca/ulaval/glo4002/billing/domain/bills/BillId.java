@@ -1,30 +1,41 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
-public class BillId {
-  private long id;
+import java.io.Serializable;
 
-  public BillId(long id) {
-    this.id = id;
-  }
+import javax.persistence.Embeddable;
 
-  @Override
-  public String toString() {
-    return Long.toString(id);
-  }
+@Embeddable
+public class BillId implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long billId;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+	public BillId(long id) {
+		this.billId = id;
+	}
 
-    BillId billId = (BillId) o;
+	@Override
+	public String toString() {
+		return Long.toString(billId);
+	}
 
-    return id == billId.id;
-  }
+	public long getId() {
+		return billId;
+	}
 
-  @Override
-  public int hashCode() {
-    final int INT_BYTES = 32;
-    return (int) (id ^ (id >>> INT_BYTES));
-  }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		BillId billId = (BillId) o;
+
+		return this.billId == billId.billId;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) (billId ^ (billId >>> 32));
+	}
 }
