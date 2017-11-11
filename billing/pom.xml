@@ -21,8 +21,9 @@
     <jackson.core.version>2.9.1</jackson.core.version>
     <glassfish.jersey.containers.version>2.26</glassfish.jersey.containers.version>
     <maven-checkstyle.version>2.17</maven-checkstyle.version>
-    <version.sun.jersey>1.19.4</version.sun.jersey>
-    
+    <sun.jersey.version>1.19.4</sun.jersey.version>
+    <hibernate.version>5.0.12.Final</hibernate.version>
+    <h2db.version>1.4.196</h2db.version>
   </properties>
 
   <dependencies>
@@ -63,15 +64,25 @@
     <dependency>
         <groupId>com.sun.jersey</groupId>
         <artifactId>jersey-client</artifactId>
-        <version>${version.sun.jersey}</version>
+        <version>${sun.jersey.version}</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
     <dependency>
         <groupId>com.sun.jersey</groupId>
         <artifactId>jersey-json</artifactId>
-        <version>${version.sun.jersey}</version>
+        <version>${sun.jersey.version}</version>
     </dependency>
     
+    <dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-core</artifactId>
+		  <version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.h2database</groupId>
+		  <artifactId>h2</artifactId>
+		  <version>${h2db.version}</version>
+		</dependency>
   </dependencies>
   
   

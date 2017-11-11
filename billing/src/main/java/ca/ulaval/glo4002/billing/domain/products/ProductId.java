@@ -1,29 +1,41 @@
 package ca.ulaval.glo4002.billing.domain.products;
 
-public class ProductId {
-	private int id;
+import java.io.Serializable;
 
-	public ProductId(int id) {
-		this.id = id;
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ProductId implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private int productId;
+
+	public ProductId() {
+		// Hibernate default constructor. Do not call.
 	}
 
-    @Override
-    public String toString() {
-        return Integer.toString(id);
-    }
+	public ProductId(int id) {
+		this.productId = id;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public String toString() {
+		return Integer.toString(productId);
+	}
 
-        ProductId productId = (ProductId) o;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        return id == productId.id;
-    }
+		ProductId productId = (ProductId) o;
 
-    @Override
-    public int hashCode() {
-        return id;
-    }
+		return this.productId == productId.productId;
+	}
+
+	@Override
+	public int hashCode() {
+		return productId;
+	}
 }

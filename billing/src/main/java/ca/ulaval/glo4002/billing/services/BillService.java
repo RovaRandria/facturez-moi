@@ -3,6 +3,9 @@ package ca.ulaval.glo4002.billing.services;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
@@ -15,12 +18,14 @@ import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
+import ca.ulaval.glo4002.billing.entitymanager.EntityManagerFactoryProvider;
+import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
 import ca.ulaval.glo4002.billing.exceptions.NegativeException;
 import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 import ca.ulaval.glo4002.billing.factory.BillFactory;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
-import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
+import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
 
 public class BillService {
 	ClientRepository clientRepository;
@@ -30,9 +35,11 @@ public class BillService {
 	BillDtoFactory billDtoFactory;
 
 	public BillService() {
+		prepareDatabase();
 		this.clientRepository = new CrmClientRepository();
 		this.productRepository = new CrmProductRepository();
-		this.billRepository = new InMemoryBillRepository();
+		// this.billRepository = new InMemoryBillRepository();
+		this.billRepository = new HibernateBillRepository();
 		this.billFactory = new BillFactory();
 		this.billDtoFactory = new BillDtoFactory();
 	}
@@ -44,13 +51,21 @@ public class BillService {
 		this.billRepository = billRepository;
 		this.billFactory = new BillFactory();
 		this.billDtoFactory = new BillDtoFactory();
+		// We do not call prepareDatabase() here since this constructor is for tests
+		// only.
+	}
+
+	private void prepareDatabase() {
+		EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityManagerProvider.setEntityManager(entityManager);
 	}
 
 	public BillDto create(OrderDto order) {
 		BillDto billDto = null;
 		if (orderIsValid(order)) {
 			Bill bill = billFactory.createBill(order);
-			billRepository.saveBill(bill);
+			billRepository.insert(bill);
 			billDto = billDtoFactory.createBillDto(bill);
 		}
 		return billDto;
