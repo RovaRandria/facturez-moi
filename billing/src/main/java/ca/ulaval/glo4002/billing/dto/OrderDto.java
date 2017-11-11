@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
@@ -39,5 +40,9 @@ public class OrderDto {
 
 	public List<ProductDto> getProductDtos() {
 		return items;
+	}
+
+	public void setDueTerm(DueTerm dueTerm) {
+		this.dueTerm = dueTerm;
 	}
 }

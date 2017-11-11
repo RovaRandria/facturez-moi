@@ -31,10 +31,23 @@ import ca.ulaval.glo4002.billing.services.BillService;
 public class TestBillService {
 
 	private BillService service;
-	private Client client;
 	private final int GOOD_ID = 1;
 	private final int WRONG_ID = -1;
 	private List<ProductDto> productDtos;
+
+	private OrderDto order;
+
+	private ProductId validProductId;
+	private Product validProduct;
+
+	private ProductId invalidProductId;
+	private Product invalidProduct;
+
+	private ClientId validClientId;
+	private Client validClient;
+
+	private ClientId invalidClientId;
+	private Client invalidClient;
 
 	@Mock
 	private CrmClientRepository crmClientRepository;
@@ -50,25 +63,40 @@ public class TestBillService {
 
 	@Before
 	public void init() {
+		final String NAME = "name";
+		final BigDecimal PRICE = new BigDecimal(1);
+		final int QUANTITY = 1;
+
 		service = new BillService(crmClientRepository, crmProductRepository, inMemoryBillRepository);
 		productDtos = new ArrayList<>();
+		productDtos.add(createProductDto());
+
+		validProductId = new ProductId(GOOD_ID);
+		invalidProductId = new ProductId(WRONG_ID);
+		validProduct = new Product(validProductId, NAME, PRICE, QUANTITY);
+		invalidProduct = null;
+
+		validClientId = new ClientId(GOOD_ID);
+		invalidClientId = new ClientId(WRONG_ID);
+		validClient = new Client(validClientId);
+		invalidClient = null;
+
+		Mockito.when(crmProductRepository.getProduct(validProductId)).thenReturn(validProduct);
+		Mockito.when(crmProductRepository.getProduct(invalidProductId)).thenReturn(invalidProduct);
+		Mockito.when(crmClientRepository.getClient(validClientId)).thenReturn(validClient);
+		Mockito.when(crmClientRepository.getClient(validClientId)).thenReturn(validClient);
 	}
 
 	@Test
-	public void givenClientId_whenClientExists_thenReturnTrue() {
-		ClientId clientId = new ClientId(GOOD_ID);
-		client = new Client(clientId);
-		Mockito.when(crmClientRepository.getClient(clientId)).thenReturn(client);
-		boolean returnedValue = service.clientExists(clientId);
-		assertTrue(returnedValue);
+	public void givenClientId_whenClientExists_thenClientIsNotNull() {
+		Client returnedClient = service.getClient(validClientId);
+		assertNotNull(returnedClient);
 	}
 
 	@Test
-	public void givenClientId_whenClientDoesNotExists_thenReturnFalse() {
-		ClientId badClientId = new ClientId(WRONG_ID);
-		Mockito.when(crmClientRepository.getClient(badClientId)).thenReturn(null);
-		boolean returnedValue = service.clientExists(badClientId);
-		assertFalse(returnedValue);
+	public void givenClientId_whenClientDoesNotExists_thenClientIsNull() {
+		Client client = service.getClient(invalidClientId);
+		assertNull(client);
 	}
 
 	@Test
@@ -87,47 +115,59 @@ public class TestBillService {
 	@Test
 	public void givenOrder_whenDueTermIsAbsent_thenUseClientDueTerm() {
 		ClientId goodClientId = new ClientId(GOOD_ID);
-		client = new Client(goodClientId, null, null, DueTerm.DAYS30, "John Doe", "john.doe@example.com", null);
+		Client client = new Client(goodClientId, null, null, DueTerm.DAYS30, "", "", null);
 		Mockito.when(crmClientRepository.getClient(goodClientId)).thenReturn(client);
-		DueTerm clientDueTerm = service.useClientDueTerm(goodClientId);
-		assertEquals(DueTerm.DAYS30, clientDueTerm);
+		DueTerm nullDueTerm = null;
+		DueTerm dueTerm = service.chooseDueTerm(client.getDefaultTerm(), nullDueTerm);
+		assertEquals(DueTerm.DAYS30, dueTerm);
 	}
 
 	@Test
-	public void givenOrder_whenProductIsValid_thenReturnTrue() {
-		ProductId goodProductId = new ProductId(GOOD_ID);
-		Product product = new Product(goodProductId);
-		Mockito.when(crmProductRepository.getProduct(goodProductId)).thenReturn(product);
-		boolean productExists = service.productExists(goodProductId);
-		assertTrue(productExists);
+	public void givenOrder_whenProductIsValid_thenProductIsNotNull() {
+		Product returnedProduct = service.getProduct(validProductId);
+		assertNotNull(returnedProduct);
 	}
 
 	@Test
 	public void givenOrder_whenProductIsNotValid_thenReturnFalse() {
-		ProductId wrongProductId = new ProductId(WRONG_ID);
-		Mockito.when(crmProductRepository.getProduct(wrongProductId)).thenReturn(null);
-		boolean productExists = service.productExists(wrongProductId);
-		assertFalse(productExists);
+		Product returnedProduct = service.getProduct(invalidProductId);
+		assertNull(returnedProduct);
 	}
 
 	@Test(expected = NegativeException.class)
 	public void givenProducts_whenQuantityHasNegativeValue_thenNegativeExceptionIsThrown() {
 		final int NEGATIVE_VALUE = -1;
+		final boolean validDto = true;
 		ProductDto productDto = createProductDto();
 		productDto.setQuantity(NEGATIVE_VALUE);
-		productDtos.add(productDto);
-		OrderDto order = new OrderDto(new ClientId(GOOD_ID), new Date(), DueTerm.DAYS30, productDtos);
+		order = createOrderDto(validDto);
+		order.getProductDtos().add(productDto);
 		service.hasNegativeValues(order);
 	}
 
 	@Test(expected = NegativeException.class)
-	public void givenProducts_whenPriceHasNegativeValue_thenNegativeExceptionIsThrown() {
-		final int NEGATIVE_VALUE = -1;
+	public void givenProducts_whenTotalHasNegativeValue_thenNegativeExceptionIsThrown() {
+		final int NEGATIVE_VALUE = -100;
+		final boolean validDto = true;
 		ProductDto productDto = createProductDto();
 		productDto.setPrice(new BigDecimal(NEGATIVE_VALUE));
-		productDtos.add(productDto);
-		OrderDto order = new OrderDto(new ClientId(GOOD_ID), new Date(), DueTerm.DAYS30, productDtos);
+		order = createOrderDto(validDto);
+		order.getProductDtos().add(productDto);
 		service.hasNegativeValues(order);
+	}
+
+	@Test
+	public void givenValidOrderDto_whenValidating_thenReturnTrue() {
+		final boolean validDto = true;
+		order = createOrderDto(validDto);
+		assertTrue(service.orderIsValid(order));
+	}
+
+	@Test
+	public void givenUnvalidOrderDto_whenValidating_thenReturnFalse() {
+		final boolean validDto = false;
+		order = createOrderDto(validDto);
+		assertFalse(service.orderIsValid(order));
 	}
 
 	private ProductDto createProductDto() {
@@ -137,5 +177,13 @@ public class TestBillService {
 		final ProductId PRODUCT_ID = new ProductId(GOOD_ID);
 		ProductDto productDto = new ProductDto(PRICE, NAME, PRODUCT_ID, QUANTITY);
 		return productDto;
+	}
+
+	private OrderDto createOrderDto(boolean isValid) {
+		productDtos = new ArrayList<>();
+		productDtos.add(createProductDto());
+		ClientId clientId = new ClientId(isValid ? GOOD_ID : WRONG_ID);
+		order = new OrderDto(clientId, new Date(), DueTerm.DAYS30, productDtos);
+		return order;
 	}
 }
