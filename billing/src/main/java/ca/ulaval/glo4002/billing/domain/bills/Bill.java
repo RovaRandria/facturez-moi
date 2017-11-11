@@ -8,18 +8,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SecondaryTable;
 
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 
 @Entity(name = "Bill")
-@SecondaryTable(name = "ClientId")
 public class Bill {
 	@Id
 	@Embedded
@@ -31,7 +31,11 @@ public class Bill {
 	private Date creationDate;
 	@Embedded
 	private DueTerm dueTerm;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	// @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	// @JoinColumn(name = "productId")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "billId")
 	private List<Product> products;
 
 	public Bill(BillId billId, ClientId clientId, Date creationDate, DueTerm dueTerm, List<Product> products) {

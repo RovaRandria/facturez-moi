@@ -12,8 +12,10 @@ import javax.persistence.Id;
 @Entity(name = "Product")
 public class Product {
 	@Id
-	@Embedded
+	@Column(name = "index")
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int index;
+	@Embedded
 	private ProductId id;
 	@Column(name = "name")
 	private String name;

@@ -6,7 +6,12 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class ProductId implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int productId;
+
+	public ProductId() {
+		// Hibernate default constructor. Do not call.
+	}
 
 	public ProductId(int id) {
 		this.productId = id;
