@@ -21,8 +21,15 @@ public class TestBillResource {
   public MockitoRule mockitoRule = MockitoJUnit.rule();
 
   @Test
-  public void givenBillResource_whenCreate_thenCreateIsCalled() {
+  public void givenBillResource_whenCreateBill_thenCreateIsCalled() {
     billResource.create(orderDto);
     Mockito.verify(billResource).create(orderDto);
+  }
+
+  @Test
+  public void givenBillResource_whenCreateInvoice_thenCreateInvoiceIsCalled() {
+    final int BILL_ID = 1;
+    billResource.createInvoice(BILL_ID);
+    Mockito.verify(billResource).createInvoice(BILL_ID);
   }
 }

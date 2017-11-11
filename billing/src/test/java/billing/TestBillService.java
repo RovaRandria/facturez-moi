@@ -163,7 +163,7 @@ public class TestBillService {
   }
 
   @Test
-  public void givenUnvalidOrderDto_whenValidating_thenReturnFalse() {
+  public void givenInvalidOrderDto_whenValidating_thenReturnFalse() {
     final boolean validDto = false;
     order = createOrderDto(validDto);
     assertFalse(service.orderIsValid(order));
