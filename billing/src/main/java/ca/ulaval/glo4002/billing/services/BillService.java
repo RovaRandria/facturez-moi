@@ -48,15 +48,24 @@ public class BillService {
 
 	public BillDto create(OrderDto order) {
 		BillDto billDto = null;
-
-		if (clientExists(order.getClientId()) && eachProductsExist(order.getProductDtos())) {
-			if (!hasNegativeValues(order)) {
-				Bill bill = billFactory.createBill(order);
-				billRepository.saveBill(bill);
-				billDto = billDtoFactory.createBillDto(bill);
-			}
+		if (orderIsValid(order)) {
+			Bill bill = billFactory.createBill(order);
+			billRepository.saveBill(bill);
+			billDto = billDtoFactory.createBillDto(bill);
 		}
 		return billDto;
+	}
+
+	public boolean orderIsValid(OrderDto order) {
+		boolean orderIsValid = false;
+		Client client = getClient(order.getClientId());
+		if (clientExists(client) && eachProductsExist(order.getProductDtos())) {
+			if (!hasNegativeValues(order)) {
+				order.setDueTerm(chooseDueTerm(client.getDefaultTerm(), order.getDueTerm()));
+				orderIsValid = true;
+			}
+		}
+		return orderIsValid;
 	}
 
 	public boolean hasNegativeValues(OrderDto order) {
@@ -78,34 +87,37 @@ public class BillService {
 		return dueTerm != null;
 	}
 
-	public DueTerm useClientDueTerm(ClientId clientId) {
-		return clientRepository.getClient(clientId).getDefaultTerm();
-	}
-
-	public DueTerm chooseDueTerm(OrderDto order) {
+	public DueTerm chooseDueTerm(DueTerm clientDueTerm, DueTerm orderDueTerm) {
 		DueTerm dueTerm;
-		if (dueTermIsValid(order.getDueTerm())) {
-			dueTerm = order.getDueTerm();
+		if (dueTermIsValid(orderDueTerm)) {
+			dueTerm = orderDueTerm;
 		} else {
-			dueTerm = useClientDueTerm(order.getClientId());
+			dueTerm = clientDueTerm;
 		}
 		return dueTerm;
 	}
 
-	public boolean clientExists(ClientId clientId) {
-		Client client = clientRepository.getClient(clientId);
+	public Client getClient(ClientId clientId) {
+		return clientRepository.getClient(clientId);
+	}
+
+	public boolean clientExists(Client client) {
 		return client != null;
 	}
 
-	public boolean productExists(ProductId productId) {
-		Product product = productRepository.getProduct(productId);
+	public Product getProduct(ProductId productId) {
+		return productRepository.getProduct(productId);
+	}
+
+	public boolean productExists(Product product) {
 		return product != null;
 	}
 
 	public boolean eachProductsExist(List<ProductDto> productDtos) {
 		boolean eachProductsExist = true;
 		for (ProductDto productDto : productDtos) {
-			if (!productExists(productDto.getProductId())) {
+			Product product = getProduct(productDto.getProductId());
+			if (!productExists(product)) {
 				eachProductsExist = false;
 			}
 		}
