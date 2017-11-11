@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing;
+package ca.ulaval.glo4002.billing.interfaces.rest;
 
 import java.util.Date;
 
