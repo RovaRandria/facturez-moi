@@ -98,7 +98,9 @@
     <!-- Checks for Naming Conventions.                  -->
     <!-- See http://checkstyle.sf.net/config_naming.html -->
     <module name="ConstantName"/>
-    <module name="LocalFinalVariableName"/>
+    <module name="LocalFinalVariableName">
+      <property name="format" value="^[A-Z][_A-Z]*"/>
+    </module>
     <module name="LocalVariableName"/>
     <module name="MemberName"/>
     <module name="MethodName"/>
@@ -140,7 +142,6 @@
     <!-- Modifier Checks                                    -->
     <!-- See http://checkstyle.sf.net/config_modifiers.html -->
     <module name="ModifierOrder"/>
-    <module name="RedundantModifier"/>
 
     <!-- Checks for blocks. You know, those {}'s         -->
     <!-- See http://checkstyle.sf.net/config_blocks.html -->
@@ -157,7 +158,10 @@
     <module name="AvoidInlineConditionals"/>
     <module name="EmptyStatement"/>
     <module name="EqualsHashCode"/>
-    <module name="HiddenField"/>
+    <module name="HiddenField">
+      <property name="ignoreSetter" value="true"/>
+      <property name="ignoreConstructorParameter" value="true"/>
+    </module>
     <module name="IllegalInstantiation"/>
     <module name="InnerAssignment"/>
     <module name="MagicNumber"/>
@@ -175,8 +179,6 @@
       as it could bring some problems when using mocks.
     -->
     <!--<module name="DesignForExtension"/>-->
-    <module name="FinalClass"/>
-    <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
     <module name="VisibilityModifier"/>
 
