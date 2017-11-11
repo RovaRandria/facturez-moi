@@ -1,29 +1,30 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
 public class BillId {
-	private long id;
+  private long id;
 
-	public BillId(long id) {
-		this.id = id;
-	}
+  public BillId(long id) {
+    this.id = id;
+  }
 
-    @Override
-    public String toString() {
-        return Long.toString(id);
-    }
+  @Override
+  public String toString() {
+    return Long.toString(id);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-        BillId billId = (BillId) o;
+    BillId billId = (BillId) o;
 
-        return id == billId.id;
-    }
+    return id == billId.id;
+  }
 
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
+  @Override
+  public int hashCode() {
+    final int INT_BYTES = 32;
+    return (int) (id ^ (id >>> INT_BYTES));
+  }
 }
