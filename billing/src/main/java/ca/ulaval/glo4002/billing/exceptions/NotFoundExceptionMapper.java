@@ -13,10 +13,7 @@ public class NotFoundExceptionMapper implements ExceptionMapper<BillingException
 
 	@Override
 	public Response toResponse(BillingException arg0) {
-		ExceptionDto exceptionDto = new ExceptionDto();
-		exceptionDto.setDescription(arg0.getDescription());
-		exceptionDto.setEntity(arg0.getEntity());
-		exceptionDto.setError(arg0.getError());
+		ExceptionDto exceptionDto = new ExceptionDto(arg0.getError(), arg0.getDescription(), arg0.getEntity());
 
 		ErrorsDto errors = new ErrorsDto();
 		errors.addError(exceptionDto);

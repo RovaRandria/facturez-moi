@@ -28,32 +28,16 @@ public class ProductDto {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setNote(String note) {
-		this.name = note;
 	}
 
 	public ProductId getProductId() {
 		return productId;
 	}
 
-	public void setProductId(ProductId productId) {
-		this.productId = productId;
-	}
-
 	public int getQuantity() {
 		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 }

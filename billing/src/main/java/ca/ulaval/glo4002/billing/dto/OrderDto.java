@@ -12,25 +12,18 @@ import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 
 public class OrderDto {
 
-	@JsonSerialize
 	private ClientId clientId;
-
-	@JsonSerialize
 	private Date creationDate;
-
-	@JsonSerialize
 	private DueTerm dueTerm;
-
-	@JsonProperty("items")
-	private List<ProductDto> productDtos;
+	private List<ProductDto> items;
 
 	@JsonCreator
 	public OrderDto(@JsonProperty("clientId") ClientId clientId, @JsonProperty("creationDate") Date creationDate,
-			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ProductDto> productDtos) {
+			@JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ProductDto> items) {
 		this.clientId = clientId;
 		this.creationDate = creationDate;
 		this.dueTerm = dueTerm;
-		this.productDtos = productDtos;
+		this.items = items;
 	}
 
 	public ClientId getClientId() {
@@ -46,7 +39,7 @@ public class OrderDto {
 	}
 
 	public List<ProductDto> getProductDtos() {
-		return productDtos;
+		return items;
 	}
 
 	public void setDueTerm(DueTerm dueTerm) {
