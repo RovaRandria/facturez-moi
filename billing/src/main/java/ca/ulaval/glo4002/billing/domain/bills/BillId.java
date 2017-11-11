@@ -1,19 +1,24 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
-public class BillId {
-	private long id;
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class BillId implements Serializable {
+	private long billId;
 
 	public BillId(long id) {
-		this.id = id;
+		this.billId = id;
 	}
 
 	@Override
 	public String toString() {
-		return Long.toString(id);
+		return Long.toString(billId);
 	}
 
 	public long getId() {
-		return id;
+		return billId;
 	}
 
 	@Override
@@ -25,11 +30,11 @@ public class BillId {
 
 		BillId billId = (BillId) o;
 
-		return id == billId.id;
+		return this.billId == billId.billId;
 	}
 
 	@Override
 	public int hashCode() {
-		return (int) (id ^ (id >>> 32));
+		return (int) (billId ^ (billId >>> 32));
 	}
 }

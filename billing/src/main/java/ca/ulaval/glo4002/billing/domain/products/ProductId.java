@@ -1,29 +1,36 @@
 package ca.ulaval.glo4002.billing.domain.products;
 
-public class ProductId {
-	private int id;
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class ProductId implements Serializable {
+	private int productId;
 
 	public ProductId(int id) {
-		this.id = id;
+		this.productId = id;
 	}
 
-    @Override
-    public String toString() {
-        return Integer.toString(id);
-    }
+	@Override
+	public String toString() {
+		return Integer.toString(productId);
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        ProductId productId = (ProductId) o;
+		ProductId productId = (ProductId) o;
 
-        return id == productId.id;
-    }
+		return this.productId == productId.productId;
+	}
 
-    @Override
-    public int hashCode() {
-        return id;
-    }
+	@Override
+	public int hashCode() {
+		return productId;
+	}
 }

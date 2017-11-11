@@ -1,29 +1,37 @@
 package ca.ulaval.glo4002.billing.domain.clients;
 
-public class ClientId {
-	private long id;
+import javax.persistence.Embeddable;
 
-	public ClientId(long id) {
-		this.id = id;
+@Embeddable
+public class ClientId {
+	private long clientId;
+
+	public ClientId() {
+		// Hibernate default constructor. Do not call.
 	}
 
-    @Override
-    public String toString() {
-        return Long.toString(id);
-    }
+	public ClientId(long id) {
+		this.clientId = id;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public String toString() {
+		return Long.toString(clientId);
+	}
 
-        ClientId clientId = (ClientId) o;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        return id == clientId.id;
-    }
+		ClientId clientId = (ClientId) o;
 
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
-    }
+		return this.clientId == clientId.clientId;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) (clientId ^ (clientId >>> 32));
+	}
 }

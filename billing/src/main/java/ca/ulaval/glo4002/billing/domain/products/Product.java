@@ -2,10 +2,24 @@ package ca.ulaval.glo4002.billing.domain.products;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity(name = "Product")
 public class Product {
+	@Id
+	@Embedded
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private ProductId id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "unitPrice")
 	private BigDecimal unitPrice;
+	@Column(name = "quantity")
 	private int quantity;
 
 	public Product(ProductId id) {

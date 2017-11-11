@@ -4,16 +4,35 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SecondaryTable;
+
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 
+@Entity(name = "Bill")
+@SecondaryTable(name = "ClientId")
 public class Bill {
-	BillId billId;
-	ClientId clientId;
-	Date creationDate;
-	DueTerm dueTerm;
-	List<Product> products;
+	@Id
+	@Embedded
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private BillId billId;
+	@Embedded
+	private ClientId clientId;
+	@Column(name = "creationDate")
+	private Date creationDate;
+	@Embedded
+	private DueTerm dueTerm;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Product> products;
 
 	public Bill(BillId billId, ClientId clientId, Date creationDate, DueTerm dueTerm, List<Product> products) {
 		this.billId = billId;
