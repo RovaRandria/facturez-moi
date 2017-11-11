@@ -65,7 +65,7 @@ public class BillService {
 		BillDto billDto = null;
 		if (orderIsValid(order)) {
 			Bill bill = billFactory.createBill(order);
-			billRepository.saveBill(bill);
+			billRepository.insert(bill);
 			billDto = billDtoFactory.createBillDto(bill);
 		}
 		return billDto;
