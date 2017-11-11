@@ -49,7 +49,7 @@ public class BillService {
 	public BillDto create(OrderDto order) {
 		BillDto billDto = null;
 
-		if (clientAndProductsExist(order)) {
+		if (clientExists(order.getClientId()) && eachProductsExist(order.getProductDtos())) {
 			if (!hasNegativeValues(order)) {
 				Bill bill = billFactory.createBill(order);
 				billRepository.saveBill(bill);
@@ -59,7 +59,7 @@ public class BillService {
 		return billDto;
 	}
 
-	private boolean hasNegativeValues(OrderDto order) {
+	public boolean hasNegativeValues(OrderDto order) {
 		BigDecimal total = new BigDecimal(0);
 		List<ProductDto> listeProducts = order.getProductDtos();
 		for (ProductDto productDto : listeProducts) {
@@ -102,14 +102,7 @@ public class BillService {
 		return product != null;
 	}
 
-	public boolean clientAndProductsExist(OrderDto order) {
-		if (clientExists(order.getClientId()) && eachProductsExist(order.getProductDtos())) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean eachProductsExist(List<ProductDto> productDtos) {
+	public boolean eachProductsExist(List<ProductDto> productDtos) {
 		boolean eachProductsExist = true;
 		for (ProductDto productDto : productDtos) {
 			if (!productExists(productDto.getProductId())) {

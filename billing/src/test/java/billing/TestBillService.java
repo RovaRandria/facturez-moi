@@ -2,7 +2,9 @@ package billing;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -13,12 +15,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
+import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
+import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
+import ca.ulaval.glo4002.billing.exceptions.NegativeException;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
@@ -106,4 +110,32 @@ public class TestBillService {
 		assertFalse(productExists);
 	}
 
+	@Test(expected = NegativeException.class)
+	public void givenProducts_whenQuantityHasNegativeValue_thenNegativeExceptionIsThrown() {
+		final int NEGATIVE_VALUE = -1;
+		ProductDto productDto = createProductDto();
+		productDto.setQuantity(NEGATIVE_VALUE);
+		productDtos.add(productDto);
+		OrderDto order = new OrderDto(new ClientId(GOOD_ID), new Date(), DueTerm.DAYS30, productDtos);
+		service.hasNegativeValues(order);
+	}
+
+	@Test(expected = NegativeException.class)
+	public void givenProducts_whenPriceHasNegativeValue_thenNegativeExceptionIsThrown() {
+		final int NEGATIVE_VALUE = -1;
+		ProductDto productDto = createProductDto();
+		productDto.setPrice(new BigDecimal(NEGATIVE_VALUE));
+		productDtos.add(productDto);
+		OrderDto order = new OrderDto(new ClientId(GOOD_ID), new Date(), DueTerm.DAYS30, productDtos);
+		service.hasNegativeValues(order);
+	}
+
+	private ProductDto createProductDto() {
+		final int QUANTITY = 1;
+		final BigDecimal PRICE = new BigDecimal(1);
+		final String NAME = "name";
+		final ProductId PRODUCT_ID = new ProductId(GOOD_ID);
+		ProductDto productDto = new ProductDto(PRICE, NAME, PRODUCT_ID, QUANTITY);
+		return productDto;
+	}
 }
