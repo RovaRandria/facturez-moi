@@ -1,20 +1,5 @@
 package billing;
 
-import static junit.framework.TestCase.*;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
@@ -26,6 +11,20 @@ import ca.ulaval.glo4002.billing.dto.InvoiceDto;
 import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
 import ca.ulaval.glo4002.billing.repository.HibernateInvoiceRepository;
 import ca.ulaval.glo4002.billing.services.InvoiceService;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static junit.framework.TestCase.*;
 
 public class TestInvoiceService {
 

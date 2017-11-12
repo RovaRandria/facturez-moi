@@ -1,15 +1,5 @@
 package billing.factory;
 
-import static org.junit.Assert.*;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
@@ -20,6 +10,15 @@ import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class TestBillDtoFactory {
 

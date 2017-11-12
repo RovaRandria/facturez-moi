@@ -1,8 +1,5 @@
 package ca.ulaval.glo4002.billing.services;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
@@ -22,6 +19,9 @@ import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public class BillService extends BillingService {
 
   private ClientRepository clientRepository;
@@ -40,7 +40,7 @@ public class BillService extends BillingService {
   }
 
   public BillService(ClientRepository clientRepository, ProductRepository productRepository,
-      BillRepository billRepository) {
+                     BillRepository billRepository) {
     this.clientRepository = clientRepository;
     this.productRepository = productRepository;
     this.billRepository = billRepository;

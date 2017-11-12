@@ -1,20 +1,11 @@
 package ca.ulaval.glo4002.billing.domain.invoices;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
+
+import javax.persistence.*;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity(name = "Invoice")
 public class Invoice {
