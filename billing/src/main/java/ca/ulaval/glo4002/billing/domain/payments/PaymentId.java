@@ -1,14 +1,12 @@
 package ca.ulaval.glo4002.billing.domain.payments;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
+
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class PaymentId implements Serializable {
   private static final long serialVersionUID = 1L;
-
-  @Column(name = "PAYMENT_ID")
   private long payment;
 
   public PaymentId() {

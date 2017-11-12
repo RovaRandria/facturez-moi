@@ -1,19 +1,34 @@
 package ca.ulaval.glo4002.billing.domain.payments;
 
-import ca.ulaval.glo4002.billing.domain.clients.Client;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-import javax.persistence.*;
+import ca.ulaval.glo4002.billing.domain.clients.Client;
 
 @Entity(name = "Payment")
 public class Payment {
+  // Same as Client for the id.
   @Id
-  @EmbeddedId
+  @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.AUTO)
+  private int id;
+
+  @Embedded
+  @Column(name = "PAYMENT_ID")
   private PaymentId paymentId;
   @Column(name = "amount")
   private float amount;
-  @JoinColumn(name = "CLIENT_ID", unique = true)
-  @OneToOne
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "CLIENT_ID")
   private Client client;
   @JoinColumn(name = "PAYMENT_ID", unique = true)
   @OneToOne(cascade = CascadeType.ALL)
@@ -27,6 +42,10 @@ public class Payment {
     this.client = client;
     this.amount = amount;
     this.paymentMethod = paymentMethod;
+  }
+
+  public int getId() {
+    return this.id;
   }
 
   public PaymentId getPaymentId() {

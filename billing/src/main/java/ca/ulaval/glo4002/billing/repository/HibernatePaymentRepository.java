@@ -1,11 +1,11 @@
 package ca.ulaval.glo4002.billing.repository;
 
+import javax.persistence.EntityManager;
+
 import ca.ulaval.glo4002.billing.domain.payments.Payment;
 import ca.ulaval.glo4002.billing.domain.payments.PaymentId;
 import ca.ulaval.glo4002.billing.domain.payments.PaymentRepository;
 import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
-
-import javax.persistence.EntityManager;
 
 public class HibernatePaymentRepository implements PaymentRepository {
 
@@ -20,6 +20,6 @@ public class HibernatePaymentRepository implements PaymentRepository {
     entityManager.getTransaction().begin();
     entityManager.persist(payment);
     entityManager.getTransaction().commit();
-    return payment.getPaymentId();
+    return new PaymentId(payment.getId());
   }
 }

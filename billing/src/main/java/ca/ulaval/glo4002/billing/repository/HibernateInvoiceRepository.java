@@ -1,19 +1,21 @@
 package ca.ulaval.glo4002.billing.repository;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceRepository;
 import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
 import ca.ulaval.glo4002.billing.exceptions.InvoiceAlreadyCreatedException;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-
-import javax.persistence.EntityManager;
-import javax.persistence.RollbackException;
-import java.util.List;
 
 public class HibernateInvoiceRepository implements InvoiceRepository {
 
@@ -48,7 +50,9 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
     Criteria criteria = s.createCriteria(Invoice.class, "invoice");
     criteria.createAlias("invoice.bill", "bill");
     criteria.createAlias("bill.client", "client");
-    criteria.add(Restrictions.eq("client.id", clientId));
+    criteria.createAlias("bill.products", "product");
+    criteria.add(Restrictions.eq("client.clientId", clientId));
+    criteria.add(Restrictions.sqlRestriction("paidAmount <> total"));
     criteria.addOrder(Order.asc("invoice.expectedPayment"));
 
     List<Invoice> invoices = criteria.list();

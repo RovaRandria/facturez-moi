@@ -33,7 +33,7 @@ public class PaymentService extends BillingService {
   }
 
   public PaymentService(PaymentRepository paymentRepository, InvoiceRepository invoiceRepository,
-                        ClientRepository clientRepository) {
+      ClientRepository clientRepository) {
     this.paymentRepository = paymentRepository;
     this.invoiceRepository = invoiceRepository;
     this.clientRepository = clientRepository;
@@ -43,9 +43,11 @@ public class PaymentService extends BillingService {
 
   public ReceiptDto pay(PaymentDto paymentDto) {
     Invoice invoice = invoiceRepository.findLast(paymentDto.getClientId());
-    Client client = clientRepository.getClient(paymentDto.getClientId());
+    invoice.addPayment(paymentDto.getAmount());
 
+    Client client = clientRepository.getClient(paymentDto.getClientId());
     Payment payment = paymentFactory.create(paymentDto, client);
+
     PaymentId paymentId = paymentRepository.insert(payment);
 
     ReceiptDto receiptDto = receiptDtoFactory.create(paymentId);
