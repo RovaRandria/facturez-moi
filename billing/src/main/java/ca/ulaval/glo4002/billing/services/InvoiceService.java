@@ -46,7 +46,6 @@ public class InvoiceService extends BillingService {
 
   public boolean invoiceExists(BillId billId) {
     boolean billExists = false;
-
     Invoice invoice = invoiceRepository.find(billId);
 
     if (invoice != null) {

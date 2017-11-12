@@ -24,12 +24,12 @@ public class InvoiceDto {
     return this.id;
   }
 
-  public Date getEffectiveDate() {
-    return this.effectiveDate;
+  public String getEffectiveDate() {
+    return this.effectiveDate.toInstant().toString();
   }
 
-  public Date getExpectedPayment() {
-    return this.expectedPayment;
+  public String getExpectedPayment() {
+    return this.expectedPayment.toInstant().toString();
   }
 
   public DueTerm getDueTerm() {
