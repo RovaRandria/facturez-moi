@@ -3,50 +3,50 @@ package ca.ulaval.glo4002.billing.dto;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 
 public class PaymentDto {
-	private ClientId clientId;
-	private float amount;
+  private ClientId clientId;
+  private float amount;
 
-	private PaymentMethod paymentMethod;
+  private PaymentMethodDto paymentMethod;
 
-	public PaymentDto() {
-	}
+  public PaymentDto() {
+  }
 
-	public PaymentDto(ClientId clientId, float amount, PaymentMethod paymentMethod) {
-		this.clientId = clientId;
-		this.amount = amount;
-		this.paymentMethod = paymentMethod;
-	}
+  public PaymentDto(ClientId clientId, float amount, PaymentMethodDto paymentMethod) {
+    this.clientId = clientId;
+    this.amount = amount;
+    this.paymentMethod = paymentMethod;
+  }
 
-	public ClientId getClientId() {
-		return this.clientId;
-	}
+  public ClientId getClientId() {
+    return this.clientId;
+  }
 
-	public float getAmount() {
-		return this.amount;
-	}
+  public float getAmount() {
+    return this.amount;
+  }
 
-	public PaymentMethod getPaymentMethod() {
-		return this.paymentMethod;
-	}
+  public PaymentMethodDto getPaymentMethod() {
+    return this.paymentMethod;
+  }
 
-	class PaymentMethod {
-		private String account;
-		private String source;
+  public class PaymentMethodDto {
+    private String account;
+    private String source;
 
-		public PaymentMethod() {
-		}
+    public PaymentMethodDto() {
+    }
 
-		public PaymentMethod(String account, String source) {
-			this.account = account;
-			this.source = source;
-		}
+    public PaymentMethodDto(String account, String source) {
+      this.account = account;
+      this.source = source;
+    }
 
-		public String getAccount() {
-			return this.account;
-		}
+    public String getAccount() {
+      return this.account;
+    }
 
-		public String getSource() {
-			return this.source;
-		}
-	}
+    public String getSource() {
+      return this.source;
+    }
+  }
 }

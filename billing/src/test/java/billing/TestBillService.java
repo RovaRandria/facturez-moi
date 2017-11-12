@@ -1,5 +1,20 @@
 package billing;
 
+import static org.junit.Assert.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
 import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
@@ -12,20 +27,6 @@ import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
 import ca.ulaval.glo4002.billing.services.BillService;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TestBillService {
 
@@ -159,14 +160,14 @@ public class TestBillService {
   public void givenValidOrderDto_whenValidating_thenReturnTrue() {
     final boolean validDto = true;
     order = createOrderDto(validDto);
-    assertTrue(service.orderIsValid(order));
+    assertTrue(service.orderIsValid(order, validClient));
   }
 
   @Test
   public void givenInvalidOrderDto_whenValidating_thenReturnFalse() {
     final boolean validDto = false;
     order = createOrderDto(validDto);
-    assertFalse(service.orderIsValid(order));
+    assertFalse(service.orderIsValid(order, invalidClient));
   }
 
   private ProductDto createProductDto() {

@@ -1,22 +1,33 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
-import ca.ulaval.glo4002.billing.domain.clients.ClientId;
-import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
-import ca.ulaval.glo4002.billing.domain.products.Product;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import ca.ulaval.glo4002.billing.domain.clients.Client;
+import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
+import ca.ulaval.glo4002.billing.domain.products.Product;
+
 @Entity(name = "Bill")
 public class Bill {
   @Id
-  @Embedded
+  @EmbeddedId
   @GeneratedValue(strategy = GenerationType.AUTO)
   private BillId billId;
-  @Embedded
-  private ClientId clientId;
   @Column(name = "creationDate")
   private Date creationDate;
   @Enumerated(EnumType.STRING)
@@ -25,12 +36,16 @@ public class Bill {
   @JoinColumn(name = "billId")
   private List<Product> products;
 
+  @JoinColumn(name = "CLIENT_ID", unique = true)
+  @OneToOne(cascade = CascadeType.ALL)
+  private Client client;
+
   public Bill() {
   }
 
-  public Bill(BillId billId, ClientId clientId, Date creationDate, DueTerm dueTerm, List<Product> products) {
+  public Bill(BillId billId, Client client, Date creationDate, DueTerm dueTerm, List<Product> products) {
     this.billId = billId;
-    this.clientId = clientId;
+    this.client = client;
     this.creationDate = creationDate;
     this.dueTerm = dueTerm;
     this.products = products;
@@ -51,8 +66,8 @@ public class Bill {
     return billId;
   }
 
-  public ClientId getClientId() {
-    return clientId;
+  public Client getClient() {
+    return client;
   }
 
   public Date getCreationDate() {

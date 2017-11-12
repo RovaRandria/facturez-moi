@@ -1,29 +1,50 @@
 package ca.ulaval.glo4002.billing.domain.invoices;
 
-import ca.ulaval.glo4002.billing.domain.bills.BillId;
-
-import javax.persistence.Embeddable;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class InvoiceId implements Serializable {
   private static final long serialVersionUID = 1L;
-  private BillId invoiceId;
+
+  @Column(name = "INVOICE_ID")
+  private long invoiceId;
 
   public InvoiceId() {
-    // For hibernate. Do not use.
+    // For Hibernate. Do not use.
+  }
+
+  public InvoiceId(long id) {
+    this.invoiceId = id;
   }
 
   @Override
   public String toString() {
-    return invoiceId.toString();
+    return Long.toString(invoiceId);
   }
 
-  public InvoiceId(BillId id) {
-    this.invoiceId = id;
+  public long getId() {
+    return this.invoiceId;
   }
 
-  public BillId getId() {
-    return invoiceId;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    InvoiceId invoiceId = (InvoiceId) o;
+
+    return this.invoiceId == invoiceId.invoiceId;
+  }
+
+  @Override
+  public int hashCode() {
+    return (int) (invoiceId ^ (invoiceId >>> Integer.SIZE));
   }
 }

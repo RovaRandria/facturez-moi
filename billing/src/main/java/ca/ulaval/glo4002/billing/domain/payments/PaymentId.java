@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.billing.domain.bills;
+package ca.ulaval.glo4002.billing.domain.payments;
 
 import java.io.Serializable;
 
@@ -6,27 +6,27 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class BillId implements Serializable {
+public class PaymentId implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @Column(name = "BILL_ID")
-  private long billId;
+  @Column(name = "PAYMENT_ID")
+  private long payment;
 
-  public BillId() {
+  public PaymentId() {
     // For Hibernate. Do not use.
   }
 
-  public BillId(long id) {
-    this.billId = id;
+  public PaymentId(long id) {
+    this.payment = id;
   }
 
   @Override
   public String toString() {
-    return Long.toString(billId);
+    return Long.toString(payment);
   }
 
   public long getId() {
-    return billId;
+    return this.payment;
   }
 
   @Override
@@ -38,13 +38,13 @@ public class BillId implements Serializable {
       return false;
     }
 
-    BillId billId = (BillId) o;
+    PaymentId invoiceId = (PaymentId) o;
 
-    return this.billId == billId.billId;
+    return this.payment == invoiceId.payment;
   }
 
   @Override
   public int hashCode() {
-    return (int) (billId ^ (billId >>> Integer.SIZE));
+    return (int) (payment ^ (payment >>> Integer.SIZE));
   }
 }

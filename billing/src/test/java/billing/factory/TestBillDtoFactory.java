@@ -1,8 +1,18 @@
 package billing.factory;
 
+import static org.junit.Assert.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
-import ca.ulaval.glo4002.billing.domain.clients.ClientId;
+import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
@@ -10,15 +20,6 @@ import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TestBillDtoFactory {
 
@@ -40,11 +41,11 @@ public class TestBillDtoFactory {
 
     ProductId productId = new ProductId(PRODUCT_ID);
     BillId billId = BillIdGenerator.getInstance().getId();
-    ClientId clientId = new ClientId(CLIENT_ID);
+    Client client = new Client();
     Date creationDate = new Date();
     productDto = new ProductDto(PRICE, NAME, productId, QUANTITY);
     fillItems(QUANTITY);
-    bill = new Bill(billId, clientId, creationDate, DueTerm.DAYS30, products);
+    bill = new Bill(billId, client, creationDate, DueTerm.DAYS30, products);
     billDtoFactory = new BillDtoFactory();
   }
 
