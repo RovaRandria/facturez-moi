@@ -51,11 +51,13 @@ public class BillService extends BillingService {
   public BillDto create(OrderDto order) {
     BillDto billDto = null;
     Client client = getClient(order.getClientId());
+
     if (orderIsValid(order, client)) {
       Bill bill = billFactory.create(order, client);
       billRepository.insert(bill);
       billDto = billDtoFactory.create(bill);
     }
+
     return billDto;
   }
 

@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
+import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.dto.InvoiceDto;
@@ -39,6 +40,7 @@ public class TestInvoiceService {
   private List<Product> products;
   private InvoiceId validInvoiceId;
   private InvoiceId invalidInvoiceId;
+  private Invoice invoice;
 
   @Mock
   private HibernateInvoiceRepository invoiceRepository;
@@ -58,6 +60,8 @@ public class TestInvoiceService {
     validInvoiceId = new InvoiceId(VALID_ID);
     invalidInvoiceId = new InvoiceId(INVALID_ID);
 
+    invoice = new Invoice();
+
     clientId = new ClientId(VALID_ID);
     toDaysDate = new Date();
     products = new ArrayList<Product>();
@@ -65,9 +69,21 @@ public class TestInvoiceService {
   }
 
   @Test
-  public void givenBillId_whenInvoiceExistsIsCalled_thenInvoiceRepositoryFindMethodIsCalled() {
+  public void givenInvoiceId_whenInvoiceExistsIsCalled_thenInvoiceRepositoryFindMethodIsCalled() {
     service.invoiceExists(validInvoiceId);
     Mockito.verify(invoiceRepository).find(validInvoiceId);
+  }
+
+  @Test
+  public void givenValidInvoiceId_whenInvoiceExistsIsCalled_thenReturnTrue() {
+    Mockito.when(invoiceRepository.find(validInvoiceId)).thenReturn(invoice);
+    assertTrue(service.invoiceExists(validInvoiceId));
+  }
+
+  @Test
+  public void givenInvalidInvoiceId_whenInvoiceExistsIsCalled_thenReturnFalse() {
+    Mockito.when(invoiceRepository.find(invalidInvoiceId)).thenReturn(null);
+    assertFalse(service.invoiceExists(validInvoiceId));
   }
 
   @Test

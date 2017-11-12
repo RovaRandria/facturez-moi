@@ -13,9 +13,6 @@ public class ProductDto {
   private ProductId productId;
   private int quantity;
 
-  public ProductDto() {
-  }
-
   public ProductDto(BigDecimal price, String name, ProductId productId, int quantity) {
     this.price = price;
     this.name = name;

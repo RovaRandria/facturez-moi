@@ -52,13 +52,13 @@ public class InvoiceService extends BillingService {
   }
 
   public boolean invoiceExists(InvoiceId invoiceId) {
-    boolean billExists = false;
+    boolean invoiceExists = false;
     Invoice invoice = invoiceRepository.find(invoiceId);
 
     if (invoice != null) {
-      billExists = true;
+      invoiceExists = true;
     }
 
-    return billExists;
+    return invoiceExists;
   }
 }

@@ -4,9 +4,6 @@ public class PaymentMethodDto {
   private String account;
   private String source;
 
-  public PaymentMethodDto() {
-  }
-
   public PaymentMethodDto(String account, String source) {
     this.account = account;
     this.source = source;
