@@ -42,7 +42,7 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
 		String query = "select i.* from Invoice i inner join Bill b on b.ClientId = i.ClientId where ClientId = ?1 order by i.expectedPayment desc";
 		entityManager.getTransaction().begin();
 		List<Invoice> invoices = entityManager.createQuery(
-				"from Invoice as i inner join Bill as b on b.ClientId = i.ClientId where ClientId = ?1 order by i.expectedPayment desc")
+				"from Invoice as i inner join i.Bill as b on b.ClientId = i.ClientId where ClientId = ?1 order by i.expectedPayment desc")
 				.setParameter(1, clientId.toString()).getResultList();
 		entityManager.getTransaction().commit();
 		return invoices.get(0);
