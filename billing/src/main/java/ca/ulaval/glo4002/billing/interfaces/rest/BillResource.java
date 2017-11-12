@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.billing.services.InvoiceService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/bills")
 public class BillResource {
@@ -16,19 +17,21 @@ public class BillResource {
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public BillDto create(OrderDto bill) {
+  public Response create(OrderDto bill) {
     BillService billService = new BillService();
-    return billService.create(bill);
+    BillDto billDto = billService.create(bill);
+    return Response.status(Response.Status.CREATED).entity(billDto).build();
   }
 
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("{id}")
-  public InvoiceDto createInvoice(@PathParam("id") int id) {
+  public Response createInvoice(@PathParam("id") int id) {
     BillId billId = new BillId(id);
     InvoiceService invoiceService = new InvoiceService();
-    return invoiceService.create(billId);
+    InvoiceDto invoiceDto = invoiceService.create(billId);
+    return Response.status(Response.Status.OK).entity(invoiceDto).build();
   }
 
 }

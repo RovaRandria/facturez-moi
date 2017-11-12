@@ -4,8 +4,10 @@ import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceRepository;
 import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
+import ca.ulaval.glo4002.billing.exceptions.InvoiceAlreadyCreatedException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 
 public class HibernateInvoiceRepository implements InvoiceRepository {
 
@@ -24,6 +26,11 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
   public void insert(Invoice invoice) {
     entityManager.getTransaction().begin();
     entityManager.persist(invoice);
-    entityManager.getTransaction().commit();
+
+    try {
+      entityManager.getTransaction().commit();
+    } catch (RollbackException e) {
+      throw new InvoiceAlreadyCreatedException(Invoice.class.getSimpleName());
+    }
   }
 }

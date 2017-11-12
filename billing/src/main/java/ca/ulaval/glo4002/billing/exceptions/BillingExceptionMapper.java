@@ -9,11 +9,12 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class NotFoundExceptionMapper implements ExceptionMapper<BillingException> {
+public class BillingExceptionMapper implements ExceptionMapper<BillingException> {
 
   @Override
-  public Response toResponse(BillingException arg0) {
-    ExceptionDto exceptionDto = new ExceptionDto(arg0.getError(), arg0.getDescription(), arg0.getEntity());
+  public Response toResponse(BillingException exception) {
+    ExceptionDto exceptionDto = new ExceptionDto(exception.getError(), exception.getDescription(),
+            exception.getEntity());
 
     ErrorsDto errors = new ErrorsDto();
     errors.addError(exceptionDto);

@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceRepository;
 import ca.ulaval.glo4002.billing.dto.InvoiceDto;
+import ca.ulaval.glo4002.billing.exceptions.InvoiceNotFoundException;
 import ca.ulaval.glo4002.billing.factory.InvoiceDtoFactory;
 import ca.ulaval.glo4002.billing.factory.InvoiceFactory;
 import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
@@ -41,6 +42,11 @@ public class InvoiceService extends BillingService {
       invoiceRepository.insert(invoice);
       invoiceDto = invoiceDtoFactory.create(invoice);
     }
+
+    if (invoiceDto == null) {
+      throw new InvoiceNotFoundException();
+    }
+
     return invoiceDto;
   }
 

@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BillService extends BillingService {
+
   private ClientRepository clientRepository;
   private ProductRepository productRepository;
   private BillRepository billRepository;
@@ -72,16 +73,30 @@ public class BillService extends BillingService {
   public boolean hasNegativeValues(OrderDto order) {
     BigDecimal total = new BigDecimal(0);
     List<ProductDto> listeProducts = order.getProductDtos();
+
     for (ProductDto productDto : listeProducts) {
       total = total.add(productDto.getPrice());
-      if (productDto.getQuantity() < 0) {
-        throw new NegativeException("Quantity", "" + productDto.getQuantity());
-      }
+      throwIfQuantityIsNegative(productDto);
     }
-    if (total.signum() < 0) {
-      throw new NegativeException("Total", "" + total.toString());
-    }
+
+    throwIfTotalIsNegative(total);
     return false;
+  }
+
+  private void throwIfTotalIsNegative(BigDecimal total) {
+    final String TOTAL = "Total";
+
+    if (total.signum() < 0) {
+      throw new NegativeException(TOTAL, "" + total.toString());
+    }
+  }
+
+  private void throwIfQuantityIsNegative(ProductDto productDto) {
+    final String QUANTITY = "Quantity";
+
+    if (productDto.getQuantity() < 0) {
+      throw new NegativeException(QUANTITY, "" + productDto.getQuantity());
+    }
   }
 
   public boolean dueTermIsValid(DueTerm dueTerm) {
