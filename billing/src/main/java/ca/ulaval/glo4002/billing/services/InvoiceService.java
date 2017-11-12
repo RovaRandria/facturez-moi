@@ -13,46 +13,46 @@ import ca.ulaval.glo4002.billing.repository.HibernateInvoiceRepository;
 
 public class InvoiceService extends BillingService {
 
-	private InvoiceRepository invoiceRepository;
-	private BillRepository billRepository;
-	private InvoiceFactory invoiceFactory;
-	private InvoiceDtoFactory invoiceDtoFactory;
+  private InvoiceRepository invoiceRepository;
+  private BillRepository billRepository;
+  private InvoiceFactory invoiceFactory;
+  private InvoiceDtoFactory invoiceDtoFactory;
 
-	public InvoiceService() {
-		prepareDatabase();
-		this.invoiceRepository = new HibernateInvoiceRepository();
-		this.billRepository = new HibernateBillRepository();
-		this.invoiceFactory = new InvoiceFactory();
-		this.invoiceDtoFactory = new InvoiceDtoFactory();
-	}
+  public InvoiceService() {
+    prepareDatabase();
+    this.invoiceRepository = new HibernateInvoiceRepository();
+    this.billRepository = new HibernateBillRepository();
+    this.invoiceFactory = new InvoiceFactory();
+    this.invoiceDtoFactory = new InvoiceDtoFactory();
+  }
 
-	public InvoiceService(InvoiceRepository invoiceRepository, BillRepository billRepository) {
-		this.invoiceRepository = invoiceRepository;
-		this.billRepository = billRepository;
-		this.invoiceFactory = new InvoiceFactory();
-		this.invoiceDtoFactory = new InvoiceDtoFactory();
-	}
+  public InvoiceService(InvoiceRepository invoiceRepository, BillRepository billRepository) {
+    this.invoiceRepository = invoiceRepository;
+    this.billRepository = billRepository;
+    this.invoiceFactory = new InvoiceFactory();
+    this.invoiceDtoFactory = new InvoiceDtoFactory();
+  }
 
-	public InvoiceDto create(BillId billId) {
-		InvoiceDto invoiceDto = null;
-		Bill bill = billRepository.find(billId);
-		if (bill != null) {
-			Invoice invoice = invoiceFactory.create(bill);
-			invoiceRepository.insert(invoice);
-			invoiceDto = invoiceDtoFactory.create(invoice);
-		}
-		return invoiceDto;
-	}
+  public InvoiceDto create(BillId billId) {
+    InvoiceDto invoiceDto = null;
+    Bill bill = billRepository.find(billId);
+    if (bill != null) {
+      Invoice invoice = invoiceFactory.create(bill);
+      invoiceRepository.insert(invoice);
+      invoiceDto = invoiceDtoFactory.create(invoice);
+    }
+    return invoiceDto;
+  }
 
-	public boolean invoiceExists(BillId billId) {
-		boolean billExists = false;
+  public boolean invoiceExists(BillId billId) {
+    boolean billExists = false;
 
-		Invoice invoice = invoiceRepository.find(billId);
+    Invoice invoice = invoiceRepository.find(billId);
 
-		if (invoice != null) {
-			billExists = true;
-		}
+    if (invoice != null) {
+      billExists = true;
+    }
 
-		return billExists;
-	}
+    return billExists;
+  }
 }

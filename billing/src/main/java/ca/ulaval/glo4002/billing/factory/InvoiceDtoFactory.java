@@ -5,10 +5,10 @@ import ca.ulaval.glo4002.billing.dto.InvoiceDto;
 
 public class InvoiceDtoFactory {
 
-	public static final String BILLS_PATH = "/bills/";
+  public static final String BILLS_PATH = "/bills/";
 
-	public InvoiceDto create(Invoice invoice) {
-		return new InvoiceDto(invoice.getId().toString(), invoice.getEffectiveDate(), invoice.getExpectedPayment(),
-				invoice.getDueTerm(), BILLS_PATH + invoice.getId().toString());
-	}
+  public InvoiceDto create(Invoice invoice) {
+    return new InvoiceDto(invoice.getId().toString(), invoice.getEffectiveDate(), invoice.getExpectedPayment(),
+            invoice.getDueTerm(), BILLS_PATH + invoice.getId().toString());
+  }
 }

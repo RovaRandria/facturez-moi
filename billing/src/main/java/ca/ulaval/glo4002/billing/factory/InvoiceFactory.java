@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.billing.factory;
 
-import java.util.Date;
-
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 
+import java.util.Date;
+
 public class InvoiceFactory {
-	public Invoice create(Bill bill) {
-		final InvoiceId invoiceId = new InvoiceId(bill.getBillId());
-		final Date effectiveDate = new Date();
-		return new Invoice(invoiceId, effectiveDate, bill.getDueTerm());
-	}
+  public Invoice create(Bill bill) {
+    final InvoiceId INVOICE_ID = new InvoiceId(bill.getBillId());
+    final Date EFFECTIVE_DATE = new Date();
+    return new Invoice(INVOICE_ID, EFFECTIVE_DATE, bill.getDueTerm());
+  }
 }
