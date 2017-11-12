@@ -28,25 +28,4 @@ public class PaymentDto {
   public PaymentMethodDto getPaymentMethod() {
     return this.paymentMethod;
   }
-
-  public class PaymentMethodDto {
-    private String account;
-    private String source;
-
-    public PaymentMethodDto() {
-    }
-
-    public PaymentMethodDto(String account, String source) {
-      this.account = account;
-      this.source = source;
-    }
-
-    public String getAccount() {
-      return this.account;
-    }
-
-    public String getSource() {
-      return this.source;
-    }
-  }
 }
