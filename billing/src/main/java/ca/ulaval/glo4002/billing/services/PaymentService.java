@@ -33,7 +33,7 @@ public class PaymentService extends BillingService {
   }
 
   public PaymentService(PaymentRepository paymentRepository, InvoiceRepository invoiceRepository,
-      ClientRepository clientRepository) {
+                        ClientRepository clientRepository) {
     this.paymentRepository = paymentRepository;
     this.invoiceRepository = invoiceRepository;
     this.clientRepository = clientRepository;

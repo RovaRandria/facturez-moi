@@ -1,16 +1,8 @@
 package ca.ulaval.glo4002.billing.domain.payments;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
 import ca.ulaval.glo4002.billing.domain.clients.Client;
+
+import javax.persistence.*;
 
 @Entity(name = "Payment")
 public class Payment {

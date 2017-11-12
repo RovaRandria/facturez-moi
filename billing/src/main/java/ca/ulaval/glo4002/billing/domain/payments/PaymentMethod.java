@@ -1,10 +1,6 @@
 package ca.ulaval.glo4002.billing.domain.payments;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "PaymentMethod")
 public class PaymentMethod {
