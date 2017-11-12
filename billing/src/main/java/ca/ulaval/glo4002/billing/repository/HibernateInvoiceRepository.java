@@ -51,7 +51,7 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
     criteria.createAlias("invoice.bill", "bill");
     criteria.createAlias("bill.client", "client");
     criteria.add(Restrictions.eq("client.id", clientId));
-    criteria.addOrder(Order.desc("invoice.expectedPayment"));
+    criteria.addOrder(Order.asc("invoice.expectedPayment"));
 
     List<Invoice> invoices = criteria.list();
     entityManager.getTransaction().commit();

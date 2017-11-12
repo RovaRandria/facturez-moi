@@ -14,25 +14,23 @@ import ca.ulaval.glo4002.billing.services.PaymentService;
 
 public class TestPaymentService {
 
-	private static final int VALID_CLIENT_ID = 1;
+  private PaymentService paymentService;
 
-	private PaymentService paymentService;
+  @Mock
+  private HibernatePaymentRepository paymentRepository;
 
-	@Mock
-	private HibernatePaymentRepository paymentRepository;
+  @Rule
+  public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-	@Rule
-	public MockitoRule mockitoRule = MockitoJUnit.rule();
+  @Before
+  public void init() {
+    this.paymentService = new PaymentService();
+  }
 
-	@Before
-	public void init() {
-		this.paymentService = new PaymentService();
-	}
-
-	@Test
-	public void givenPaymentService_whenPaying_thenInsertIsCalled() {
-		PaymentDto paymentDto = new PaymentDto();
-		paymentService.pay(paymentDto);
-		Mockito.verify(paymentRepository).insert(Mockito.any());
-	}
+  @Test
+  public void givenPaymentService_whenPaying_thenInsertIsCalled() {
+    PaymentDto paymentDto = new PaymentDto();
+    paymentService.pay(paymentDto);
+    Mockito.verify(paymentRepository).insert(Mockito.any());
+  }
 }
