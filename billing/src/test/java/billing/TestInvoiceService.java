@@ -80,7 +80,9 @@ public class TestInvoiceService {
     Date billCreationDate = bill.getCreationDate();
     InvoiceDto invoiceDto = service.create(validBillId);
     Date expectedDueDate = addDaysToDate(billCreationDate, DueTerm.convertToInt(bill.getDueTerm()));
-    assertTrue(expectedDueDate.equals(invoiceDto.getExpectedPayment()));
+    String expectedDueDateAsString = expectedDueDate.toInstant().toString();
+
+    assertTrue(expectedDueDateAsString.equals(invoiceDto.getExpectedPayment()));
   }
 
   private Date addDaysToDate(Date date, int days) {
