@@ -8,6 +8,10 @@ public class PaymentDto {
 
   private PaymentMethodDto paymentMethod;
 
+  public PaymentDto() {
+
+  }
+
   public PaymentDto(ClientId clientId, float amount, PaymentMethodDto paymentMethod) {
     this.clientId = clientId;
     this.amount = amount;

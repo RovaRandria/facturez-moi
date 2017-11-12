@@ -1,17 +1,22 @@
 package ca.ulaval.glo4002.billing.dto;
 
-import ca.ulaval.glo4002.billing.domain.products.ProductId;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.math.BigDecimal;
 
-@JsonIgnoreProperties(value = {"links"}, ignoreUnknown = true)
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import ca.ulaval.glo4002.billing.domain.products.ProductId;
+
+@JsonIgnoreProperties(value = { "links" }, ignoreUnknown = true)
 public class ProductDto {
 
   private BigDecimal price;
   private String name;
   private ProductId productId;
   private int quantity;
+
+  public ProductDto() {
+
+  }
 
   public ProductDto(BigDecimal price, String name, ProductId productId, int quantity) {
     this.price = price;
