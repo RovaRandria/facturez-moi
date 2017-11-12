@@ -1,4 +1,4 @@
-package billing;
+package payment;
 
 import ca.ulaval.glo4002.billing.dto.PaymentDto;
 import ca.ulaval.glo4002.billing.interfaces.rest.PaymentResource;
