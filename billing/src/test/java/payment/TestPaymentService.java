@@ -8,7 +8,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import ca.ulaval.glo4002.billing.domain.clients.Client;
+import ca.ulaval.glo4002.billing.domain.clients.ClientId;
+import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
+import ca.ulaval.glo4002.billing.domain.payments.PaymentId;
 import ca.ulaval.glo4002.billing.dto.PaymentDto;
+import ca.ulaval.glo4002.billing.dto.PaymentMethodDto;
+import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
+import ca.ulaval.glo4002.billing.repository.HibernateInvoiceRepository;
 import ca.ulaval.glo4002.billing.repository.HibernatePaymentRepository;
 import ca.ulaval.glo4002.billing.services.PaymentService;
 
@@ -19,17 +26,31 @@ public class TestPaymentService {
   @Mock
   private HibernatePaymentRepository paymentRepository;
 
+  @Mock
+  private HibernateInvoiceRepository invoiceRepository;
+
+  @Mock
+  private CrmClientRepository clientRepository;
+
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
 
   @Before
   public void init() {
-    this.paymentService = new PaymentService();
+    this.paymentService = new PaymentService(paymentRepository, invoiceRepository, clientRepository);
+    Mockito.when(paymentRepository.insert(Mockito.any())).thenReturn(new PaymentId(0));
+    Mockito.when(invoiceRepository.findLast(Mockito.any())).thenReturn(new Invoice());
+    Mockito.when(clientRepository.getClient(Mockito.any())).thenReturn(new Client());
   }
 
   @Test
   public void givenPaymentService_whenPaying_thenInsertIsCalled() {
-    PaymentDto paymentDto = new PaymentDto();
+    final ClientId CLIENT_ID = new ClientId(0);
+    final float AMOUNT = 0;
+    final String EMPTY_STRING = "";
+    final PaymentMethodDto PAYMENT_METHOD = new PaymentMethodDto(EMPTY_STRING, EMPTY_STRING);
+
+    PaymentDto paymentDto = new PaymentDto(CLIENT_ID, AMOUNT, PAYMENT_METHOD);
     paymentService.pay(paymentDto);
     Mockito.verify(paymentRepository).insert(Mockito.any());
   }
