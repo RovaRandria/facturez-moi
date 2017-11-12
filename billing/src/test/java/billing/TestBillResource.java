@@ -14,10 +14,10 @@ public class TestBillResource {
   private static final long BILL_ID = 1;
 
   @Mock
-  BillResource billResource;
+  private BillResource billResource;
 
   @Mock
-  OrderDto orderDto;
+  private OrderDto orderDto;
 
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
