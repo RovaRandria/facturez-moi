@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
 
 public class HibernateBillRepository implements BillRepository {
+
 	private EntityManager entityManager;
 
 	public HibernateBillRepository() {

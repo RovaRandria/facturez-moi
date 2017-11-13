@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.billing.dto;
 
 public class ExceptionDto {
+
   private String error;
   private String description;
   private String entity;

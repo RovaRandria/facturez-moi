@@ -2,7 +2,7 @@ package billing.factory;
 
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
-import ca.ulaval.glo4002.billing.domain.clients.ClientId;
+import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
@@ -40,11 +40,11 @@ public class TestBillDtoFactory {
 
     ProductId productId = new ProductId(PRODUCT_ID);
     BillId billId = BillIdGenerator.getInstance().getId();
-    ClientId clientId = new ClientId(CLIENT_ID);
+    Client client = new Client();
     Date creationDate = new Date();
     productDto = new ProductDto(PRICE, NAME, productId, QUANTITY);
     fillItems(QUANTITY);
-    bill = new Bill(billId, clientId, creationDate, DueTerm.DAYS30, products);
+    bill = new Bill(billId, client, creationDate, DueTerm.DAYS30, products);
     billDtoFactory = new BillDtoFactory();
   }
 

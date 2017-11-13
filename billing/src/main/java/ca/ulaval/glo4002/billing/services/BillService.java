@@ -50,17 +50,19 @@ public class BillService extends BillingService {
 
   public BillDto create(OrderDto order) {
     BillDto billDto = null;
-    if (orderIsValid(order)) {
-      Bill bill = billFactory.create(order);
+    Client client = getClient(order.getClientId());
+
+    if (orderIsValid(order, client)) {
+      Bill bill = billFactory.create(order, client);
       billRepository.insert(bill);
       billDto = billDtoFactory.create(bill);
     }
+
     return billDto;
   }
 
-  public boolean orderIsValid(OrderDto order) {
+  public boolean orderIsValid(OrderDto order, Client client) {
     boolean orderIsValid = false;
-    Client client = getClient(order.getClientId());
     if (clientExists(client) && eachProductsExist(order.getProductDtos())) {
       if (!hasNegativeValues(order)) {
         order.setDueTerm(chooseDueTerm(client.getDefaultTerm(), order.getDueTerm()));

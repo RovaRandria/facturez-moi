@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
+import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceRepository;
 import ca.ulaval.glo4002.billing.dto.InvoiceDto;
 import ca.ulaval.glo4002.billing.exceptions.InvoiceNotFoundException;
@@ -39,8 +40,8 @@ public class InvoiceService extends BillingService {
     Bill bill = billRepository.find(billId);
     if (bill != null) {
       Invoice invoice = invoiceFactory.create(bill);
-      invoiceRepository.insert(invoice);
-      invoiceDto = invoiceDtoFactory.create(invoice);
+      InvoiceId invoiceId = invoiceRepository.insert(invoice);
+      invoiceDto = invoiceDtoFactory.create(invoiceId, invoice);
     }
 
     if (invoiceDto == null) {
@@ -50,14 +51,14 @@ public class InvoiceService extends BillingService {
     return invoiceDto;
   }
 
-  public boolean invoiceExists(BillId billId) {
-    boolean billExists = false;
-    Invoice invoice = invoiceRepository.find(billId);
+  public boolean invoiceExists(InvoiceId invoiceId) {
+    boolean invoiceExists = false;
+    Invoice invoice = invoiceRepository.find(invoiceId);
 
     if (invoice != null) {
-      billExists = true;
+      invoiceExists = true;
     }
 
-    return billExists;
+    return invoiceExists;
   }
 }

@@ -1,9 +1,15 @@
 package ca.ulaval.glo4002.billing.domain.clients;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
-public class ClientId {
+public class ClientId implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
+  @Column(name = "CLIENT_ID")
   private long clientId;
 
   public ClientId() {

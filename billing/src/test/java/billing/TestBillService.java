@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
+import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.exceptions.NegativeException;
@@ -22,6 +23,7 @@ import org.mockito.junit.MockitoRule;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +33,9 @@ public class TestBillService {
 
   private BillService service;
   private final int GOOD_ID = 1;
-  private final int WRONG_ID = -1;
+  private final int BAD_ID = -1;
+  private final boolean GOOD_ENTITY_FLAG = true;
+  private final boolean BAD_ENTITY_FLAG = false;
   private List<ProductDto> productDtos;
 
   private OrderDto order;
@@ -68,15 +72,15 @@ public class TestBillService {
 
     service = new BillService(crmClientRepository, crmProductRepository, inMemoryBillRepository);
     productDtos = new ArrayList<>();
-    productDtos.add(createProductDto());
+    productDtos.add(createProductDto(GOOD_ENTITY_FLAG));
 
     validProductId = new ProductId(GOOD_ID);
-    invalidProductId = new ProductId(WRONG_ID);
+    invalidProductId = new ProductId(BAD_ID);
     validProduct = new Product(validProductId, NAME, PRICE, QUANTITY);
     invalidProduct = null;
 
     validClientId = new ClientId(GOOD_ID);
-    invalidClientId = new ClientId(WRONG_ID);
+    invalidClientId = new ClientId(BAD_ID);
     validClient = new Client(validClientId);
     invalidClient = null;
 
@@ -137,7 +141,7 @@ public class TestBillService {
   public void givenProducts_whenQuantityHasNegativeValue_thenNegativeExceptionIsThrown() {
     final int NEGATIVE_VALUE = -1;
     final boolean validDto = true;
-    ProductDto productDto = createProductDto();
+    ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
     productDto.setQuantity(NEGATIVE_VALUE);
     order = createOrderDto(validDto);
     order.getProductDtos().add(productDto);
@@ -148,7 +152,7 @@ public class TestBillService {
   public void givenProducts_whenTotalHasNegativeValue_thenNegativeExceptionIsThrown() {
     final int NEGATIVE_VALUE = -100;
     final boolean validDto = true;
-    ProductDto productDto = createProductDto();
+    ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
     productDto.setPrice(new BigDecimal(NEGATIVE_VALUE));
     order = createOrderDto(validDto);
     order.getProductDtos().add(productDto);
@@ -157,31 +161,49 @@ public class TestBillService {
 
   @Test
   public void givenValidOrderDto_whenValidating_thenReturnTrue() {
-    final boolean validDto = true;
-    order = createOrderDto(validDto);
-    assertTrue(service.orderIsValid(order));
+    final boolean VALID_DTO_FLAG = true;
+    order = createOrderDto(VALID_DTO_FLAG);
+    assertTrue(service.orderIsValid(order, validClient));
   }
 
   @Test
   public void givenInvalidOrderDto_whenValidating_thenReturnFalse() {
-    final boolean validDto = false;
-    order = createOrderDto(validDto);
-    assertFalse(service.orderIsValid(order));
+    final boolean INVALID_DTO_FLAG = false;
+    order = createOrderDto(INVALID_DTO_FLAG);
+    assertFalse(service.orderIsValid(order, invalidClient));
   }
 
-  private ProductDto createProductDto() {
+  @Test
+  public void givenProductList_whenProductDoesNotExist_thenReturnFalse() {
+    final List<ProductDto> PRODUCT_DTOS_WITH_INVALID = new ArrayList<>(
+        Arrays.asList(createProductDto(GOOD_ENTITY_FLAG), createProductDto(BAD_ENTITY_FLAG))
+    );
+
+    boolean allProductDtosAreValid = service.eachProductsExist(PRODUCT_DTOS_WITH_INVALID);
+    assertFalse(allProductDtosAreValid);
+  }
+
+  @Test
+  public void givenValidOrderDto_whenCreating_thenBillCreationSuccess() {
+    final boolean VALID_DTO_FLAG = true;
+    order = createOrderDto(VALID_DTO_FLAG);
+    BillDto createdBillDto = service.create(order);
+    assertNotNull(createdBillDto);
+  }
+
+  private ProductDto createProductDto(boolean isValid) {
     final int QUANTITY = 1;
     final BigDecimal PRICE = new BigDecimal(1);
     final String NAME = "name";
-    final ProductId PRODUCT_ID = new ProductId(GOOD_ID);
+    final ProductId PRODUCT_ID = new ProductId(isValid ? GOOD_ID : BAD_ID);
     ProductDto productDto = new ProductDto(PRICE, NAME, PRODUCT_ID, QUANTITY);
     return productDto;
   }
 
   private OrderDto createOrderDto(boolean isValid) {
     productDtos = new ArrayList<>();
-    productDtos.add(createProductDto());
-    ClientId clientId = new ClientId(isValid ? GOOD_ID : WRONG_ID);
+    productDtos.add(createProductDto(GOOD_ENTITY_FLAG));
+    ClientId clientId = new ClientId(isValid ? GOOD_ID : BAD_ID);
     order = new OrderDto(clientId, new Date(), DueTerm.DAYS30, productDtos);
     return order;
   }

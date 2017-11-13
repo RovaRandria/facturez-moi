@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
-import ca.ulaval.glo4002.billing.domain.clients.ClientId;
+import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 
@@ -11,48 +11,50 @@ import java.util.List;
 
 @Entity(name = "Bill")
 public class Bill {
-  @Id
-  @Embedded
+
+  @EmbeddedId
   @GeneratedValue(strategy = GenerationType.AUTO)
   private BillId billId;
-  @Embedded
-  private ClientId clientId;
+
   @Column(name = "creationDate")
   private Date creationDate;
+
   @Enumerated(EnumType.STRING)
   private DueTerm dueTerm;
+
+  @Column(name = "total")
+  private BigDecimal total;
+
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "billId")
   private List<Product> products;
 
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "CLIENT_ID")
+  private Client client;
+
   public Bill() {
   }
 
-  public Bill(BillId billId, ClientId clientId, Date creationDate, DueTerm dueTerm, List<Product> products) {
+  public Bill(BillId billId, Client client, Date creationDate, DueTerm dueTerm, List<Product> products) {
     this.billId = billId;
-    this.clientId = clientId;
+    this.client = client;
     this.creationDate = creationDate;
     this.dueTerm = dueTerm;
     this.products = products;
+    this.total = calculateTotal();
   }
 
   public BigDecimal getTotal() {
-    BigDecimal total = new BigDecimal(0);
-    for (Product product : products) {
-      BigDecimal quantity = new BigDecimal(product.getQuantity());
-
-      BigDecimal subTotal = quantity.multiply(product.getUnitPrice());
-      total = total.add(subTotal);
-    }
-    return total;
+    return this.total;
   }
 
   public BillId getBillId() {
     return billId;
   }
 
-  public ClientId getClientId() {
-    return clientId;
+  public Client getClient() {
+    return client;
   }
 
   public Date getCreationDate() {
@@ -66,4 +68,16 @@ public class Bill {
   public List<Product> getProductDtos() {
     return products;
   }
+
+  private BigDecimal calculateTotal() {
+    BigDecimal total = new BigDecimal(0);
+    for (Product product : products) {
+      BigDecimal quantity = new BigDecimal(product.getQuantity());
+
+      BigDecimal subTotal = quantity.multiply(product.getUnitPrice());
+      total = total.add(subTotal);
+    }
+    return total;
+  }
+
 }

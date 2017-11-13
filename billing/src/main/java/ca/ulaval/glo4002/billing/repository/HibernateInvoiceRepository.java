@@ -1,50 +1,61 @@
 package ca.ulaval.glo4002.billing.repository;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.RollbackException;
-
-import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
+import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceRepository;
 import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
 import ca.ulaval.glo4002.billing.exceptions.InvoiceAlreadyCreatedException;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+
+import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
+import java.util.List;
 
 public class HibernateInvoiceRepository implements InvoiceRepository {
 
-	private EntityManager entityManager;
+  private EntityManager entityManager;
 
-	public HibernateInvoiceRepository() {
-		this.entityManager = new EntityManagerProvider().getEntityManager();
-	}
+  public HibernateInvoiceRepository() {
+    this.entityManager = new EntityManagerProvider().getEntityManager();
+  }
 
-	@Override
-	public Invoice find(BillId billId) {
-		return entityManager.find(Invoice.class, billId);
-	}
+  @Override
+  public Invoice find(InvoiceId invoiceId) {
+    return entityManager.find(Invoice.class, invoiceId);
+  }
 
-	@Override
-	public void insert(Invoice invoice) {
-		entityManager.getTransaction().begin();
-		entityManager.persist(invoice);
+  @Override
+  public InvoiceId insert(Invoice invoice) {
+    entityManager.getTransaction().begin();
+    entityManager.persist(invoice);
 
-		try {
-			entityManager.getTransaction().commit();
-		} catch (RollbackException e) {
-			throw new InvoiceAlreadyCreatedException(Invoice.class.getSimpleName());
-		}
-	}
+    try {
+      entityManager.getTransaction().commit();
+    } catch (RollbackException e) {
+      throw new InvoiceAlreadyCreatedException(Invoice.class.getSimpleName());
+    }
+    return invoice.getId();
+  }
 
-	@Override
-	public Invoice findLast(ClientId clientId) {
-		String query = "select i.* from Invoice i inner join Bill b on b.ClientId = i.ClientId where ClientId = ?1 order by i.expectedPayment desc";
-		entityManager.getTransaction().begin();
-		List<Invoice> invoices = entityManager.createQuery(
-				"from Invoice as i inner join i.Bill as b on b.ClientId = i.ClientId where ClientId = ?1 order by i.expectedPayment desc")
-				.setParameter(1, clientId.toString()).getResultList();
-		entityManager.getTransaction().commit();
-		return invoices.get(0);
-	}
+  @Override
+  public Invoice findLast(ClientId clientId) {
+    entityManager.getTransaction().begin();
+    Session s = (Session) entityManager.getDelegate();
+    Criteria criteria = s.createCriteria(Invoice.class, "invoice");
+    criteria.createAlias("invoice.bill", "bill");
+    criteria.createAlias("bill.client", "client");
+    criteria.createAlias("bill.products", "product");
+    criteria.add(Restrictions.eq("client.clientId", clientId));
+    criteria.add(Restrictions.sqlRestriction("paidAmount <> total"));
+    criteria.addOrder(Order.asc("invoice.expectedPayment"));
+
+    List<Invoice> invoices = criteria.list();
+    entityManager.getTransaction().commit();
+    return invoices.get(0);
+  }
+
 }

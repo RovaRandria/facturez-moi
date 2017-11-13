@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(value = {"_links"}, ignoreUnknown = true)
 public class ClientDto {
+
   private int id;
   private ClientCategory category;
   private String creationDate;
