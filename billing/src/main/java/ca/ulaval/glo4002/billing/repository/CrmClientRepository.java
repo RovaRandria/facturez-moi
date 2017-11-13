@@ -30,7 +30,7 @@ public class CrmClientRepository implements ClientRepository {
       throw new NotFoundException(Client.class.getSimpleName(), id.toString());
     }
     return new Client(id, clientDto.getCategory(), clientDto.getCreationDate(), clientDto.getDefaultTerm(),
-            clientDto.getFullName(), clientDto.getEmail(), clientDto.getAddress());
+        clientDto.getFullName(), clientDto.getEmail(), clientDto.getAddress());
   }
 
 }

@@ -9,7 +9,7 @@ public class BillDtoFactory {
 
   public BillDto create(Bill bill) {
     return new BillDto(bill.getBillId().toString(), bill.getTotal(), bill.getDueTerm(),
-            BILLS_PATH + bill.getBillId().toString());
+        BILLS_PATH + bill.getBillId().toString());
   }
 
 }

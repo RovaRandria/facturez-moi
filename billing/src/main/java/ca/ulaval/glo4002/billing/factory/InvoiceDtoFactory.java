@@ -10,7 +10,7 @@ public class InvoiceDtoFactory {
 
   public InvoiceDto create(InvoiceId invoiceId, Invoice invoice) {
     InvoiceDto invoiceDto = new InvoiceDto(invoiceId.toString(), invoice.getEffectiveDate(),
-            invoice.getExpectedPayment(), invoice.getDueTerm(), BILLS_PATH + invoiceId.toString());
+        invoice.getExpectedPayment(), invoice.getDueTerm(), BILLS_PATH + invoiceId.toString());
     return invoiceDto;
   }
 }

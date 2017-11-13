@@ -17,7 +17,7 @@ public class BillingProperties {
       try {
         String path = System.getProperty("user.dir");
         Files.find(Paths.get(path), Integer.MAX_VALUE, (filePath, fileAttr) -> fileAttr.isRegularFile())
-                .forEach(x -> findFile(x));
+            .forEach(x -> findFile(x));
       } catch (IOException e1) {
         e1.printStackTrace();
       }

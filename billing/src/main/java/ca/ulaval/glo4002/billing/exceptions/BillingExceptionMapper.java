@@ -14,7 +14,7 @@ public class BillingExceptionMapper implements ExceptionMapper<BillingException>
   @Override
   public Response toResponse(BillingException exception) {
     ExceptionDto exceptionDto = new ExceptionDto(exception.getError(), exception.getDescription(),
-            exception.getEntity());
+        exception.getEntity());
 
     ErrorsDto errors = new ErrorsDto();
     errors.addError(exceptionDto);
