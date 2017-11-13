@@ -9,6 +9,7 @@ import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.dto.InvoiceDto;
+import ca.ulaval.glo4002.billing.exceptions.InvoiceNotFoundException;
 import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
 import ca.ulaval.glo4002.billing.repository.HibernateInvoiceRepository;
 import ca.ulaval.glo4002.billing.services.InvoiceService;
@@ -84,6 +85,12 @@ public class TestInvoiceService {
   public void givenInvalidInvoiceId_whenInvoiceExistsIsCalled_thenReturnFalse() {
     Mockito.when(invoiceRepository.find(invalidInvoiceId)).thenReturn(null);
     assertFalse(service.invoiceExists(validInvoiceId));
+  }
+
+  @Test(expected = InvoiceNotFoundException.class)
+  public void givenInvalidBillId_whenCreatingInvoice_thenInvoiceNotFoundException() {
+    Mockito.when(billRepository.find(invalidBillId)).thenReturn(null);
+    service.create(invalidBillId);
   }
 
   @Test
