@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.billing.interfaces;
 
+import ca.ulaval.glo4002.billing.exceptions.FileLookupFailedException;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,8 +20,10 @@ public class BillingProperties {
         String path = System.getProperty("user.dir");
         Files.find(Paths.get(path), Integer.MAX_VALUE, (filePath, fileAttr) -> fileAttr.isRegularFile())
             .forEach(x -> findFile(x));
-      } catch (IOException e1) {
-        e1.printStackTrace();
+      } catch (IOException ex) {
+        final String ERROR_DESCRIPTION = "An error occurred while getting an URL from application.properties.";
+        throw new FileLookupFailedException(BillingProperties.class.getSimpleName(),
+            ERROR_DESCRIPTION);
       }
     }
     return properties;
@@ -35,7 +39,8 @@ public class BillingProperties {
     try {
       properties.load(new FileInputStream(file.toString()));
     } catch (Exception e) {
-      e.printStackTrace();
+      final String ERROR_DESCRIPTION = "The application.properties file could not be loaded.";
+      throw new FileLookupFailedException(BillingProperties.class.getSimpleName(), ERROR_DESCRIPTION);
     }
   }
 
