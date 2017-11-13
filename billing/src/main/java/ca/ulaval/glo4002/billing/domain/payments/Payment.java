@@ -1,8 +1,18 @@
 package ca.ulaval.glo4002.billing.domain.payments;
 
-import ca.ulaval.glo4002.billing.domain.clients.Client;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-import javax.persistence.*;
+import ca.ulaval.glo4002.billing.domain.clients.Client;
 
 @Entity(name = "Payment")
 public class Payment {
@@ -10,7 +20,7 @@ public class Payment {
   // Same as Client for the id.
   @Id
   @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Embedded

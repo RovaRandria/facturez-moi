@@ -1,13 +1,14 @@
 package ca.ulaval.glo4002.billing.domain.invoices;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.io.Serializable;
 
 @Embeddable
 public class InvoiceId implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
   @Column(name = "INVOICE_ID")
   private long invoiceId;
