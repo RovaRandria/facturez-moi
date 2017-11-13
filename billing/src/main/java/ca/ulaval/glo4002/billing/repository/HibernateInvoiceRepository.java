@@ -10,14 +10,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceRepository;
 import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
 import ca.ulaval.glo4002.billing.exceptions.InvoiceAlreadyCreatedException;
-import ca.ulaval.glo4002.billing.exceptions.NotFoundException;
 
 public class HibernateInvoiceRepository implements InvoiceRepository {
 
@@ -46,7 +44,7 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
   }
 
   @Override
-  public Invoice findLast(ClientId clientId) {
+  public List<Invoice> findInvoices(ClientId clientId) {
     entityManager.getTransaction().begin();
     Session s = (Session) entityManager.getDelegate();
     Criteria criteria = s.createCriteria(Invoice.class, "invoice");
@@ -58,12 +56,9 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
     criteria.addOrder(Order.asc("invoice.expectedPayment"));
 
     List<Invoice> invoices = criteria.list();
-    if (invoices.size() < 1) {
-      throw new NotFoundException(Client.class.getSimpleName(), clientId.toString());
-    } else {
-      entityManager.getTransaction().commit();
-      return invoices.get(0);
-    }
+    entityManager.getTransaction().commit();
+    return invoices;
+
   }
 
 }

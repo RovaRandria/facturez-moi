@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.billing.services;
 
+import java.util.List;
+
 import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.ClientRepository;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
@@ -33,7 +35,7 @@ public class PaymentService extends BillingService {
   }
 
   public PaymentService(PaymentRepository paymentRepository, InvoiceRepository invoiceRepository,
-                        ClientRepository clientRepository) {
+      ClientRepository clientRepository) {
     this.paymentRepository = paymentRepository;
     this.invoiceRepository = invoiceRepository;
     this.clientRepository = clientRepository;
@@ -42,10 +44,15 @@ public class PaymentService extends BillingService {
   }
 
   public ReceiptDto pay(PaymentDto paymentDto) {
-    Invoice invoice = invoiceRepository.findLast(paymentDto.getClientId());
-    invoice.addPayment(paymentDto.getAmount());
-
     Client client = clientRepository.getClient(paymentDto.getClientId());
+
+    List<Invoice> invoices = invoiceRepository.findInvoices(paymentDto.getClientId());
+    if (invoices.isEmpty()) {
+      // error ?
+    } else {
+      invoices.get(0).addPayment(paymentDto.getAmount());
+    }
+
     Payment payment = paymentFactory.create(paymentDto, client);
 
     PaymentId paymentId = paymentRepository.insert(payment);

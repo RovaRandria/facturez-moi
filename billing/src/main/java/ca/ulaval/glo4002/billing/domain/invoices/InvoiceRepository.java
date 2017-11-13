@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.billing.domain.invoices;
 
+import java.util.List;
+
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 
 public interface InvoiceRepository {
@@ -8,5 +10,5 @@ public interface InvoiceRepository {
 
   InvoiceId insert(Invoice invoice);
 
-  Invoice findLast(ClientId clientId);
+  List<Invoice> findInvoices(ClientId clientId);
 }
