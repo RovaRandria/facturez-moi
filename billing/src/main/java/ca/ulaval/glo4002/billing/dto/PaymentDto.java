@@ -3,9 +3,9 @@ package ca.ulaval.glo4002.billing.dto;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 
 public class PaymentDto {
+
   private ClientId clientId;
   private float amount;
-
   private PaymentMethodDto paymentMethod;
 
   public PaymentDto() {

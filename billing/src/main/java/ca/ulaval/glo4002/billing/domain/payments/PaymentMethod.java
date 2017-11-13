@@ -4,12 +4,15 @@ import javax.persistence.*;
 
 @Entity(name = "PaymentMethod")
 public class PaymentMethod {
+
   @Id
   @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
+
   @Column(name = "account")
   private String account;
+
   @Column(name = "source")
   private String source;
 

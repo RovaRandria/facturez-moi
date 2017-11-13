@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.billing.dto;
 
 public class ReceiptDto {
+
   private String id;
   private String url;
 

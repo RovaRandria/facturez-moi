@@ -5,7 +5,9 @@ import java.io.Serializable;
 
 @Embeddable
 public class ProductId implements Serializable {
+
   private static final long serialVersionUID = 1L;
+
   private int productId;
 
   public ProductId() {

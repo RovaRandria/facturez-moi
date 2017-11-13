@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 abstract class BillingService {
+
   public void prepareDatabase() {
     EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
     EntityManager entityManager = entityManagerFactory.createEntityManager();

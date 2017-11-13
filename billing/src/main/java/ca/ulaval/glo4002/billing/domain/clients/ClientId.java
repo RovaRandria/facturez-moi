@@ -6,7 +6,9 @@ import java.io.Serializable;
 
 @Embeddable
 public class ClientId implements Serializable {
+
   private static final long serialVersionUID = 1L;
+
   @Column(name = "CLIENT_ID")
   private long clientId;
 

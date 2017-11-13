@@ -1,40 +1,34 @@
 package ca.ulaval.glo4002.billing.domain.bills;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 @Entity(name = "Bill")
 public class Bill {
+
   @EmbeddedId
   @GeneratedValue(strategy = GenerationType.AUTO)
   private BillId billId;
+
   @Column(name = "creationDate")
   private Date creationDate;
+
   @Enumerated(EnumType.STRING)
   private DueTerm dueTerm;
+
   @Column(name = "total")
   private BigDecimal total;
+
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "billId")
   private List<Product> products;
+
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "CLIENT_ID")
   private Client client;

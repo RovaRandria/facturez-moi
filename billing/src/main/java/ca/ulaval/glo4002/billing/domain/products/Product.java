@@ -5,16 +5,21 @@ import java.math.BigDecimal;
 
 @Entity(name = "Product")
 public class Product {
+
   @Id
   @Column(name = "index")
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int index;
+
   @Embedded
   private ProductId id;
+
   @Column(name = "name")
   private String name;
+
   @Column(name = "unitPrice")
   private BigDecimal unitPrice;
+
   @Column(name = "quantity")
   private int quantity;
 

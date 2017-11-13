@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.billing.dto;
 
 public class PaymentMethodDto {
+
   private String account;
   private String source;
 

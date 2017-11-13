@@ -1,18 +1,12 @@
 package ca.ulaval.glo4002.billing.domain.clients;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "Client")
 public class Client {
+
   // We created this ID because we wasted too much time trying to use ClientId as
-  // the primary key... we were having a key violations and we didn't find a quick
+  // the primary key... we were having a key violation and we didn't find a quick
   // way to fix it.
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,16 +15,18 @@ public class Client {
   @Embedded
   @Column(name = "CLIENT_ID")
   private ClientId clientId;
-  // private ClientCategory category;
+
   @Column(name = "creationDate")
   private String creationDate;
+
   @Enumerated(EnumType.STRING)
   private DueTerm defaultTerm;
+
   @Column(name = "fullName")
   private String fullName;
+
   @Column(name = "email")
   private String email;
-  // private ClientAddress address;
 
   public Client() {
   }
@@ -46,7 +42,7 @@ public class Client {
   }
 
   public Client(ClientId id, ClientCategory category, String creationDate, DueTerm defaultTerm, String fullName,
-      String email, ClientAddress address) {
+                String email, ClientAddress address) {
     this.clientId = id;
     // this.category = category;
     this.creationDate = creationDate;

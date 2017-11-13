@@ -1,12 +1,13 @@
 package ca.ulaval.glo4002.billing.domain.payments;
 
-import java.io.Serializable;
-
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
 public class PaymentId implements Serializable {
+
   private static final long serialVersionUID = 1L;
+
   private long payment;
 
   public PaymentId() {
@@ -17,13 +18,13 @@ public class PaymentId implements Serializable {
     this.payment = id;
   }
 
+  public long getId() {
+    return this.payment;
+  }
+
   @Override
   public String toString() {
     return Long.toString(payment);
-  }
-
-  public long getId() {
-    return this.payment;
   }
 
   @Override
