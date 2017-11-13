@@ -55,9 +55,11 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
     criteria.add(Restrictions.eq("client.clientId", clientId));
     criteria.add(Restrictions.sqlRestriction("paidAmount <> total"));
     criteria.addOrder(Order.asc("invoice.expectedPayment"));
+    criteria.setFirstResult(0);
+    criteria.setMaxResults(1);
 
     List<Invoice> invoices = criteria.list();
-    if (invoices.size() < 1) {
+    if (invoices.isEmpty()) {
       throw new InvoiceForClientNotFoundException(clientId.toString());
     } else {
       entityManager.getTransaction().commit();
