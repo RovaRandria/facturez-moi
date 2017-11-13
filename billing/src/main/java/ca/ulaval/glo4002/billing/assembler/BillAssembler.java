@@ -1,9 +1,9 @@
-package ca.ulaval.glo4002.billing.factory;
+package ca.ulaval.glo4002.billing.assembler;
 
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 
-public class BillDtoFactory {
+public class BillAssembler {
 
   public static final String BILLS_PATH = "/bills/";
 

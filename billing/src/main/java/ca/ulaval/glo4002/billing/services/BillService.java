@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.billing.services;
 
+import ca.ulaval.glo4002.billing.assembler.BillAssembler;
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
@@ -13,7 +14,6 @@ import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
 import ca.ulaval.glo4002.billing.exceptions.NegativeException;
-import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 import ca.ulaval.glo4002.billing.factory.BillFactory;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
@@ -28,7 +28,7 @@ public class BillService extends BillingService {
   private ProductRepository productRepository;
   private BillRepository billRepository;
   private BillFactory billFactory;
-  private BillDtoFactory billDtoFactory;
+  private BillAssembler billDtoFactory;
 
   public BillService() {
     prepareDatabase();
@@ -36,7 +36,7 @@ public class BillService extends BillingService {
     this.productRepository = new CrmProductRepository();
     this.billRepository = new HibernateBillRepository();
     this.billFactory = new BillFactory();
-    this.billDtoFactory = new BillDtoFactory();
+    this.billDtoFactory = new BillAssembler();
   }
 
   public BillService(ClientRepository clientRepository, ProductRepository productRepository,
@@ -45,7 +45,7 @@ public class BillService extends BillingService {
     this.productRepository = productRepository;
     this.billRepository = billRepository;
     this.billFactory = new BillFactory();
-    this.billDtoFactory = new BillDtoFactory();
+    this.billDtoFactory = new BillAssembler();
   }
 
   public BillDto create(OrderDto order) {

@@ -1,5 +1,6 @@
 package billing.factory;
 
+import ca.ulaval.glo4002.billing.assembler.BillAssembler;
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
@@ -8,7 +9,6 @@ import ca.ulaval.glo4002.billing.domain.products.Product;
 import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
-import ca.ulaval.glo4002.billing.factory.BillDtoFactory;
 import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class TestBillDtoFactory {
   DueTerm dueTerm;
   List<Product> products;
   ProductDto productDto;
-  BillDtoFactory billDtoFactory;
+  BillAssembler billDtoFactory;
 
   private long id = 1;
 
@@ -45,7 +45,7 @@ public class TestBillDtoFactory {
     productDto = new ProductDto(PRICE, NAME, productId, QUANTITY);
     fillItems(QUANTITY);
     bill = new Bill(billId, client, creationDate, DueTerm.DAYS30, products);
-    billDtoFactory = new BillDtoFactory();
+    billDtoFactory = new BillAssembler();
   }
 
   @Test

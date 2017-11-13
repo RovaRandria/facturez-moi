@@ -1,10 +1,10 @@
-package ca.ulaval.glo4002.billing.factory;
+package ca.ulaval.glo4002.billing.assembler;
 
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.dto.InvoiceDto;
 
-public class InvoiceDtoFactory {
+public class InvoiceAssembler {
 
   public static final String BILLS_PATH = "/bills/";
 
