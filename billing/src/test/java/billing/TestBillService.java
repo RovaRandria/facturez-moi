@@ -176,8 +176,7 @@ public class TestBillService {
   @Test
   public void givenProductList_whenProductDoesNotExist_thenReturnFalse() {
     final List<ProductDto> PRODUCT_DTOS_WITH_INVALID = new ArrayList<>(
-        Arrays.asList(createProductDto(GOOD_ENTITY_FLAG), createProductDto(BAD_ENTITY_FLAG))
-    );
+        Arrays.asList(createProductDto(GOOD_ENTITY_FLAG), createProductDto(BAD_ENTITY_FLAG)));
 
     boolean allProductDtosAreValid = service.eachProductsExist(PRODUCT_DTOS_WITH_INVALID);
     assertFalse(allProductDtosAreValid);

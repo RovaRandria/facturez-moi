@@ -7,12 +7,12 @@ import ca.ulaval.glo4002.billing.repository.BillIdGenerator;
 
 public class BillFactory {
 
-	public Bill create(OrderDto order, Client client) {
-		BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
-		ProductsFactory productsFactory = new ProductsFactory();
+  public Bill create(OrderDto order, Client client) {
+    BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
+    ProductsFactory productsFactory = new ProductsFactory();
 
-		return new Bill(billIdGenerator.getId(), client, order.getDate(), order.getDueTerm(),
-				productsFactory.create(order.getProductDtos()));
-	}
+    return new Bill(billIdGenerator.getId(), client, order.getDate(), order.getDueTerm(),
+        productsFactory.create(order.getProductDtos()));
+  }
 
 }

@@ -40,7 +40,7 @@ public class BillService extends BillingService {
   }
 
   public BillService(ClientRepository clientRepository, ProductRepository productRepository,
-                     BillRepository billRepository) {
+      BillRepository billRepository) {
     this.clientRepository = clientRepository;
     this.productRepository = productRepository;
     this.billRepository = billRepository;

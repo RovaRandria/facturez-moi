@@ -9,14 +9,14 @@ public enum DueTerm {
     int day = 0;
 
     switch (dueTerm) {
-      case DAYS30:
-        day = THIRTY_DAYS;
-        break;
-      case DAYS90:
-        day = NINETY_DAYS;
-        break;
-      default:
-        break;
+    case DAYS30:
+      day = THIRTY_DAYS;
+      break;
+    case DAYS90:
+      day = NINETY_DAYS;
+      break;
+    default:
+      break;
     }
     return day;
   }

@@ -17,7 +17,7 @@ public class OrderDto {
 
   @JsonCreator
   public OrderDto(@JsonProperty("clientId") ClientId clientId, @JsonProperty("creationDate") Date creationDate,
-                  @JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ProductDto> items) {
+      @JsonProperty("dueTerm") DueTerm dueTerm, @JsonProperty("items") List<ProductDto> items) {
     this.clientId = clientId;
     this.creationDate = creationDate;
     this.dueTerm = dueTerm;

@@ -8,22 +8,22 @@ import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
 
 public class InMemoryBillRepository implements BillRepository {
 
-	private Hashtable<BillId, Bill> bills;
+  private Hashtable<BillId, Bill> bills;
 
-	public InMemoryBillRepository() {
-		bills = new Hashtable<>();
-	}
+  public InMemoryBillRepository() {
+    bills = new Hashtable<>();
+  }
 
-	@Override
-	public void insert(Bill bill) {
-		if (!bills.containsKey(bill.getBillId())) {
-			bills.put(bill.getBillId(), bill);
-		}
-	}
+  @Override
+  public void insert(Bill bill) {
+    if (!bills.containsKey(bill.getBillId())) {
+      bills.put(bill.getBillId(), bill);
+    }
+  }
 
-	@Override
-	public Bill find(BillId billId) {
-		return bills.get(billId);
-	}
+  @Override
+  public Bill find(BillId billId) {
+    return bills.get(billId);
+  }
 
 }

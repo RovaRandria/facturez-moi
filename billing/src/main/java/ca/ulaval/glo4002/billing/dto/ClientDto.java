@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.billing.domain.clients.ClientCategory;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(value = {"_links"}, ignoreUnknown = true)
+@JsonIgnoreProperties(value = { "_links" }, ignoreUnknown = true)
 public class ClientDto {
 
   private int id;

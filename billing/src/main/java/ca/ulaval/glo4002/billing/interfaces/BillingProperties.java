@@ -22,8 +22,7 @@ public class BillingProperties {
             .forEach(x -> findFile(x));
       } catch (IOException ex) {
         final String ERROR_DESCRIPTION = "An error occurred while getting an URL from application.properties.";
-        throw new FileLookupFailedException(BillingProperties.class.getSimpleName(),
-            ERROR_DESCRIPTION);
+        throw new FileLookupFailedException(BillingProperties.class.getSimpleName(), ERROR_DESCRIPTION);
       }
     }
     return properties;
