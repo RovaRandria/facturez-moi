@@ -26,8 +26,4 @@ public class InMemoryBillRepository implements BillRepository {
 		return bills.get(billId);
 	}
 
-	@Override
-	public void delete(Bill bill) {
-		bills.remove(bill.getBillId());
-	}
 }

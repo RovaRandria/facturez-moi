@@ -27,11 +27,4 @@ public class HibernateBillRepository implements BillRepository {
 		return entityManager.find(Bill.class, billId);
 	}
 
-	@Override
-	public void delete(Bill bill) {
-		entityManager.getTransaction().begin();
-		entityManager.remove(bill);
-		entityManager.getTransaction().commit();
-	}
-
 }
