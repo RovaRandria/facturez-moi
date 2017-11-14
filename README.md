@@ -1,9 +1,9 @@
-# GLO-4002-Projet2017-eq14-remise2
+# GLO-4002-projet2017-eq14-remise2
 
-Après la remise1, nous avons décidé de repartir notre projet de zéro. Notre équipe est composé de 5 membres :
+Après la remise1, nous avons décidé de repartir notre projet de zéro. Notre équipe est composée de 5 membres :
 * Guillaume BERTHÉ
 * Éric BONIN
-* Imen DAAGII
+* Imen DAAGI
 * Rova RANDRIANANTOANINA
 * Anthony SYLVAIN
 
