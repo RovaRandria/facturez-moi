@@ -20,6 +20,8 @@ import ca.ulaval.glo4002.billing.services.InvoiceService;
 @Path("/bills")
 public class BillResource {
 
+  private static final String EMPTY_BRACKETS = "{}";
+
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
@@ -48,7 +50,7 @@ public class BillResource {
     InvoiceId invoiceId = new InvoiceId(id);
     InvoiceService invoiceService = new InvoiceService();
     invoiceService.delete(invoiceId);
-    return Response.status(Response.Status.ACCEPTED).build();
+    return Response.status(Response.Status.ACCEPTED).entity(EMPTY_BRACKETS).build();
   }
 
 }
