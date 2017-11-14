@@ -3,7 +3,6 @@ package billing;
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
-import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.invoices.Invoice;
 import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
@@ -34,14 +33,8 @@ public class TestInvoiceService {
   private static final int INVALID_ID = 0;
 
   private InvoiceService service;
-  private BillId validBillId;
-  private BillId invalidBillId;
-  private Date toDaysDate;
-  private ClientId clientId;
-  private List<Product> products;
   private InvoiceId validInvoiceId;
   private InvoiceId invalidInvoiceId;
-  private Invoice invoice;
 
   @Mock
   private HibernateInvoiceRepository invoiceRepository;
@@ -56,21 +49,11 @@ public class TestInvoiceService {
   @Before
   public void init() {
     service = new InvoiceService(invoiceRepository, billRepository);
-
-    validBillId = new BillId(VALID_ID);
-    invalidBillId = new BillId(INVALID_ID);
-
     validInvoiceId = new InvoiceId(VALID_ID);
     invalidInvoiceId = new InvoiceId(INVALID_ID);
 
-    invoice = new Invoice();
     Mockito.when(existing_invoice.getId()).thenReturn(validInvoiceId);
     Mockito.when(invoiceRepository.find(validInvoiceId)).thenReturn(existing_invoice);
-
-    clientId = new ClientId(VALID_ID);
-    toDaysDate = new Date();
-    products = new ArrayList<Product>();
-
   }
 
   @Test
@@ -81,7 +64,8 @@ public class TestInvoiceService {
 
   @Test
   public void givenValidInvoiceId_whenInvoiceExistsIsCalled_thenReturnTrue() {
-    Mockito.when(invoiceRepository.find(validInvoiceId)).thenReturn(invoice);
+    final Invoice DEFAULT_INVOICE = new Invoice();
+    Mockito.when(invoiceRepository.find(validInvoiceId)).thenReturn(DEFAULT_INVOICE);
     assertTrue(service.invoiceExists(validInvoiceId));
   }
 
@@ -93,19 +77,24 @@ public class TestInvoiceService {
 
   @Test(expected = InvoiceNotFoundException.class)
   public void givenInvalidBillId_whenCreateInvoice_thenInvoiceNotFoundException() {
-    Mockito.when(billRepository.find(invalidBillId)).thenReturn(null);
-    service.create(invalidBillId);
+    final BillId INVALID_BILL_ID = new BillId(INVALID_ID);
+    Mockito.when(billRepository.find(INVALID_BILL_ID)).thenReturn(null);
+    service.create(INVALID_BILL_ID);
   }
 
   @Test
   public void givenBillId_whenCreateInvoice_thenDueDateIsCorrect() {
-    Client client = new Client();
-    Bill bill = new Bill(validBillId, client, toDaysDate, DueTerm.DAYS30, products);
-    Mockito.when(billRepository.find(validBillId)).thenReturn(bill);
+    final BillId VALID_BILL_ID = new BillId(VALID_ID);
+    final Client DEFAULT_CLIENT = new Client();
+    final Date TODAYS_DATE = new Date();
+    final List<Product> NO_PRODUCTS = new ArrayList<>();
+    final Bill VALID_BILL = new Bill(VALID_BILL_ID, DEFAULT_CLIENT, TODAYS_DATE, DueTerm.DAYS30, NO_PRODUCTS);
+
+    Mockito.when(billRepository.find(VALID_BILL_ID)).thenReturn(VALID_BILL);
     Mockito.when(invoiceRepository.insert(Mockito.any())).thenReturn(validInvoiceId);
-    Date billCreationDate = bill.getCreationDate();
-    InvoiceDto invoiceDto = service.create(validBillId);
-    Date expectedDueDate = addDaysToDate(billCreationDate, DueTerm.toInt(bill.getDueTerm()));
+    Date billCreationDate = VALID_BILL.getCreationDate();
+    InvoiceDto invoiceDto = service.create(VALID_BILL_ID);
+    Date expectedDueDate = addDaysToDate(billCreationDate, DueTerm.toInt(VALID_BILL.getDueTerm()));
 
     String expectedDueDateAsString = expectedDueDate.toInstant().toString();
     String obtainedDueDateAsString = invoiceDto.getExpectedPayment();

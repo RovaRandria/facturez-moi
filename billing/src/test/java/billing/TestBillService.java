@@ -31,26 +31,19 @@ import static org.junit.Assert.*;
 
 public class TestBillService {
 
-  private BillService service;
   private final int GOOD_ID = 1;
   private final int BAD_ID = -1;
   private final boolean GOOD_ENTITY_FLAG = true;
-  private final boolean BAD_ENTITY_FLAG = false;
-  private List<ProductDto> productDtos;
+  private final String PRODUCT_NAME = "name";
+  private final BigDecimal PRODUCT_PRICE = new BigDecimal(1);
+  private final int PRODUCT_QUANTITY = 1;
+  private final ProductId VALID_PRODUCT_ID = new ProductId(GOOD_ID);
+  private final ClientId VALID_CLIENT_ID = new ClientId(GOOD_ID);
+  private final Client VALID_CLIENT = new Client(VALID_CLIENT_ID);
+  private final Product VALID_PRODUCT = new Product(VALID_PRODUCT_ID, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY);
 
+  private BillService service;
   private OrderDto order;
-
-  private ProductId validProductId;
-  private Product validProduct;
-
-  private ProductId invalidProductId;
-  private Product invalidProduct;
-
-  private ClientId validClientId;
-  private Client validClient;
-
-  private ClientId invalidClientId;
-  private Client invalidClient;
 
   @Mock
   private CrmClientRepository crmClientRepository;
@@ -66,39 +59,20 @@ public class TestBillService {
 
   @Before
   public void init() {
-    final String NAME = "name";
-    final BigDecimal PRICE = new BigDecimal(1);
-    final int QUANTITY = 1;
-
     service = new BillService(crmClientRepository, crmProductRepository, inMemoryBillRepository);
-    productDtos = new ArrayList<>();
-    productDtos.add(createProductDto(GOOD_ENTITY_FLAG));
-
-    validProductId = new ProductId(GOOD_ID);
-    invalidProductId = new ProductId(BAD_ID);
-    validProduct = new Product(validProductId, NAME, PRICE, QUANTITY);
-    invalidProduct = null;
-
-    validClientId = new ClientId(GOOD_ID);
-    invalidClientId = new ClientId(BAD_ID);
-    validClient = new Client(validClientId);
-    invalidClient = null;
-
-    Mockito.when(crmProductRepository.getProduct(validProductId)).thenReturn(validProduct);
-    Mockito.when(crmProductRepository.getProduct(invalidProductId)).thenReturn(invalidProduct);
-    Mockito.when(crmClientRepository.getClient(validClientId)).thenReturn(validClient);
-    Mockito.when(crmClientRepository.getClient(validClientId)).thenReturn(validClient);
   }
 
   @Test
   public void givenClientId_whenClientExists_thenReturnClient() {
-    Client returnedClient = service.getClient(validClientId);
+    Mockito.when(crmClientRepository.getClient(VALID_CLIENT_ID)).thenReturn(VALID_CLIENT);
+    Client returnedClient = service.getClient(VALID_CLIENT_ID);
     assertNotNull(returnedClient);
   }
 
   @Test
   public void givenClientId_whenClientDoesNotExists_thenReturnNull() {
-    Client client = service.getClient(invalidClientId);
+    final ClientId INVALID_CLIENT_ID = new ClientId(BAD_ID);
+    Client client = service.getClient(INVALID_CLIENT_ID);
     assertNull(client);
   }
 
@@ -127,13 +101,15 @@ public class TestBillService {
 
   @Test
   public void givenOrder_whenProductIsValid_thenReturnProduct() {
-    Product returnedProduct = service.getProduct(validProductId);
+    Mockito.when(crmProductRepository.getProduct(VALID_PRODUCT_ID)).thenReturn(VALID_PRODUCT);
+    Product returnedProduct = service.getProduct(VALID_PRODUCT_ID);
     assertNotNull(returnedProduct);
   }
 
   @Test
   public void givenOrder_whenProductIsNotValid_thenReturnFalse() {
-    Product returnedProduct = service.getProduct(invalidProductId);
+    final ProductId INVALID_PRODUCT_ID = new ProductId(BAD_ID);
+    Product returnedProduct = service.getProduct(INVALID_PRODUCT_ID);
     assertNull(returnedProduct);
   }
 
@@ -162,19 +138,23 @@ public class TestBillService {
   @Test
   public void givenValidOrderDto_whenOrderIsValid_thenReturnTrue() {
     final boolean VALID_DTO_FLAG = true;
+    Mockito.when(crmClientRepository.getClient(VALID_CLIENT_ID)).thenReturn(VALID_CLIENT);
+    Mockito.when(crmProductRepository.getProduct(VALID_PRODUCT_ID)).thenReturn(VALID_PRODUCT);
     order = createOrderDto(VALID_DTO_FLAG);
-    assertTrue(service.orderIsValid(order, validClient));
+    assertTrue(service.orderIsValid(order, VALID_CLIENT));
   }
 
   @Test
   public void givenInvalidOrderDto_whenOrderIsNotValid_thenReturnFalse() {
     final boolean INVALID_DTO_FLAG = false;
+    final Client INVALID_CLIENT = null;
     order = createOrderDto(INVALID_DTO_FLAG);
-    assertFalse(service.orderIsValid(order, invalidClient));
+    assertFalse(service.orderIsValid(order, INVALID_CLIENT));
   }
 
   @Test
   public void givenProductList_whenProductDoesNotExist_thenReturnFalse() {
+    final boolean BAD_ENTITY_FLAG = false;
     final List<ProductDto> PRODUCT_DTOS_WITH_INVALID = new ArrayList<>(
         Arrays.asList(createProductDto(GOOD_ENTITY_FLAG), createProductDto(BAD_ENTITY_FLAG)));
 
@@ -186,21 +166,19 @@ public class TestBillService {
   public void givenValidOrderDto_whenCreate_thenBillCreationSuccess() {
     final boolean VALID_DTO_FLAG = true;
     order = createOrderDto(VALID_DTO_FLAG);
+    Mockito.when(crmProductRepository.getProduct(VALID_PRODUCT_ID)).thenReturn(VALID_PRODUCT);
+    Mockito.when(crmClientRepository.getClient(VALID_CLIENT_ID)).thenReturn(VALID_CLIENT);
     BillDto createdBillDto = service.create(order);
     assertNotNull(createdBillDto);
   }
 
   private ProductDto createProductDto(boolean isValid) {
-    final int QUANTITY = 1;
-    final BigDecimal PRICE = new BigDecimal(1);
-    final String NAME = "name";
     final ProductId PRODUCT_ID = new ProductId(isValid ? GOOD_ID : BAD_ID);
-    ProductDto productDto = new ProductDto(PRICE, NAME, PRODUCT_ID, QUANTITY);
-    return productDto;
+    return new ProductDto(PRODUCT_PRICE, PRODUCT_NAME, PRODUCT_ID, PRODUCT_QUANTITY);
   }
 
   private OrderDto createOrderDto(boolean isValid) {
-    productDtos = new ArrayList<>();
+    List<ProductDto> productDtos = new ArrayList<>();
     productDtos.add(createProductDto(GOOD_ENTITY_FLAG));
     ClientId clientId = new ClientId(isValid ? GOOD_ID : BAD_ID);
     order = new OrderDto(clientId, new Date(), DueTerm.DAYS30, productDtos);
