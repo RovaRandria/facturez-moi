@@ -36,8 +36,8 @@ public class TestBillResource {
 	}
 
 	@Test
-	public void givenBillResource_whenDeleteBill_thenDeleteBillIsCalled() {
-		billResource.deleteBill((int) BILL_ID);
-		Mockito.verify(billResource).deleteBill((int) BILL_ID);
+	public void givenBillResource_whenDeleteInvoice_thenDeleteInvoiceIsCalled() {
+		billResource.deleteInvoice((int) BILL_ID);
+		Mockito.verify(billResource).deleteInvoice((int) BILL_ID);
 	}
 }

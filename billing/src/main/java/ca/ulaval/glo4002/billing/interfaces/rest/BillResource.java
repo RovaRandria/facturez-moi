@@ -10,11 +10,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ca.ulaval.glo4002.billing.domain.bills.BillId;
+import ca.ulaval.glo4002.billing.domain.invoices.InvoiceId;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.InvoiceDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.services.BillService;
-import ca.ulaval.glo4002.billing.services.DeleteBillService;
 import ca.ulaval.glo4002.billing.services.InvoiceService;
 
 @Path("/bills")
@@ -44,10 +44,10 @@ public class BillResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public Response deleteBill(@PathParam("id") int id) {
-		BillId billId = new BillId(id);
-		DeleteBillService service = new DeleteBillService();
-		service.delete(billId);
+	public Response deleteInvoice(@PathParam("id") int id) {
+		InvoiceId invoiceId = new InvoiceId(id);
+		InvoiceService invoiceService = new InvoiceService();
+		invoiceService.delete(invoiceId);
 		return Response.status(Response.Status.OK).build();
 	}
 
