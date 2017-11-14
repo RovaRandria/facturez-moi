@@ -16,3 +16,7 @@ Après la remise1, nous avons décidé de repartir notre projet de zéro. Notre 
 * User story 2 : complétée
 * User story 3 : complétée
 * User story 4 : en cours (critère VC1 complété)
+
+## Autres informations pertinentes
+
+* Afin de réussir à faire des ajouts dans h2 (on a perdu beaucoup de temps sur ça), on a un id qui représente l'index de l'enregistrement, ainsi que AtomicId (ex: BillId) pour l'id des entités nécessitant un id atomique.
