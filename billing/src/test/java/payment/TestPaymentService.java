@@ -46,7 +46,7 @@ public class TestPaymentService {
   }
 
   @Test
-  public void givenPaymentService_whenPaying_thenInsertIsCalled() {
+  public void givenPaymentService_whenPay_thenInsertIsCalled() {
     final ClientId CLIENT_ID = new ClientId(0);
     final float AMOUNT = 0;
     final String EMPTY_STRING = "";

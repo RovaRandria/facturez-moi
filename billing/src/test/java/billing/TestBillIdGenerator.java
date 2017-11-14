@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class TestBillIdGenerator {
 
   @Test
-  public void givenBillIdGenerator_whenCreatingNewId_thenNewIdIsDifferent() {
+  public void givenBillIdGenerator_whenCreateNewId_thenNewIdIsDifferent() {
     BillIdGenerator billIdGenerator = BillIdGenerator.getInstance();
     BillId firstId = billIdGenerator.getId();
     BillId secondId = billIdGenerator.getId();

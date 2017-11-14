@@ -91,13 +91,13 @@ public class TestBillService {
   }
 
   @Test
-  public void givenClientId_whenClientExists_thenClientIsNotNull() {
+  public void givenClientId_whenClientExists_thenReturnClient() {
     Client returnedClient = service.getClient(validClientId);
     assertNotNull(returnedClient);
   }
 
   @Test
-  public void givenClientId_whenClientDoesNotExists_thenClientIsNull() {
+  public void givenClientId_whenClientDoesNotExists_thenReturnNull() {
     Client client = service.getClient(invalidClientId);
     assertNull(client);
   }
@@ -117,16 +117,16 @@ public class TestBillService {
 
   @Test
   public void givenOrder_whenDueTermIsAbsent_thenUseClientDueTerm() {
+    final DueTerm NULL_DUE_TERM = null;
     ClientId goodClientId = new ClientId(GOOD_ID);
     Client client = new Client(goodClientId, null, null, DueTerm.DAYS30, "", "", null);
     Mockito.when(crmClientRepository.getClient(goodClientId)).thenReturn(client);
-    DueTerm nullDueTerm = null;
-    DueTerm dueTerm = service.chooseDueTerm(client.getDefaultTerm(), nullDueTerm);
+    DueTerm dueTerm = service.chooseDueTerm(client.getDefaultTerm(), NULL_DUE_TERM);
     assertEquals(DueTerm.DAYS30, dueTerm);
   }
 
   @Test
-  public void givenOrder_whenProductIsValid_thenProductIsNotNull() {
+  public void givenOrder_whenProductIsValid_thenReturnProduct() {
     Product returnedProduct = service.getProduct(validProductId);
     assertNotNull(returnedProduct);
   }
@@ -138,7 +138,7 @@ public class TestBillService {
   }
 
   @Test(expected = NegativeException.class)
-  public void givenProducts_whenQuantityHasNegativeValue_thenNegativeExceptionIsThrown() {
+  public void givenProducts_whenQuantityHasNegativeValue_thenNegativeException() {
     final int NEGATIVE_VALUE = -1;
     final boolean validDto = true;
     ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
@@ -149,25 +149,25 @@ public class TestBillService {
   }
 
   @Test(expected = NegativeException.class)
-  public void givenProducts_whenTotalHasNegativeValue_thenNegativeExceptionIsThrown() {
+  public void givenProducts_whenTotalHasNegativeValue_thenNegativeException() {
     final int NEGATIVE_VALUE = -100;
-    final boolean validDto = true;
+    final boolean VALID_DTO_FLAG = true;
     ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
     productDto.setPrice(new BigDecimal(NEGATIVE_VALUE));
-    order = createOrderDto(validDto);
+    order = createOrderDto(VALID_DTO_FLAG);
     order.getProductDtos().add(productDto);
     service.hasNegativeValues(order);
   }
 
   @Test
-  public void givenValidOrderDto_whenValidating_thenReturnTrue() {
+  public void givenValidOrderDto_whenOrderIsValid_thenReturnTrue() {
     final boolean VALID_DTO_FLAG = true;
     order = createOrderDto(VALID_DTO_FLAG);
     assertTrue(service.orderIsValid(order, validClient));
   }
 
   @Test
-  public void givenInvalidOrderDto_whenValidating_thenReturnFalse() {
+  public void givenInvalidOrderDto_whenOrderIsNotValid_thenReturnFalse() {
     final boolean INVALID_DTO_FLAG = false;
     order = createOrderDto(INVALID_DTO_FLAG);
     assertFalse(service.orderIsValid(order, invalidClient));
@@ -183,7 +183,7 @@ public class TestBillService {
   }
 
   @Test
-  public void givenValidOrderDto_whenCreating_thenBillCreationSuccess() {
+  public void givenValidOrderDto_whenCreate_thenBillCreationSuccess() {
     final boolean VALID_DTO_FLAG = true;
     order = createOrderDto(VALID_DTO_FLAG);
     BillDto createdBillDto = service.create(order);

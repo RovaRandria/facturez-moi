@@ -21,7 +21,7 @@ public class TestPaymentResource {
   public MockitoRule mockitoRule = MockitoJUnit.rule();
 
   @Test
-  public void givenPaymentResource_whenPaying_thenPayIsCalled() {
+  public void givenPaymentResource_whenPay_thenPayIsCalled() {
     paymentResource.pay(paymentDto);
     Mockito.verify(paymentResource).pay(paymentDto);
   }
