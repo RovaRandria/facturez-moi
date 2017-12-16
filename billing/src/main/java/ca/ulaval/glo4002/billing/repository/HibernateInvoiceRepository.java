@@ -58,6 +58,7 @@ public class HibernateInvoiceRepository implements InvoiceRepository {
     criteria.setFirstResult(0);
     criteria.setMaxResults(1);
 
+    @SuppressWarnings("unchecked")
     List<Invoice> invoices = criteria.list();
     if (invoices.isEmpty()) {
       throw new InvoiceForClientNotFoundException(clientId.toString());

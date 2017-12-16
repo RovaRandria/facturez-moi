@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TestBillIdGenerator {
+public class BillIdGeneratorTest {
 
   @Test
   public void givenBillIdGenerator_whenCreateNewId_thenNewIdIsDifferent() {

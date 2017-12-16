@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-public class TestPaymentService {
+public class PaymentServiceTest {
 
   private PaymentService paymentService;
 

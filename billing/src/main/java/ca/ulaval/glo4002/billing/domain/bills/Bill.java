@@ -35,7 +35,7 @@ public class Bill {
   private DueTerm dueTerm;
 
   @Column(name = "total")
-  private BigDecimal total;
+  private BigDecimal total = new BigDecimal(0);
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "billId")
@@ -58,7 +58,7 @@ public class Bill {
   }
 
   public BigDecimal getTotal() {
-    return this.total;
+    return total;
   }
 
   public BillId getBillId() {
@@ -82,7 +82,6 @@ public class Bill {
   }
 
   private BigDecimal calculateTotal() {
-    BigDecimal total = new BigDecimal(0);
     for (Product product : products) {
       BigDecimal quantity = new BigDecimal(product.getQuantity());
 

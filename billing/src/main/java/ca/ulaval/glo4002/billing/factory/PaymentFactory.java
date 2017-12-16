@@ -10,7 +10,6 @@ public class PaymentFactory {
   public Payment create(PaymentDto paymentDto, Client client) {
     PaymentMethod paymentMethod = new PaymentMethod(paymentDto.getPaymentMethod().getAccount(),
         paymentDto.getPaymentMethod().getSource());
-    Payment payment = new Payment(client, paymentDto.getAmount(), paymentMethod);
-    return payment;
+    return new Payment(client, paymentDto.getAmount(), paymentMethod);
   }
 }

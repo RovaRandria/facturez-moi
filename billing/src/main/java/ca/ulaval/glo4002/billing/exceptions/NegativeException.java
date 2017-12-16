@@ -4,11 +4,8 @@ public class NegativeException extends BillingException {
 
   private static final long serialVersionUID = 1L;
   private static final String ERROR = "is negative";
-  private String description;
-  private String entity;
-
-  public NegativeException() {
-  }
+  private final String description;
+  private final String entity;
 
   public NegativeException(String variable, String value) {
     super();
@@ -17,15 +14,15 @@ public class NegativeException extends BillingException {
   }
 
   public String getError() {
-    return this.ERROR;
+    return ERROR;
   }
 
   public String getDescription() {
-    return this.description;
+    return description;
   }
 
   public String getEntity() {
-    return this.entity;
+    return entity;
   }
 
 }

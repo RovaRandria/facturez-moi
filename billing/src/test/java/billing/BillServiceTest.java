@@ -1,5 +1,21 @@
 package billing;
 
+import static org.junit.Assert.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
 import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.ClientId;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
@@ -13,23 +29,8 @@ import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
 import ca.ulaval.glo4002.billing.services.BillService;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.*;
-
-public class TestBillService {
+public class BillServiceTest {
 
   private final int GOOD_ID = 1;
   private final int BAD_ID = -1;
@@ -41,6 +42,7 @@ public class TestBillService {
   private final ClientId VALID_CLIENT_ID = new ClientId(GOOD_ID);
   private final Client VALID_CLIENT = new Client(VALID_CLIENT_ID);
   private final Product VALID_PRODUCT = new Product(VALID_PRODUCT_ID, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_QUANTITY);
+  private final int NEGATIVE_VALUE = -100;
 
   private BillService service;
   private OrderDto order;
@@ -93,7 +95,7 @@ public class TestBillService {
   public void givenOrder_whenDueTermIsAbsent_thenUseClientDueTerm() {
     final DueTerm NULL_DUE_TERM = null;
     ClientId goodClientId = new ClientId(GOOD_ID);
-    Client client = new Client(goodClientId, null, null, DueTerm.DAYS30, "", "", null);
+    Client client = new Client(goodClientId, null, DueTerm.DAYS30, "", "");
     Mockito.when(crmClientRepository.getClient(goodClientId)).thenReturn(client);
     DueTerm dueTerm = service.chooseDueTerm(client.getDefaultTerm(), NULL_DUE_TERM);
     assertEquals(DueTerm.DAYS30, dueTerm);
@@ -115,7 +117,6 @@ public class TestBillService {
 
   @Test(expected = NegativeException.class)
   public void givenProducts_whenQuantityHasNegativeValue_thenNegativeException() {
-    final int NEGATIVE_VALUE = -1;
     final boolean validDto = true;
     ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
     productDto.setQuantity(NEGATIVE_VALUE);
@@ -126,7 +127,6 @@ public class TestBillService {
 
   @Test(expected = NegativeException.class)
   public void givenProducts_whenTotalHasNegativeValue_thenNegativeException() {
-    final int NEGATIVE_VALUE = -100;
     final boolean VALID_DTO_FLAG = true;
     ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
     productDto.setPrice(new BigDecimal(NEGATIVE_VALUE));
@@ -158,8 +158,8 @@ public class TestBillService {
     final List<ProductDto> PRODUCT_DTOS_WITH_INVALID = new ArrayList<>(
         Arrays.asList(createProductDto(GOOD_ENTITY_FLAG), createProductDto(BAD_ENTITY_FLAG)));
 
-    boolean allProductDtosAreValid = service.eachProductsExist(PRODUCT_DTOS_WITH_INVALID);
-    assertFalse(allProductDtosAreValid);
+    boolean allProductDtosExist = service.eachProductsExist(PRODUCT_DTOS_WITH_INVALID);
+    assertFalse(allProductDtosExist);
   }
 
   @Test

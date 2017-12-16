@@ -10,7 +10,7 @@ import org.mockito.junit.MockitoRule;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.interfaces.rest.BillResource;
 
-public class TestBillResource {
+public class BillResourceTest {
 
   private static final long BILL_ID = 1;
 

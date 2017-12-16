@@ -7,10 +7,6 @@ public abstract class BillingException extends RuntimeException {
   public BillingException() {
   }
 
-  public BillingException(String className, String id) {
-    super();
-  }
-
   public abstract String getError();
 
   public abstract String getDescription();

@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.billing.services;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import ca.ulaval.glo4002.billing.assembler.BillAssembler;
 import ca.ulaval.glo4002.billing.domain.bills.Bill;
 import ca.ulaval.glo4002.billing.domain.bills.BillRepository;
@@ -19,9 +22,6 @@ import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.HibernateBillRepository;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 public class BillService extends BillingService {
 
   private ClientRepository clientRepository;
@@ -29,6 +29,9 @@ public class BillService extends BillingService {
   private BillRepository billRepository;
   private BillFactory billFactory;
   private BillAssembler billDtoFactory;
+
+  private static final String TOTAL_TEXT = "Total";
+  private static final String QUANTITY_TEXT = "Quantity";
 
   public BillService() {
     prepareDatabase();
@@ -63,11 +66,9 @@ public class BillService extends BillingService {
 
   public boolean orderIsValid(OrderDto order, Client client) {
     boolean orderIsValid = false;
-    if (clientExists(client) && eachProductsExist(order.getProductDtos())) {
-      if (!hasNegativeValues(order)) {
-        order.setDueTerm(chooseDueTerm(client.getDefaultTerm(), order.getDueTerm()));
-        orderIsValid = true;
-      }
+    if (clientExists(client) && eachProductsExist(order.getProductDtos()) && !hasNegativeValues(order)) {
+      order.setDueTerm(chooseDueTerm(client.getDefaultTerm(), order.getDueTerm()));
+      orderIsValid = true;
     }
     return orderIsValid;
   }
@@ -86,18 +87,14 @@ public class BillService extends BillingService {
   }
 
   private void throwIfTotalIsNegative(BigDecimal total) {
-    final String TOTAL = "Total";
-
     if (total.signum() < 0) {
-      throw new NegativeException(TOTAL, "" + total.toString());
+      throw new NegativeException(TOTAL_TEXT, total.toString());
     }
   }
 
   private void throwIfQuantityIsNegative(ProductDto productDto) {
-    final String QUANTITY = "Quantity";
-
     if (productDto.getQuantity() < 0) {
-      throw new NegativeException(QUANTITY, "" + productDto.getQuantity());
+      throw new NegativeException(QUANTITY_TEXT, String.valueOf(productDto.getQuantity()));
     }
   }
 
@@ -136,7 +133,7 @@ public class BillService extends BillingService {
     for (ProductDto productDto : productDtos) {
       Product product = getProduct(productDto.getProductId());
       if (!productExists(product)) {
-        eachProductsExist = false;
+        return false;
       }
     }
     return eachProductsExist;

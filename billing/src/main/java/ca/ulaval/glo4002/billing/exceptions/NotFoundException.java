@@ -17,7 +17,7 @@ public class NotFoundException extends BillingException {
   }
 
   public String getError() {
-    return this.ERROR;
+    return ERROR;
   }
 
   public String getDescription() {

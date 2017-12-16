@@ -40,32 +40,23 @@ public class Client {
 
   public Client(ClientId id) {
     this.clientId = id;
-    // this.category = null;
     this.creationDate = null;
     this.defaultTerm = null;
     this.fullName = "";
     this.email = "";
-    // this.address = null;
   }
 
-  public Client(ClientId id, ClientCategory category, String creationDate, DueTerm defaultTerm, String fullName,
-      String email, ClientAddress address) {
+  public Client(ClientId id, String creationDate, DueTerm defaultTerm, String fullName, String email) {
     this.clientId = id;
-    // this.category = category;
     this.creationDate = creationDate;
     this.defaultTerm = defaultTerm;
     this.fullName = fullName;
     this.email = email;
-    // this.address = address;
   }
 
   public ClientId getClientId() {
     return clientId;
   }
-
-  /*
-   * public ClientCategory getCategory() { return category; }
-   */
 
   public String getCreationDate() {
     return creationDate;
@@ -82,9 +73,5 @@ public class Client {
   public String getEmail() {
     return email;
   }
-
-  /*
-   * public ClientAddress getAddress() { return address; }
-   */
 
 }

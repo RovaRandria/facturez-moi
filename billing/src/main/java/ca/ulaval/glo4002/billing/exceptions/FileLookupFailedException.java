@@ -4,27 +4,25 @@ public class FileLookupFailedException extends BillingException {
 
   private static final long serialVersionUID = 1L;
   private static final String ERROR = "IO Error on a file";
-  private String description;
-  private String entity;
+  private static String description;
+  private static String entity;
 
   public FileLookupFailedException() {
   }
 
-  public FileLookupFailedException(String className, String description) {
+  public FileLookupFailedException(String entity, String description) {
     super();
-    this.entity = className;
-    this.description = description;
   }
 
   public String getError() {
-    return null;
+    return ERROR;
   }
 
   public String getDescription() {
-    return this.description;
+    return description;
   }
 
   public String getEntity() {
-    return this.entity;
+    return entity;
   }
 }
