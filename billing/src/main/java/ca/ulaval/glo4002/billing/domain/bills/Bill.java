@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import ca.ulaval.glo4002.billing.domain.clients.Client;
 import ca.ulaval.glo4002.billing.domain.clients.DueTerm;
 import ca.ulaval.glo4002.billing.domain.products.Product;
+import ca.ulaval.glo4002.billing.exceptions.NegativeException;
 
 @Entity(name = "Bill")
 public class Bill {
@@ -44,6 +45,9 @@ public class Bill {
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "CLIENT_ID")
   private Client client;
+
+  private static final String TOTAL_TEXT = "Total";
+  private static final String QUANTITY_TEXT = "Quantity";
 
   public Bill() {
   }
@@ -89,6 +93,28 @@ public class Bill {
       total = total.add(subTotal);
     }
     return total;
+  }
+
+  public boolean ifHasNegativeValuesThenThrowNegativeException() {
+    Boolean hasNegativeValues = false;
+    BigDecimal total = calculateTotal();
+
+    List<Product> listeProducts = getProductDtos();
+
+    for (Product product : listeProducts) {
+      if (product.getQuantity() < 0) {
+        hasNegativeValues = true;
+        throw new NegativeException(QUANTITY_TEXT, String.valueOf(product.getQuantity()));
+      }
+    }
+
+    if (total.signum() < 0) {
+      hasNegativeValues = true;
+      throw new NegativeException(TOTAL_TEXT, total.toString());
+    }
+
+    return hasNegativeValues;
+
   }
 
 }

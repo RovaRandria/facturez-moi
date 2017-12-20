@@ -24,7 +24,6 @@ import ca.ulaval.glo4002.billing.domain.products.ProductId;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
-import ca.ulaval.glo4002.billing.exceptions.NegativeException;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
 import ca.ulaval.glo4002.billing.repository.InMemoryBillRepository;
@@ -115,24 +114,24 @@ public class BillServiceTest {
     assertNull(returnedProduct);
   }
 
-  @Test(expected = NegativeException.class)
-  public void givenProducts_whenQuantityHasNegativeValue_thenNegativeException() {
+  @Test
+  public void givenProducts_whenQuantityHasNegativeValue_thenNegativeExceptionthenBillDtoIsNull() {
     final boolean validDto = true;
     ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
     productDto.setQuantity(NEGATIVE_VALUE);
     order = createOrderDto(validDto);
     order.getProductDtos().add(productDto);
-    service.hasNegativeValues(order);
+    assertNull(service.create(order));
   }
 
-  @Test(expected = NegativeException.class)
-  public void givenProducts_whenTotalHasNegativeValue_thenNegativeException() {
+  @Test
+  public void givenProducts_whenTotalHasNegativeValue_thenBillDtoIsNull() {
     final boolean VALID_DTO_FLAG = true;
     ProductDto productDto = createProductDto(GOOD_ENTITY_FLAG);
     productDto.setPrice(new BigDecimal(NEGATIVE_VALUE));
     order = createOrderDto(VALID_DTO_FLAG);
     order.getProductDtos().add(productDto);
-    service.hasNegativeValues(order);
+    assertNull(service.create(order));
   }
 
   @Test

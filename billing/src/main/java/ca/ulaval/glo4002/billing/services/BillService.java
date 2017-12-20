@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.billing.services;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import ca.ulaval.glo4002.billing.assembler.BillAssembler;
@@ -16,7 +15,6 @@ import ca.ulaval.glo4002.billing.domain.products.ProductRepository;
 import ca.ulaval.glo4002.billing.dto.BillDto;
 import ca.ulaval.glo4002.billing.dto.OrderDto;
 import ca.ulaval.glo4002.billing.dto.ProductDto;
-import ca.ulaval.glo4002.billing.exceptions.NegativeException;
 import ca.ulaval.glo4002.billing.factory.BillFactory;
 import ca.ulaval.glo4002.billing.repository.CrmClientRepository;
 import ca.ulaval.glo4002.billing.repository.CrmProductRepository;
@@ -57,8 +55,10 @@ public class BillService extends BillingService {
 
     if (orderIsValid(order, client)) {
       Bill bill = billFactory.create(order, client);
-      billRepository.insert(bill);
-      billDto = billDtoFactory.create(bill);
+      if (!bill.ifHasNegativeValuesThenThrowNegativeException()) {
+        billRepository.insert(bill);
+        billDto = billDtoFactory.create(bill);
+      }
     }
 
     return billDto;
@@ -66,36 +66,11 @@ public class BillService extends BillingService {
 
   public boolean orderIsValid(OrderDto order, Client client) {
     boolean orderIsValid = false;
-    if (clientExists(client) && eachProductsExist(order.getProductDtos()) && !hasNegativeValues(order)) {
+    if (clientExists(client) && eachProductsExist(order.getProductDtos())) {
       order.setDueTerm(chooseDueTerm(client.getDefaultTerm(), order.getDueTerm()));
       orderIsValid = true;
     }
     return orderIsValid;
-  }
-
-  public boolean hasNegativeValues(OrderDto order) {
-    BigDecimal total = new BigDecimal(0);
-    List<ProductDto> listeProducts = order.getProductDtos();
-
-    for (ProductDto productDto : listeProducts) {
-      total = total.add(productDto.getPrice());
-      throwIfQuantityIsNegative(productDto);
-    }
-
-    throwIfTotalIsNegative(total);
-    return false;
-  }
-
-  private void throwIfTotalIsNegative(BigDecimal total) {
-    if (total.signum() < 0) {
-      throw new NegativeException(TOTAL_TEXT, total.toString());
-    }
-  }
-
-  private void throwIfQuantityIsNegative(ProductDto productDto) {
-    if (productDto.getQuantity() < 0) {
-      throw new NegativeException(QUANTITY_TEXT, String.valueOf(productDto.getQuantity()));
-    }
   }
 
   public boolean dueTermIsValid(DueTerm dueTerm) {
