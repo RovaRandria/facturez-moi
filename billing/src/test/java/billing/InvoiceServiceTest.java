@@ -37,6 +37,12 @@ public class InvoiceServiceTest {
   private InvoiceId validInvoiceId;
   private InvoiceId invalidInvoiceId;
 
+  private final BillId VALID_BILL_ID = new BillId(VALID_ID);
+  private final Client DEFAULT_CLIENT = new Client();
+  private final Date TODAYS_DATE = new Date();
+  private final List<Product> NO_PRODUCTS = new ArrayList<>();
+  private final Bill VALID_BILL = new Bill(VALID_BILL_ID, DEFAULT_CLIENT, TODAYS_DATE, DueTerm.DAYS30, NO_PRODUCTS);
+
   @Mock
   private HibernateInvoiceRepository invoiceRepository;
   @Mock
@@ -85,11 +91,6 @@ public class InvoiceServiceTest {
 
   @Test
   public void givenBillId_whenCreateInvoice_thenDueDateIsCorrect() {
-    final BillId VALID_BILL_ID = new BillId(VALID_ID);
-    final Client DEFAULT_CLIENT = new Client();
-    final Date TODAYS_DATE = new Date();
-    final List<Product> NO_PRODUCTS = new ArrayList<>();
-    final Bill VALID_BILL = new Bill(VALID_BILL_ID, DEFAULT_CLIENT, TODAYS_DATE, DueTerm.DAYS30, NO_PRODUCTS);
 
     Mockito.when(billRepository.find(VALID_BILL_ID)).thenReturn(VALID_BILL);
     Mockito.when(invoiceRepository.insert(Mockito.any())).thenReturn(validInvoiceId);
