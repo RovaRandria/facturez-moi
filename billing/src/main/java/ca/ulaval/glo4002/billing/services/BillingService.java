@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.billing.services;
 
-import ca.ulaval.glo4002.billing.entitymanager.EntityManagerFactoryProvider;
-import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import ca.ulaval.glo4002.billing.entitymanager.EntityManagerFactoryProvider;
+import ca.ulaval.glo4002.billing.entitymanager.EntityManagerProvider;
 
 abstract class BillingService {
 

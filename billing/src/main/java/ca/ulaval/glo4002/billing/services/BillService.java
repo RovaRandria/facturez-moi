@@ -26,7 +26,7 @@ public class BillService extends BillingService {
   private ProductRepository productRepository;
   private BillRepository billRepository;
   private BillFactory billFactory;
-  private BillAssembler billDtoFactory;
+  private BillAssembler billAssembler;
 
   private static final String TOTAL_TEXT = "Total";
   private static final String QUANTITY_TEXT = "Quantity";
@@ -37,7 +37,7 @@ public class BillService extends BillingService {
     this.productRepository = new CrmProductRepository();
     this.billRepository = new HibernateBillRepository();
     this.billFactory = new BillFactory();
-    this.billDtoFactory = new BillAssembler();
+    this.billAssembler = new BillAssembler();
   }
 
   public BillService(ClientRepository clientRepository, ProductRepository productRepository,
@@ -46,7 +46,7 @@ public class BillService extends BillingService {
     this.productRepository = productRepository;
     this.billRepository = billRepository;
     this.billFactory = new BillFactory();
-    this.billDtoFactory = new BillAssembler();
+    this.billAssembler = new BillAssembler();
   }
 
   public BillDto create(OrderDto order) {
@@ -57,7 +57,7 @@ public class BillService extends BillingService {
       Bill bill = billFactory.create(order, client);
       if (!bill.ifHasNegativeValuesThenThrowNegativeException()) {
         billRepository.insert(bill);
-        billDto = billDtoFactory.create(bill);
+        billDto = billAssembler.create(bill);
       }
     }
 
